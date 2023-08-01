@@ -1,0 +1,17 @@
+{
+    "name": "shokunliubov/make-up-php",
+    "require": {
+        "twig/twig": "^3.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Shokunliubov\\MakeUpPhp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ShokunReactDev",
+            "email": "tertyshnaya99love@gmail.com"
+        }
+    ]
+}

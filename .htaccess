@@ -1,0 +1,19 @@
+AddDefaultCharset utf-8
+php_flag display_startup_errors on
+php_flag display_errors on
+
+RewriteEngine on
+
+# Rewrite all other URLs to index.php?[URL]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule .* index.php?querysystemurl=$0 [QSA]
+
+Options -Indexes
+
+<FilesMatch "\.(php|twig|log)$">
+	Deny from all
+</FilesMatch>
+
+<FilesMatch "^index.(php)$">
+	Allow from all
+</FilesMatch>
