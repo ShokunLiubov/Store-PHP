@@ -1,17 +1,19 @@
 {
-    "name": "shokunliubov/make-up-php",
-    "require": {
-        "twig/twig": "^3.7"
-    },
-    "autoload": {
-        "psr-4": {
-            "Shokunliubov\\MakeUpPhp\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "ShokunReactDev",
-            "email": "tertyshnaya99love@gmail.com"
-        }
-    ]
+	"name": "shokunliubov/make-up-php",
+	"require": {
+		"scssphp/scssphp": "^1.11",
+		"twig/twig": "^3.7",
+		"respect/validation": "^2.2"
+	},
+	"autoload": {
+		"psr-4": {
+			"App\\": "src/"
+		}
+	},
+	"authors": [
+		{
+			"name": "ShokunReactDev",
+			"email": "tertyshnaya99love@gmail.com"
+		}
+	]
 }

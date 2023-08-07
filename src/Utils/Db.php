@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Utils;
+
+use PDO;
+use PDOStatement;
+
 class DataBase
 {
     public static $db;
@@ -19,6 +24,7 @@ class DataBase
 
     public function dbQuery(string $sql, array $params = []): PDOStatement
     {
+        self::dbConnect();
         $query = self::$db->prepare($sql);
         $query->execute($params);
 

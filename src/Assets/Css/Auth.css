@@ -1,0 +1,227 @@
+.errorAuth {
+    color: #b71c1c;
+    font-size: 15px;
+    height: 20px;
+}
+.containerLogin {
+    background-color: #fff;
+    border-radius: 6px;
+    width: 350px;
+}
+.containerLogin .form {
+    position: relative;
+}
+.containerLogin .form .authTitle {
+    font-size: 72px;
+    position: absolute;
+    top: -9px;
+    left: -4px;
+    font-weight: 800;
+}
+.containerLogin .form img {
+    border-radius: 6px;
+    object-fit: cover;
+    width: 350px;
+    top: 0;
+}
+.containerLogin .blockInput {
+    display: flex;
+    margin: 0px auto 20px;
+    position: relative;
+    top: -30px;
+    color: #222a42;
+    width: 90%;
+    text-align: center;
+    align-items: center;
+    border: 1px solid rgba(29, 37, 59, 0.2);
+    border-radius: 6px;
+}
+.containerLogin .blockInput .material-symbols-outlined {
+    cursor: pointer;
+}
+.containerLogin .blockInput span {
+    position: static;
+    width: 15%;
+    color: #8e929d;
+    font-size: 20px;
+    font-weight: 300;
+}
+.containerLogin .blockInput .fieldInput {
+    width: 85%;
+    margin: 0px;
+}
+.containerLogin .blockInput .fieldInput label {
+    display: none;
+}
+.containerLogin .blockInput .fieldInput input {
+    border: none;
+    width: 100%;
+    color: #8e929d;
+    outline: none;
+}
+.containerLogin button {
+    width: 90%;
+    margin: 20px 0px;
+    color: #fff;
+    font-size: 20px !important;
+}
+.containerLogin .bottomLink {
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 20px 35px;
+}
+.containerLogin .bottomLink a {
+    color: #bc57f6;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 300;
+}
+.blockInput:focus-within {
+    border: 1px solid #bc57f6;
+}
+
+.menuAuth {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 30px 0px;
+}
+.menuAuth .title {
+    text-transform: uppercase;
+    font-weight: 300;
+}
+.menuAuth nav {
+    display: flex;
+}
+.menuAuth a {
+    text-decoration: none;
+    margin-left: 40px;
+    font-weight: 100;
+    display: flex;
+    color: #fff;
+}
+.menuAuth a .icon {
+    font-weight: 200;
+    margin-right: 3px;
+}
+.menuAuth a:hover {
+    color: #1d8cf8;
+    transition: color 0.5s;
+}
+.menuAuth a:hover span {
+    transition: color 0.5s;
+    color: #1d8cf8;
+}
+.menuAuth a:hover .icon {
+    transition: color 0.5s;
+    color: #1d8cf8;
+}
+.menuAuth .backShop {
+    color: #e14dca;
+}
+.menuAuth .backShop .icon {
+    color: #e14dca;
+}
+.menuAuth .active {
+    color: #e14dca;
+}
+.menuAuth .active span {
+    color: #e14dca;
+}
+
+.error {
+    color: #f4a3b5;
+    width: 88%;
+    text-align: end;
+    font-weight: 300;
+    font-size: 13px;
+}
+.fieldError {
+    margin: 12px 0px 3px !important;
+}
+.fieldError input {
+    border: 1px solid #ec240d !important;
+}
+.fieldError textarea {
+    border: 1px solid #ec240d !important;
+}
+.fieldInput {
+    display: flex;
+}
+.fieldInput input {
+    display: block;
+    height: 20px;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    background-color: transparent;
+    border-radius: 0.25rem;
+    box-shadow: none;
+}
+.fieldInput input:focus {
+    outline: 1px solid #2684FF;
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+    color: #ffffff;
+}
+.AuthLayout {
+    background-color: #1e1e28;
+}
+.AuthLayout button {
+    background: #e14eca;
+    cursor: pointer;
+    outline: 0;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    margin: 4px 1px;
+    padding: 15px 30px;
+    font-weight: 600;
+    font-size: 9px;
+    border-radius: 0.4285rem;
+    background-image: linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca);
+}
+
+h1 {
+    font-size: 38px;
+}
+h2 {
+    font-size: 30px;
+}
+h3 {
+    font-size: 22px;
+}
+h4 {
+    font-size: 18px;
+}
+h5 {
+    font-size: 16px;
+}
+h6 {
+    font-size: 12px;
+}
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 95vh;
+}
+
+.notFound {
+    font-size: 50px;
+}
+.preloader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 90px;
+    color: black;
+}
