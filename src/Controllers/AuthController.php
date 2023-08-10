@@ -58,9 +58,9 @@ class AuthController
 
     public function showAuthPage($twig, string $type)
     {
-        if (isset($_SESSION['auth-user'])) {
-            header('Location: http://localhost/make-up');
-        }
+        // if (isset($_SESSION['auth-user'])) {
+        //     header('Location: http://localhost/make-up');
+        // }
         echo $twig->render('Auth/v_auth.twig', ['type' => $type]);
     }
 }

@@ -4,18 +4,24 @@ php_flag display_errors on
 
 RewriteEngine on
 
-# Rewrite all other URLs to index.php?[URL]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ index.php [QSA,L]
+# Если это реальный файл или директория, не перенаправлять
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
 
+# Убрать слэш в конце URL
+RewriteCond %{REQUEST_URI} (.+)/$
+RewriteRule ^ %1 [R=301,L]
+
+# Перенаправить все остальное на index.php
+RewriteRule ^ index.php [QSA,L]
 
 Options -Indexes
 
 <FilesMatch "\.(php|twig|log)$">
-	Deny from all
+    Deny from all
 </FilesMatch>
 
 <FilesMatch "^index.(php)$">
-	Allow from all
+    Allow from all
 </FilesMatch>

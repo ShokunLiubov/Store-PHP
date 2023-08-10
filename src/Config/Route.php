@@ -43,6 +43,7 @@ class Route
 
     public static function dispatch($method, $path, $twig)
     {
+
         foreach (self::$routes as $route) {
             // Use regular expressions to support variables like {id}
             $pattern = preg_replace('/\{[a-zA-Z0-9]+\}/', '([a-zA-Z0-9]+)', $route['path']);

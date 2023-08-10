@@ -3,7 +3,8 @@
 	"require": {
 		"scssphp/scssphp": "^1.11",
 		"twig/twig": "^3.7",
-		"respect/validation": "^2.2"
+		"respect/validation": "^2.2",
+		"fakerphp/faker": "^1.23"
 	},
 	"autoload": {
 		"psr-4": {

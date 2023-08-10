@@ -37,6 +37,12 @@ class DataBase
 
         return $query;
     }
+
+    public function insertAndGetId(string $sql, array $params = []): int
+    {
+        $this->dbQuery($sql, $params);
+        return (int)self::$db->lastInsertId();
+    }
 }
 
 // function dbConnect(): PDO

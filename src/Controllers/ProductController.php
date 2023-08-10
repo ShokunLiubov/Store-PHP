@@ -1,3 +1,10 @@
 <?php
 
-var_dump(URL_PARAMS);
+namespace App\Controllers;
+
+class ProductController
+{
+    public function getProducts($twig)
+    {
+    }
+}
