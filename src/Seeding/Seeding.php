@@ -30,6 +30,13 @@ class Seeding
         }
     }
 
+    public function remote()
+    {
+        foreach ($this->seedClasses as $cl) {
+            $this->clearTable($cl->getTableName());
+        }
+    }
+
     public function clearTable(string $table)
     {
         $db = new DataBase();

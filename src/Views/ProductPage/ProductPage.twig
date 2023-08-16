@@ -1,0 +1,70 @@
+{% extends "Layout/PublicLayout.twig" %}
+{% block content %}
+	<main>
+		<MenuStore/>
+		<div class='productPage'>
+			<div class='productPageTop'>
+				<div class='productText'>
+					<div>
+						<span class='title'>{{product['title']  | ucwords }}</span>
+					</div>
+					<div>
+						<span class='highlight'>Category:</span>
+						<span>{{product['category']}}</span>
+					</div>
+					<div>
+						<span class='highlight'>Made in:</span>
+						<span>{{product['made']}}</span>
+					</div>
+				</div>
+				<div class='productImg'>
+					<img src={{product['image']}}/>
+				</div>
+				<div class='productBuy'>
+					<div>
+						<span class='price'>
+							{{product['price']}}
+							$
+						</span>
+					</div>
+					<div>
+						<span>
+							{{product['quantity'] > 0 ? 'Availability!' : 'Not available!'}}
+						</span>
+					</div>
+					<div>
+						{# {product.count>0 ? ( #}
+						<div onclick={basket.toggleBasketModal}>
+							<button class='buttonProduct'>
+								Buy
+							</button>
+						</div>
+						{# ) : ( #}
+						<button class='buttonProduct'>
+							Notify about appearance
+						</button>
+						{# )} #}
+					</div>
+					<div class='iconBlock'>
+						<span class='material-symbols-outlined'>package</span>
+						<span>Free shipping from 300$</span>
+					</div>
+					<div class='iconBlock'>
+						<span class='material-symbols-outlined'>
+							workspace_premium
+						</span>
+						<span>Guarantee</span>
+					</div>
+				</div>
+			</div>
+			<div class='productPageBottom'>
+				<div class='productDescription'>
+					<span class='title'>Description
+						{{product['title'] | ucwords }}</span>
+					<span>{{product['description']}}</span>
+				</div>
+			</div>
+		</div>
+	</main>
+	{# <div class='unexpected'>Unexpected error</div> #}
+{% endblock %}

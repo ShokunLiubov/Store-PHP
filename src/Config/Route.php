@@ -51,27 +51,26 @@ class Route
             if ($method === $route['method'] && preg_match($pattern, $path, $matches)) {
 
                 array_shift($matches);  // Removing an exact match
-                if (count($route['middleware']) < 0) {
+                if (count($route['middleware']) > 0) {
                     call_user_func_array($route['middleware'], []);
                 }
+
                 // We call the appropriate controller and action
                 if (is_callable($route['controllerAction'])) {
                     call_user_func_array($route['controllerAction'], array_merge([$twig], $matches));
                 } elseif (is_array($route['controllerAction'])) {
                     $controller = new $route['controllerAction'][0]();
+
                     call_user_func_array([$controller, $route['controllerAction'][1]], array_merge([$twig], $matches));
                 }
                 return;
             }
         }
-
-        header("HTTP/1.0 404 Not Found");
-        echo $twig->render('errors/v_404.twig');
+        self::send404($twig);
     }
 
     private static function send404($twig)
     {
-        header("HTTP/1.1 404 Not Found");
-        echo $twig->render('errors/v_404.twig');
+        echo $twig->render('Errors/Error404.twig');
     }
 }

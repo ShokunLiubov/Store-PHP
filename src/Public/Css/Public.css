@@ -31,6 +31,7 @@
     padding: 0px 10px;
     color: #fff;
 }
+
 .HeaderShop .bottom {
     display: flex;
     justify-content: space-between;
@@ -88,22 +89,22 @@
     color: #792c9b;
     font-weight: 600;
 }
-.HeaderShop .bottom .user .userAuth .authBlock .userOut, .HeaderShop .bottom .user .basket .authBlock .userOut {
+.HeaderShop .bottom .user .userAuth .authBlock .logout, .HeaderShop .bottom .user .basket .authBlock .logout {
     cursor: pointer;
     display: flex;
     align-items: center;
     color: #282828;
 }
-.HeaderShop .bottom .user .userAuth .authBlock .userOut span, .HeaderShop .bottom .user .basket .authBlock .userOut span {
+.HeaderShop .bottom .user .userAuth .authBlock .logout span, .HeaderShop .bottom .user .basket .authBlock .logout span {
     margin-right: 4px;
     font-weight: 500;
     color: #282828;
 }
-.HeaderShop .bottom .user .userAuth .authBlock .userOut:hover, .HeaderShop .bottom .user .basket .authBlock .userOut:hover {
+.HeaderShop .bottom .user .userAuth .authBlock .logout:hover, .HeaderShop .bottom .user .basket .authBlock .logout:hover {
     color: #792c9b;
     transition: color 0.5s;
 }
-.HeaderShop .bottom .user .userAuth .authBlock .userOut:hover span, .HeaderShop .bottom .user .basket .authBlock .userOut:hover span {
+.HeaderShop .bottom .user .userAuth .authBlock .logout:hover span, .HeaderShop .bottom .user .basket .authBlock .logout:hover span {
     color: #792c9b;
     transition: color 0.5s;
 }
@@ -348,4 +349,218 @@ h6 {
 .mainPage {
     padding: 40px;
 }
+
+.containerMainPage {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+.containerMainPage .catalogProducts {
+    width: 74vw;
+    display: flex;
+    object-fit: cover;
+}
+.pageHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 60px;
+    font-size: 24px;
+    text-transform: uppercase;
+    word-spacing: 20px;
+    font-weight: 300 !important;
+}
+.carousel img {
+    width: 94.5vw;
+    margin-top: 40px;
+    object-fit: cover;
+}
+.blockSort {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ebebeb;
+    border-bottom: 1px solid #ebebeb;
+}
+.products {
+    margin: 50px 0px 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+}
+.products .product {
+    background-color: #fff;
+    text-decoration: none;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 25px 0px;
+}
+.products .product img {
+    height: 20vh;
+    object-fit: cover;
+}
+.products .product .info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+.products .product .info h1 {
+    letter-spacing: 0.6px;
+    line-height: 1.5;
+    color: #333;
+    font-weight: 300;
+    max-width: 80%;
+    word-break: break-word;
+    font-size: 15px;
+}
+.products .product .info p {
+    margin: 0px;
+}
+.products .product .info button {
+    cursor: pointer;
+    position: absolute;
+    padding: 10px 40px;
+    font-size: 14px;
+    display: none;
+    left: 0px;
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    right: 0;
+    bottom: -55px;
+}
+.product:hover {
+    z-index: 100;
+    box-shadow: 0px 0px 32px 2px rgba(3, 3, 3, 0.1);
+    box-sizing: border-box;
+    transition: box-shadow 0.5s;
+    margin: -50px 0px;
+    padding: 75px 30px;
+}
+.products .product:hover button {
+    display: block;
+}
+
+.productPage .productPageBottom {
+    margin: 50px 0px;
+}
+.productPage .productPageBottom .productDescription {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.productPage .productPageBottom .productDescription .title {
+    font-size: 24px;
+    font-weight: 400;
+    margin: 0 0 2px;
+    line-height: 1.5;
+    margin-bottom: 9px;
+}
+.productPageTop {
+    padding: 50px 0px 30px;
+    justify-content: space-between;
+    margin: auto;
+    display: flex;
+    flex: 1 1 1;
+}
+.productPageTop .productText {
+    width: 25vw;
+}
+.productPageTop .productText div {
+    margin-bottom: 15px;
+}
+.productPageTop .productText div .title {
+    font-size: 24px;
+    font-weight: 300;
+    margin: 0 0 2px;
+    line-height: 1.5;
+}
+.productPageTop .productText div .highlight {
+    font-weight: 500;
+    margin-right: 5px;
+}
+.productPageTop .productImg {
+    width: 30vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.productPageTop .productImg img {
+    width: 19vw;
+}
+.productPageTop .productBuy {
+    width: 25vw;
+}
+.productPageTop .productBuy div {
+    margin-bottom: 15px;
+}
+.productPageTop .productBuy div .availability {
+    color: #1bbc9b;
+}
+.productPageTop .productBuy div .notAvailability {
+    color: #f62459;
+}
+.productPageTop .productBuy div .buttonProduct {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 13px 60px;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    margin-top: 10px;
+}
+.productPageTop .productBuy .price {
+    font-size: 16px;
+}
+.productPageTop .productBuy .iconBlock {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.productPageTop .productBuy .iconBlock span {
+    color: #792c9b;
+    font-weight: 300;
+    margin-right: 8px;
+}
+
+.search {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+.search label {
+    display: none;
+}
+.search input {
+    margin: 20px 0px;
+    background-color: #f4f3f5;
+    border-radius: 0px;
+    border: 1px solid #cccccc;
+    font-size: 11px;
+    line-height: 32px;
+    height: 32px;
+    padding: 0 26px 0 11px;
+    width: 250px;
+}
+.search button {
+    position: absolute;
+    background-color: transparent;
+    padding: 0px;
+    margin: 0px;
+    top: 25px;
+    right: 7px;
+}
+.search button span {
+    color: #b1afb3;
+    font-weight: 300;
+    font-size: 21px;
+}
+
 

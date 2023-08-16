@@ -10,45 +10,38 @@
 
 {% extends "Layout/PublicLayout.twig" %}
 {% block content %}
-	<div class='mainPage'>
-		<nav class='menuStore'>
-			<ul class='mainMenu'>
-				{% for li in menuStoreData %}
-					<li class='menuLi'>
-						<a href={{li.path}}>
-							{{li.title}}
-						</a>
-					</li>
-				{% endfor %}
-			</ul>
-		</nav>
-		<div class='carousel'>
-			<img src='/make-up/src/Public/Img/bcgimg.jpeg'/>
-		</div>
+	<div class='carousel'>
+		<img src='/make-up/src/Public/Img/bcgimg.jpeg'/>
+	</div>
 
-		<div classname={'storeHome'}>
-			<div key={category.name}>
-				<div classname='category'>
-					<NavLink to={publicUrl + 'category/' + category.slug} onclick={resetSearchParams}>
-						{category.name}
-					</NavLink>
-				</div>
-				<div classname='products'>
-					<NavLink to={publicUrl + 'product/' + product._id} key={product._id} classname={'product'}>
-						<img src={product.image}/>
-						<div classname={'info'}>
-							<h1>{product.title}</h1>
-							<p>{product.price}$</p>
+	<main class='containerMainPage'>
+		<div class='filtersProducts'>
+			FiltersCategoryPage
+			{# <FiltersCategoryPage/> #}
+		</div>
+		<div class='catalogProducts'>
+			<div
+				class='blockSort'>{# <Sort setsortcatalog={setSortCatalog}/> #}
+			</div>
+			<div class='products'>
+				{% for product in products %}
+					<a href="product/{{ product['id'] }}" class='product'>
+						<img src={{product['image']}}/>
+
+						<div class='info'>
+							<h1>{{ product['title'] | ucwords }}</h1>
+							<p>{{product['price']}}$</p>
 							<div onclick={basket.toggleBasketModal}>
 								<button>
 									Buy
+
 								</button>
 							</div>
 						</div>
-					</NavLink>
-				</div>
+					</a>
+				{% endfor %}
 			</div>
-			{# <div classname='unexpected'>Unexpected error</div> #}
+			{# <Paginator currentpage={page} totalpages={totalPages} onpagechange={onPageChange}/> #}
 		</div>
-	</div>
+	</main>
 {% endblock %}

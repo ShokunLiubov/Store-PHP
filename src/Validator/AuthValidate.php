@@ -5,15 +5,17 @@ namespace App\Validator;
 use Exception;
 use App\Dto\RegisterDTO;
 use Respect\Validation\Validator as v;
-use App\Validator\AuthValidate;
+use App\Validator\Validate;
 
-class RegistrationValidate extends AuthValidate
+class AuthValidate extends Validate
 {
     public function validate()
     {
         $dto = new RegisterDTO();
-
-        if (!v::stringType()->length(5, 20)->validate($dto->getName())) {
+        if (!v::email()->validate($dto->getEmail())) {
+            throw new Exception('Not valid email!');
+        }
+        if (!v::stringType()->length(5, 20)->validate($dto->getPassword())) {
             throw new Exception('String must contain between 5 and 20 characters!');
         }
     }
