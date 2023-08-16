@@ -1,0 +1,566 @@
+.HeaderShop {
+    font-size: 13px;
+}
+.HeaderShop .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #282828;
+    padding: 0px 40px;
+}
+.HeaderShop .top span {
+    color: #fff;
+    width: 200px;
+    display: flex;
+}
+.HeaderShop .top span:last-child {
+    justify-content: end;
+}
+.HeaderShop .top span:first-child {
+    justify-content: start;
+}
+.HeaderShop .top ul {
+    margin: 0px;
+    display: flex;
+}
+.HeaderShop .top ul li:first-child {
+    background-color: #f6255a;
+}
+.HeaderShop .top ul li a {
+    text-decoration: none;
+    padding: 0px 10px;
+    color: #fff;
+}
+
+.HeaderShop .bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+}
+.HeaderShop .bottom img {
+    width: 250px;
+    object-fit: cover;
+}
+.HeaderShop .bottom .connection {
+    width: 250px;
+}
+.HeaderShop .bottom .connection a {
+    color: #792c9b;
+    text-decoration: none;
+}
+.HeaderShop .bottom .connection p {
+    color: #666666;
+    margin: 5px 0px;
+    font-weight: 300;
+}
+.HeaderShop .bottom .user {
+    display: flex;
+    flex-direction: column;
+}
+.HeaderShop .bottom .user .userAuth, .HeaderShop .bottom .user .basket {
+    justify-content: end;
+    display: flex;
+    margin-right: 6px;
+}
+.HeaderShop .bottom .user .userAuth a, .HeaderShop .bottom .user .basket a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-weight: 500;
+    color: #282828;
+}
+.HeaderShop .bottom .user .userAuth a:hover, .HeaderShop .bottom .user .basket a:hover {
+    color: #792c9b;
+    transition: color 0.5s;
+}
+.HeaderShop .bottom .user .userAuth a span, .HeaderShop .bottom .user .basket a span {
+    margin-right: 7px;
+    color: #792c9b;
+    font-weight: 500;
+}
+.HeaderShop .bottom .user .userAuth .authBlock, .HeaderShop .bottom .user .basket .authBlock {
+    display: flex;
+    align-items: center;
+}
+.HeaderShop .bottom .user .userAuth .authBlock span, .HeaderShop .bottom .user .basket .authBlock span {
+    margin-left: 15px;
+    color: #792c9b;
+    font-weight: 600;
+}
+.HeaderShop .bottom .user .userAuth .authBlock .logout, .HeaderShop .bottom .user .basket .authBlock .logout {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #282828;
+}
+.HeaderShop .bottom .user .userAuth .authBlock .logout span, .HeaderShop .bottom .user .basket .authBlock .logout span {
+    margin-right: 4px;
+    font-weight: 500;
+    color: #282828;
+}
+.HeaderShop .bottom .user .userAuth .authBlock .logout:hover, .HeaderShop .bottom .user .basket .authBlock .logout:hover {
+    color: #792c9b;
+    transition: color 0.5s;
+}
+.HeaderShop .bottom .user .userAuth .authBlock .logout:hover span, .HeaderShop .bottom .user .basket .authBlock .logout:hover span {
+    color: #792c9b;
+    transition: color 0.5s;
+}
+.HeaderShop .bottom .user .basket {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+}
+.HeaderShop .bottom .user .basket span {
+    cursor: pointer;
+    color: #792c9b;
+    transition: color 0.5s;
+}
+.HeaderShop .bottom .user .basket span {
+    margin-right: 5px;
+    font-weight: 500;
+    color: #792c9b;
+}
+.HeaderShop .bottom .user .basket span:hover {
+    color: #792c9b;
+    transition: color 0.5s;
+}
+.HeaderShop .bottom .user .basket span:hover span {
+    color: #792c9b;
+    transition: color 0.5s;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+    color: #ffffff;
+}
+
+.PublicLayout {
+    background-color: #fff;
+}
+.PublicLayout li, .PublicLayout p, .PublicLayout span, .PublicLayout h1, .PublicLayout h2, .PublicLayout h3, .PublicLayout h4, .PublicLayout h5, .PublicLayout h6, .PublicLayout button, .PublicLayout a, .PublicLayout div {
+    color: #333;
+    font-weight: 400;
+}
+.PublicLayout button {
+    background: #792c9b;
+    cursor: pointer;
+    outline: 0;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    margin: 4px 1px;
+    color: #fff;
+    font-size: 9px;
+    padding: 8px 30px;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+}
+.PublicLayout .storeContainer {
+    padding: 0px 40px;
+}
+.PublicLayout .label {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin: 20px 0 48px;
+}
+ul {
+    list-style: none;
+}
+
+h1 {
+    font-size: 38px;
+}
+h2 {
+    font-size: 30px;
+}
+h3 {
+    font-size: 22px;
+}
+h4 {
+    font-size: 18px;
+}
+h5 {
+    font-size: 16px;
+}
+h6 {
+    font-size: 12px;
+}
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 95vh;
+}
+.styleAdmin {
+    color: #1e1e28;
+}
+.notFound {
+    font-size: 50px;
+}
+.preloader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 90px;
+    color: black;
+}
+
+.menuStore .mainMenu {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px;
+    position: relative;
+}
+.menuStore .mainMenu::after {
+    content: "";
+    position: absolute;
+    background-color: #282828;
+    height: 2px;
+    width: 100%;
+    bottom: -15px;
+}
+.menuStore .mainMenu .menuLi a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 400;
+    transition: color 0.3s;
+}
+.menuStore .mainMenu .menuLi a:hover {
+    color: #792c9b;
+    transition: color 0.3s;
+}
+
+.carousel img {
+    width: 94.5vw;
+    margin-top: 40px;
+    object-fit: cover;
+}
+.blockSort {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ebebeb;
+    border-bottom: 1px solid #ebebeb;
+}
+.storeHome {
+    margin: 0px 0px 100px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: start;
+}
+.storeHome .products {
+    display: flex;
+    justify-content: space-between;
+    margin: 0vw 5vw;
+}
+.storeHome .unexpected {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 24px;
+    text-transform: uppercase;
+    margin-top: 10vh;
+}
+.storeHome .category {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 5vw 0px;
+}
+.storeHome .category a {
+    text-decoration: none;
+    font-size: 24px;
+    text-transform: uppercase;
+}
+.storeHome .product {
+    background-color: #fff;
+    text-decoration: none;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 25px 0px;
+}
+.storeHome .product img {
+    height: 200px;
+    object-fit: cover;
+}
+.storeHome .product .info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+.storeHome .product .info h1 {
+    letter-spacing: 0.6px;
+    line-height: 1.5;
+    color: #333;
+    font-weight: 300;
+    max-width: 80%;
+    word-break: break-word;
+    font-size: 15px;
+}
+.storeHome .product .info p {
+    margin: 0px;
+}
+.storeHome .product .info button {
+    cursor: pointer;
+    position: absolute;
+    padding: 10px 40px;
+    font-size: 14px;
+    opacity: 0;
+    left: 0px;
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    right: 0;
+    bottom: -55px;
+}
+.storeHome .product:hover {
+    z-index: 100;
+    box-shadow: 0px 0px 32px 2px rgba(3, 3, 3, 0.1);
+    box-sizing: border-box;
+    transition: box-shadow 0.5s;
+    margin: -50px 0px;
+    padding: 70px 0px;
+    transition: margin 1s;
+    transition: padding 1s;
+}
+.storeHome .product:hover button {
+    opacity: 1;
+    transition: opacity 1s;
+}
+
+.mainPage {
+    padding: 40px;
+}
+
+.containerMainPage {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+.containerMainPage .catalogProducts {
+    width: 74vw;
+    display: flex;
+    object-fit: cover;
+}
+.pageHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 60px;
+    font-size: 24px;
+    text-transform: uppercase;
+    word-spacing: 20px;
+    font-weight: 300 !important;
+}
+.carousel img {
+    width: 94.5vw;
+    margin-top: 40px;
+    object-fit: cover;
+}
+.blockSort {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ebebeb;
+    border-bottom: 1px solid #ebebeb;
+}
+.products {
+    margin: 50px 0px 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+}
+.products .product {
+    background-color: #fff;
+    text-decoration: none;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 25px 0px;
+}
+.products .product img {
+    height: 20vh;
+    object-fit: cover;
+}
+.products .product .info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+.products .product .info h1 {
+    letter-spacing: 0.6px;
+    line-height: 1.5;
+    color: #333;
+    font-weight: 300;
+    max-width: 80%;
+    word-break: break-word;
+    font-size: 15px;
+}
+.products .product .info p {
+    margin: 0px;
+}
+.products .product .info button {
+    cursor: pointer;
+    position: absolute;
+    padding: 10px 40px;
+    font-size: 14px;
+    display: none;
+    left: 0px;
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    right: 0;
+    bottom: -55px;
+}
+.product:hover {
+    z-index: 100;
+    box-shadow: 0px 0px 32px 2px rgba(3, 3, 3, 0.1);
+    box-sizing: border-box;
+    transition: box-shadow 0.5s;
+    margin: -50px 0px;
+    padding: 75px 30px;
+}
+.products .product:hover button {
+    display: block;
+}
+
+.productPage .productPageBottom {
+    margin: 50px 0px;
+}
+.productPage .productPageBottom .productDescription {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.productPage .productPageBottom .productDescription .title {
+    font-size: 24px;
+    font-weight: 400;
+    margin: 0 0 2px;
+    line-height: 1.5;
+    margin-bottom: 9px;
+}
+.productPageTop {
+    padding: 50px 0px 30px;
+    justify-content: space-between;
+    margin: auto;
+    display: flex;
+    flex: 1 1 1;
+}
+.productPageTop .productText {
+    width: 25vw;
+}
+.productPageTop .productText div {
+    margin-bottom: 15px;
+}
+.productPageTop .productText div .title {
+    font-size: 24px;
+    font-weight: 300;
+    margin: 0 0 2px;
+    line-height: 1.5;
+}
+.productPageTop .productText div .highlight {
+    font-weight: 500;
+    margin-right: 5px;
+}
+.productPageTop .productImg {
+    width: 30vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.productPageTop .productImg img {
+    width: 19vw;
+}
+.productPageTop .productBuy {
+    width: 25vw;
+}
+.productPageTop .productBuy div {
+    margin-bottom: 15px;
+}
+.productPageTop .productBuy div .availability {
+    color: #1bbc9b;
+}
+.productPageTop .productBuy div .notAvailability {
+    color: #f62459;
+}
+.productPageTop .productBuy div .buttonProduct {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 13px 60px;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    margin-top: 10px;
+}
+.productPageTop .productBuy .price {
+    font-size: 16px;
+}
+.productPageTop .productBuy .iconBlock {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.productPageTop .productBuy .iconBlock span {
+    color: #792c9b;
+    font-weight: 300;
+    margin-right: 8px;
+}
+
+.search {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+.search label {
+    display: none;
+}
+.search input {
+    margin: 20px 0px;
+    background-color: #f4f3f5;
+    border-radius: 0px;
+    border: 1px solid #cccccc;
+    font-size: 11px;
+    line-height: 32px;
+    height: 32px;
+    padding: 0 26px 0 11px;
+    width: 250px;
+}
+.search button {
+    position: absolute;
+    background-color: transparent;
+    padding: 0px;
+    margin: 0px;
+    top: 25px;
+    right: 7px;
+}
+.search button span {
+    color: #b1afb3;
+    font-weight: 300;
+    font-size: 21px;
+}
+
+

@@ -18,15 +18,15 @@ class Model
         return $this->table;
     }
 
-    public static function getAll()
+    public function getAll()
     {
         $db = new DataBase();
-        $sql = 'SELECT * FROM  ' . self::getTableName() . ' ORDER BY id DESC';
+        $sql = 'SELECT * FROM  ' . $this->getTableName() . ' ORDER BY id DESC';
         $query = $db->dbQuery($sql);
-        return $query->fetch();
+        return $query->fetchAll();
     }
 
-    public static function getById($id)
+    public function getById($id)
     {
         $db = new DataBase();
         $sql = 'SELECT * FROM ' . self::getTableName() . ' WHERE id=:id';

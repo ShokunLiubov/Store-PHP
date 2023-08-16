@@ -1,20 +1,110 @@
-{# {% extends 'base/v_main.twig' %} #}
-{# {% block main %} #}
+{% set BASE_URL = '/make-up/' %}
+
+{% set menuStoreData = [
+    {'title': 'Perfumery', 'path': BASE_URL ~ 'category/all'},
+    {'title': 'Women\'s perfumery', 'path': BASE_URL ~ 'category/woman'},
+    {'title': 'Men\'s perfumery', 'path': BASE_URL ~ 'category/man'},
+    {'title': 'Unisex perfume', 'path': BASE_URL ~ 'category/unisex'},
+    {'title': 'Elite perfumery', 'path': BASE_URL ~ 'category/elite'},
+    {'title': 'Nicheva perfumery', 'path': BASE_URL ~ 'category/nisheva'},
+    {'title': 'Natural perfumery', 'path': BASE_URL ~ 'category/natural'}
+] %}
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
 		<title>{{ title }}</title>
-		<link rel="stylesheet" href="../src/assets/css/auth.css">
+		<link rel="stylesheet" href="/make-up/src/Public/Css/Public.css?v={{ current_time() }}">
+		<link rel="stylesheet" href="/make-up/src/Public/Css/Cart.css?v={{ current_time() }}">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+
 	</head>
 	<body class="PublicLayout">
-		This is Public
-		{% block main %}
-			<main class="center">
-				{{ content }}
-			</main>
-		{% endblock %}
+		<div class='HeaderShop'>
+			<div class='top'>
+				<span>100% original products!</span>
+				<ul>
+					<li>
+						<a href=''>Actions</a>
+					</li>
+					<li>
+						<a href=''>MAKEUP Club</a>
+					</li>
+					<li>
+						<a href=''>Delivery and Payment</a>
+					</li>
+					<li>
+						<a to=''>Articles</a>
+					</li>
+					<li>
+						<a href=''>About the store</a>
+					</li>
+				</ul>
+				<span>Office</span>
+			</div>
+			<div class='bottom'>
+				<div class='connection'>
+					<a href=''>0(800) 50 77 40</a>
+					<p>Every day from 7:55 to 20:05</p>
+					<button>Call back</button>
+				</div>
+				<a href={{ BASE_URL }}>
+					<img src='/make-up/src/Public/Img/logo.svg'/>
+				</a>
+				<div class='user'>
+					<div class='userAuth'>
+						{% if not isAuth() %}
+							<a href={{BASE_URL ~ 'auth/login'}}>
+								<span class='material-symbols-outlined'>person</span>
+							</a>
+						{% endif %}
+						{% if isAuth() %}
+							<div class='authBlock'>
+								<span>{{
+									isAuth() ? getAuthUser().name : 'Guest'
+								}}</span>
+								<span class='logout'>
+									<span class='material-symbols-outlined'>logout</span>
+								</span>
+							</div>
+						{% endif %}
+					</div>
+					{# {basket.basketModal && #}
+					{% block cart %}{% endblock %}
+
+					{# } #}
+					<div class='basket'>
+						<span class="material-symbols-outlined">
+							shopping_bag
+						</span>
+					</div>
+					<form class='search'>
+						<input name='search' value='' autocomplete='off' type='search' placeholder='Search...'/>
+						<button type='submit'>
+							<span class='material-symbols-outlined'>search</span>
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class='mainPage'>
+			<nav class='menuStore'>
+				<ul class='mainMenu'>
+					{% for li in menuStoreData %}
+						<li class='menuLi'>
+							<a href={{li.path}}>
+								{{li.title}}
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</nav>
+			{% block content %}{% endblock %}
+		</div>
+
 	</body>
 </html>
-{# {% endblock %} #}
+
+
+<script src="/make-up/src/Public/Js/Auth.js?v={{ current_time() }}"></script>

@@ -1,0 +1,47 @@
+{% set menuStoreData = [
+    {'title': 'Perfumery', 'path': BASE_URL ~ 'category/all'},
+    {'title': 'Women\'s perfumery', 'path': BASE_URL ~ 'category/woman'},
+    {'title': 'Men\'s perfumery', 'path': BASE_URL ~ 'category/man'},
+    {'title': 'Unisex perfume', 'path': BASE_URL ~ 'category/unisex'},
+    {'title': 'Elite perfumery', 'path': BASE_URL ~ 'category/elite'},
+    {'title': 'Nicheva perfumery', 'path': BASE_URL ~ 'category/nisheva'},
+    {'title': 'Natural perfumery', 'path': BASE_URL ~ 'category/natural'}
+] %}
+
+{% extends "Layout/PublicLayout.twig" %}
+{% block content %}
+	<div class='carousel'>
+		<img src='/make-up/src/Public/Img/bcgimg.jpeg'/>
+	</div>
+
+	<main class='containerMainPage'>
+		<div class='filtersProducts'>
+			FiltersCategoryPage
+			{# <FiltersCategoryPage/> #}
+		</div>
+		<div class='catalogProducts'>
+			<div
+				class='blockSort'>{# <Sort setsortcatalog={setSortCatalog}/> #}
+			</div>
+			<div class='products'>
+				{% for product in products %}
+					<a href="product/{{ product['id'] }}" class='product'>
+						<img src={{product['image']}}/>
+
+						<div class='info'>
+							<h1>{{ product['title'] | ucwords }}</h1>
+							<p>{{product['price']}}$</p>
+							<div onclick={basket.toggleBasketModal}>
+								<button>
+									Buy
+
+								</button>
+							</div>
+						</div>
+					</a>
+				{% endfor %}
+			</div>
+			{# <Paginator currentpage={page} totalpages={totalPages} onpagechange={onPageChange}/> #}
+		</div>
+	</main>
+{% endblock %}

@@ -7,6 +7,8 @@ use App\Service\AuthService;
 use App\Dto\AuthDTO;
 use App\Dto\RegisterDTO;
 use App\Validator\RegistrationValidate;
+use App\Controllers\IndexController;
+use App\Validator\AuthValidate;
 
 include_once('src/dto/AuthDTO.php');
 
@@ -28,7 +30,7 @@ class AuthController
             $data['password'] = $dto->getPassword();
             $data['name'] = $dto->getName();
             $error[] = $e->getMessage();
-            echo $twig->render('Auth/v_auth.twig', ['type' => 'register', 'error' => $error, 'data' => $data]);
+            echo $twig->render('Auth/Auth.twig', ['type' => 'register', 'error' => $error, 'data' => $data]);
         }
     }
 
@@ -36,7 +38,7 @@ class AuthController
     {
         try {
             $dto = new AuthDTO();
-            (new RegistrationValidate())->validate();
+            (new AuthValidate())->validate();
             $auth = new AuthService();
 
             $user = $auth->login($dto);
@@ -47,11 +49,11 @@ class AuthController
             $data['email'] = $dto->getEmail();
             $data['password'] = $dto->getPassword();
             $error[] = $e->getMessage();
-            echo $twig->render('Auth/v_auth.twig', ['type' => 'login', 'error' => $error, 'data' => $data]);
+            echo $twig->render('Auth/Auth.twig', ['type' => 'login', 'error' => $error, 'data' => $data]);
         }
     }
 
-    public function logout()
+    public function logout($twig)
     {
         unset($_SESSION['auth-user']);
     }
@@ -61,6 +63,7 @@ class AuthController
         if (isset($_SESSION['auth-user'])) {
             header('Location: http://localhost/make-up');
         }
-        echo $twig->render('Auth/v_auth.twig', ['type' => $type]);
+
+        echo $twig->render('Auth/Auth.twig', ['type' => $type]);
     }
 }

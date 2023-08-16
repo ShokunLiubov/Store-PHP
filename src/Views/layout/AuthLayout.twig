@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>{{ title }}</title>
-		<link rel="stylesheet" href="../src/assets/css/auth.css">
+		<link rel="stylesheet" href="/make-up/src/Public/Css/Auth.css?v={{ current_time() }}">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
 	</head>
 	<body class="AuthLayout">
@@ -13,28 +13,28 @@
 					{{ type }}
 				</span>
 				<nav>
-					<a href='' class="backShop">
+					<a href='/make-up/' class="backShop">
 						<span class='material-symbols-outlined'>
 							arrow_back_ios
 						</span>
 						Back to Shop
 					</a>
-					{# {!user?.roles?.[0] && ( #}
-					<a href="register" class=''>
-						<span class="material-symbols-outlined">
-							app_registration
-						</span>
-						Register
-					</a>
-					{# )} #}
-					{# {!user?.roles?.[0] && ( #}
-					<a href="login" class=''>
-						<span class='material-symbols-outlined'>
-							how_to_reg
-						</span>
-						Login
-					</a>
-					{# )} #}
+					{% if not isAuth() %}
+						<a href="register" class={{type == 'register' ? 'active' : ''}}>
+							<span class="material-symbols-outlined">
+								app_registration
+							</span>
+							Register
+						</a>
+					{% endif %}
+					{% if not isAuth() %}
+						<a href="login" class={{type == 'login' ? 'active' : ''}}>
+							<span class='material-symbols-outlined'>
+								how_to_reg
+							</span>
+							Login
+						</a>
+					{% endif %}
 				</nav>
 			</div>
 		</header>
