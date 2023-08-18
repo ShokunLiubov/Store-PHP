@@ -10,10 +10,9 @@ class DataBase
     public static $db;
     public static function dbConnect(): PDO
     {
-
         if (self::$db === null) {
-            self::$db = new PDO('mysql:host=localhost;dbname=makeUpStore', 'root', '', [
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC // для адекватного выведения данных из db
+            self::$db = new PDO('mysql:host=' . DB_HOST .';dbname=' . DB_NAME, 'root', '', [
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
             ]);
 
             self::$db->exec('SET NAMES UTF8');
