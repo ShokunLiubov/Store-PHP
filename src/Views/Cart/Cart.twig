@@ -1,77 +1,70 @@
-{% extends "Layout/PublicLayout.twig" %}
 {% block cart %}
-	<main>
-		<div class='modal'>
-			<div class='overlay' onclick={basket.toggleBasketModal}>
-				<div class='basketModal' onclick={basket.toggleBasketModal}>
-					<div class='title'>
-						<h3>Basket</h3>
-						<span class='material-symbols-outlined' onclick={basket.toggleBasketModal}>
-							close
-						</span>
-					</div>
-					<div class='line'></div>
+	<div class='modal'>
+		<div class='overlay hideCart'>
+			<div class='cartModal'>
+				<div class='title'>
+					<h3>Cart</h3>
+					<span class='material-symbols-outlined hideCart'>
+						close
+					</span>
+				</div>
+				<div class='line'></div>
 
-					<div class='productItems'>
-						{productsBasket.length ?
-						<ProductItem/>
-						{# {productsBasket.length &&
-																																																										productsBasket.map((product: IProductBasket) => ( #}
-						<div key={product.id}>
-							<NavLink to={publicUrl + 'product/' + product.id} class='item'>
-								<div class='productImg'>
-									<img src={product.image}/>
-								</div>
-
-								<div class='product_info'>
-									<div class='info_option'>
-										<p class='title'>{product.title}</p>
-										<p class='classification'>
-											{product.classification ? product.classification.name : ''}
-										</p>
-										<div class='counter'>
-											<span class='material-symbols-outlined'>
-												remove
-											</span>
-											<p class='count'>{product.count}</p>
-											<span class='material-symbols-outlined'>
-												add
-											</span>
-											<span class='material-symbols-outlined'>
-												close
-											</span>
-										</div>
+				<div class='productItems'>
+					{% if cartProducts %}
+						{% for product in cartProducts %}
+							<div>
+								<a href="product/{{ product['id'] }}" class='item'>
+									<div class='productImg'>
+										<img src={{product['image']}}/>
 									</div>
-									<p class='productPrice'>{product.price} $</p>
-								</div>
-							</NavLink>
-							<div class='line'></div>
-						</div>
-						}
-						{# : 'Basket is empty'} #}
-					</div>
 
-					<div class='totalPrice'>
-						<div>Total price:</div>
-						<div>{basketSum} $</div>;
-					</div>
+									<div class='product_info'>
+										<div class='info_option'>
+											<p class='title'>{{product['title']}}</p>
+											<p class='classification'>{{product['category']}}</p>
+											<div class='counter'>
+												<span class='material-symbols-outlined'>
+													remove
+												</span>
+												<p class='count'>{{product.count}}</p>
+												<span class='material-symbols-outlined'>
+													add
+												</span>
+												<span class='material-symbols-outlined'>
+													close
+												</span>
+											</div>
+										</div>
+										<p class='productPrice'>{{product['price']}}
+											$</p>
+									</div>
+								</a>
+								<div class='line'></div>
+							</div>
+						{% endfor %}
 
-					<div class='line'></div>
-					<div class='bottom'>
-						<span onclick={basket.toggleBasketModal}>Continue Shopping</span>
-						{# {productsBasket.length ? ( #}
-						<a href={publicUrl + 'checkout'}>
-							<button onclick={basket.toggleBasketModal}>Checkout</button>
+					{% else %}
+						<p>Cart is empty</p>
+					{% endif %}
+				</div>
+
+				<div class='totalPrice'>
+					<div>Total price:</div>
+					<div>{{cartSum ? cartSum : 0}}
+						$</div>;
+				</div>
+
+				<div class='line'></div>
+				<div class='bottom'>
+					<span class='hideCart'>Continue Shopping</span>
+					{% if cartProducts %}
+						<a href="checkout">
+							<button>Checkout</button>
 						</a>
-						{# ) : ( #}
-						<button type='button' disabled>
-							Checkout
-						</button>
-						{# )} #}
-					</div>
+					{% endif %}
 				</div>
 			</div>
 		</div>
-	</main>
-	{# <div class='unexpected'>Unexpected error</div> #}
+	</div>
 {% endblock %}
