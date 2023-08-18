@@ -1,7 +1,6 @@
 <?php
 
 require_once('init.php');
- require_once('src/Seeding/Seed.php');
 
 use App\Config\Route;
 use Twig\Loader\FilesystemLoader;
