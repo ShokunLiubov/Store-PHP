@@ -14,49 +14,49 @@
     background-color: #f6f5f7a3;
     transition: all 0.3s;
 }
-.basketModal {
+.cartModal {
     padding: 20px 40px;
     background-color: #fff;
     display: flex;
     flex-direction: column;
     width: 680px;
 }
-.basketModal .title {
+.cartModal .title {
     display: flex;
     position: relative;
     justify-content: center;
 }
-.basketModal .title h3 {
+.cartModal .title h3 {
     font-size: 30px;
     color: #333;
     text-align: center;
     margin: 20px 0px;
     font-weight: 500;
 }
-.basketModal .title span {
+.cartModal .title span {
     position: absolute;
     cursor: pointer;
     right: 0;
 }
-.basketModal .productPrice {
+.cartModal .productPrice {
     width: 50px;
 }
-.basketModal .line {
+.cartModal .line {
     display: block;
     margin: 0 0 24px;
     border-bottom: 1px solid #ebebeb;
     padding: 0 12px 24px;
 }
-.basketModal .totalPrice {
+.cartModal .totalPrice {
     width: 170%;
     display: flex;
     justify-content: space-between;
     margin: 10px 4px 4px;
 }
-.basketModal .totalPrice div {
+.cartModal .totalPrice div {
     font-size: 18px;
 }
-.basketModal .bottom {
+.cartModal .bottom {
     display: flex;
     justify-content: space-between;
     padding: 4px;
@@ -64,12 +64,12 @@
     margin-top: 20px;
     padding: 0px !important;
 }
-.basketModal .bottom span {
+.cartModal .bottom span {
     cursor: pointer;
     text-decoration: underline;
     cursor: pointer;
 }
-.basketModal .bottom button {
+.cartModal .bottom button {
     cursor: pointer;
     font-size: 12px;
     padding: 10px 60px;

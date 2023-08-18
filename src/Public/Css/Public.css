@@ -58,12 +58,12 @@
     display: flex;
     flex-direction: column;
 }
-.HeaderShop .bottom .user .userAuth, .HeaderShop .bottom .user .basket {
+.HeaderShop .bottom .user .userAuth, .HeaderShop .bottom .user .cart {
     justify-content: end;
     display: flex;
     margin-right: 6px;
 }
-.HeaderShop .bottom .user .userAuth a, .HeaderShop .bottom .user .basket a {
+.HeaderShop .bottom .user .userAuth a, .HeaderShop .bottom .user .cart a {
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -71,63 +71,63 @@
     font-weight: 500;
     color: #282828;
 }
-.HeaderShop .bottom .user .userAuth a:hover, .HeaderShop .bottom .user .basket a:hover {
+.HeaderShop .bottom .user .userAuth a:hover, .HeaderShop .bottom .user .cart a:hover {
     color: #792c9b;
     transition: color 0.5s;
 }
-.HeaderShop .bottom .user .userAuth a span, .HeaderShop .bottom .user .basket a span {
+.HeaderShop .bottom .user .userAuth a span, .HeaderShop .bottom .user .cart a span {
     margin-right: 7px;
     color: #792c9b;
     font-weight: 500;
 }
-.HeaderShop .bottom .user .userAuth .authBlock, .HeaderShop .bottom .user .basket .authBlock {
+.HeaderShop .bottom .user .userAuth .authBlock, .HeaderShop .bottom .user .cart .authBlock {
     display: flex;
     align-items: center;
 }
-.HeaderShop .bottom .user .userAuth .authBlock span, .HeaderShop .bottom .user .basket .authBlock span {
+.HeaderShop .bottom .user .userAuth .authBlock span, .HeaderShop .bottom .user .cart .authBlock span {
     margin-left: 15px;
     color: #792c9b;
     font-weight: 600;
 }
-.HeaderShop .bottom .user .userAuth .authBlock .logout, .HeaderShop .bottom .user .basket .authBlock .logout {
+.HeaderShop .bottom .user .userAuth .authBlock .logout, .HeaderShop .bottom .user .cart .authBlock .logout {
     cursor: pointer;
     display: flex;
     align-items: center;
     color: #282828;
 }
-.HeaderShop .bottom .user .userAuth .authBlock .logout span, .HeaderShop .bottom .user .basket .authBlock .logout span {
+.HeaderShop .bottom .user .userAuth .authBlock .logout span, .HeaderShop .bottom .user .cart .authBlock .logout span {
     margin-right: 4px;
     font-weight: 500;
     color: #282828;
 }
-.HeaderShop .bottom .user .userAuth .authBlock .logout:hover, .HeaderShop .bottom .user .basket .authBlock .logout:hover {
+.HeaderShop .bottom .user .userAuth .authBlock .logout:hover, .HeaderShop .bottom .user .cart .authBlock .logout:hover {
     color: #792c9b;
     transition: color 0.5s;
 }
-.HeaderShop .bottom .user .userAuth .authBlock .logout:hover span, .HeaderShop .bottom .user .basket .authBlock .logout:hover span {
+.HeaderShop .bottom .user .userAuth .authBlock .logout:hover span, .HeaderShop .bottom .user .cart .authBlock .logout:hover span {
     color: #792c9b;
     transition: color 0.5s;
 }
-.HeaderShop .bottom .user .basket {
+.HeaderShop .bottom .user .cart {
     display: flex;
     align-items: center;
     margin-top: 15px;
 }
-.HeaderShop .bottom .user .basket span {
+.HeaderShop .bottom .user .cart span {
     cursor: pointer;
     color: #792c9b;
     transition: color 0.5s;
 }
-.HeaderShop .bottom .user .basket span {
+.HeaderShop .bottom .user .cart span {
     margin-right: 5px;
     font-weight: 500;
     color: #792c9b;
 }
-.HeaderShop .bottom .user .basket span:hover {
+.HeaderShop .bottom .user .cart span:hover {
     color: #792c9b;
     transition: color 0.5s;
 }
-.HeaderShop .bottom .user .basket span:hover span {
+.HeaderShop .bottom .user .cart span:hover span {
     color: #792c9b;
     transition: color 0.5s;
 }
@@ -403,6 +403,7 @@ h6 {
     object-fit: cover;
 }
 .products .product .info {
+    width: 150px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -445,6 +446,8 @@ h6 {
 }
 .products .product:hover button {
     display: block;
+    position: absolute;
+    bottom: -60px;
 }
 
 .productPage .productPageBottom {

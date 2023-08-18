@@ -70,11 +70,15 @@
 							</div>
 						{% endif %}
 					</div>
-					{# {basket.basketModal && #}
-					{% block cart %}{% endblock %}
+					{# {cart.cartModal && #}
+					<div class="cart-content">
+						{% block cart %}
+							{{ cartModal ? cart_content : '' }}
+						{% endblock %}
+					</div>
 
 					{# } #}
-					<div class='basket'>
+					<div class='cart'>
 						<span class="material-symbols-outlined">
 							shopping_bag
 						</span>
@@ -100,11 +104,15 @@
 					{% endfor %}
 				</ul>
 			</nav>
-			{% block content %}{% endblock %}
-		</div>
+			{# {{ dump(content) }} #}
 
+			{% block content %}
+				{{ main_content | raw }}
+			{% endblock %}
+		</div>
 	</body>
 </html>
 
 
 <script src="/make-up/src/Public/Js/Auth.js?v={{ current_time() }}"></script>
+<script src="/make-up/src/Public/Js/Cart.js?v={{ current_time() }}"></script>

@@ -34,8 +34,8 @@
 					</div>
 					<div>
 						{# {product.count>0 ? ( #}
-						<div onclick={basket.toggleBasketModal}>
-							<button class='buttonProduct'>
+						<div>
+							<button class='buttonProduct addToCart' product-id={{product['id']}}>
 								Buy
 							</button>
 						</div>
@@ -66,5 +66,4 @@
 			</div>
 		</div>
 	</main>
-	{# <div class='unexpected'>Unexpected error</div> #}
 {% endblock %}
