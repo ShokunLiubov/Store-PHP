@@ -11,7 +11,7 @@ class DataBase
     public static function dbConnect(): PDO
     {
         if (self::$db === null) {
-            self::$db = new PDO('mysql:host=' . DB_HOST .';dbname=' . DB_NAME, 'root', '', [
+            self::$db = new PDO('mysql:host=' . DB_HOST .';dbname=' . DB_NAME, DB_USER, DB_PASS, [
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
             ]);
 

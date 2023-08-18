@@ -12,7 +12,7 @@ const PATH_POSTFIX = '.php';
 session_start();
 
 require_once __DIR__ . '/vendor/autoload.php';
-//require_once('src/Seeding/Seed.php');
+require_once('src/Seeding/Seed.php');
 require_once('src/Config/Routes.php');
 include_once('src/Utils/Db.php');
 include_once('src/Utils/System.php');
