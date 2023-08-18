@@ -14,7 +14,7 @@ Route::post('auth/register', [AuthController::class, 'registration']);
 Route::get('auth/(register|login)', [AuthController::class, 'showAuthPage']);
 
 Route::get('product', [ProductController::class, 'getProducts']);
-Route::get('product/([0-9]+)', [ProductController::class, 'getProduct']);
+Route::get('product/([0-9]+)', [ProductController::class, 'getProductPage']);
 
 Route::get('cart/show', [CartController::class, 'showCart']);
 Route::get('cart/hide', [CartController::class, 'hideCart']);

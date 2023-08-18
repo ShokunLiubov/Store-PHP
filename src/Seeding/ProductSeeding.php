@@ -31,22 +31,25 @@ class ProductSeeding extends AbstractSeed
             }
 
             // Create a link many to many with table 'category'
-            for ($i = 1; $i <= $this->count * 2; $i++) {
-                $productIdQuery = "SELECT id FROM product ORDER BY RAND() LIMIT 1";
-                $productId = $db->dbQuery($productIdQuery)->fetchColumn();
+            $productIdQuery = "SELECT id FROM product";
+            $products = $db->dbQuery($productIdQuery)->fetchAll();
 
-                $categoryIdQuery = "SELECT id FROM category ORDER BY RAND() LIMIT 1";
-                $categoryId = $db->dbQuery($categoryIdQuery)->fetchColumn();
+            foreach ($products as $product) {
+//                for ($i = 1; $i <= 1; $i++) {
+                    $categoryIdQuery = "SELECT id FROM category ORDER BY RAND() LIMIT 1";
+                    $categoryId = $db->dbQuery($categoryIdQuery)->fetchColumn();
 
-                $sqlСoncurrency = "SELECT * FROM product_category WHERE product_id = :product_id AND category_id = :category_id";
-                $exists = $db->dbQuery($sqlСoncurrency, ['product_id' => $productId, 'category_id' => $categoryId]);
-                if ($exists->rowCount() > 0) {
-                    continue;
-                }
+                    $sqlСoncurrency = "SELECT * FROM product_category WHERE product_id = :product_id AND category_id = :category_id";
+                    $exists = $db->dbQuery($sqlСoncurrency, ['product_id' => $product['id'], 'category_id' => $categoryId]);
+                    if ($exists->rowCount() > 0) {
+                        continue;
+                    }
 
-                $insertRelation = "INSERT INTO product_category (product_id, category_id) VALUES (?, ?)";
-                $db->dbQuery($insertRelation, [$productId, $categoryId]);
+                    $insertRelation = "INSERT INTO product_category (product_id, category_id) VALUES (?, ?)";
+                    $db->dbQuery($insertRelation, [$product['id'], $categoryId]);
+//                }
             }
+
         } catch (Exception $e) {
             echo $e->getMessage();
         }

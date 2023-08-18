@@ -3,10 +3,11 @@
 namespace App\Controllers;
 
 use App\Controllers\ProductController;
+use Twig\Environment;
 
 class IndexController
 {
-    public function showMainPage($twig)
+    public function showMainPage(Environment $twig): void
     {
         $productController = new ProductController();
         $products = $productController->getProducts($twig);
