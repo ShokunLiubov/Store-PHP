@@ -6,7 +6,7 @@ use App\Controllers\ProductController;
 
 class CartController
 {
-    public function showCart($twig)
+    public function showCart($twig): void
     {
         $cartProducts = $this->getCartProducts();
 
@@ -28,7 +28,7 @@ class CartController
         return [];
     }
 
-    public function addToCart($twig, $id)
+    public function addToCart($twig, $id):void
     {
         $cartModal = true;
 

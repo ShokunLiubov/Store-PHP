@@ -4,10 +4,12 @@ namespace App\Controllers;
 
 use Exception;
 use App\Model\ProductModel;
+use Twig\Environment;
+use App\Service\ProductService;
 
 class ProductController
 {
-    public function getProducts($twig)
+    public function getProducts(Environment $twig)
     {
         try {
             $model = new ProductModel('product');
@@ -23,14 +25,10 @@ class ProductController
         }
     }
 
-    public function getProduct($twig, $id)
+    public function getProductPage(Environment $twig, $id)
     {
         try {
-            $model = new ProductModel('product');
-            $product = $model->getById($id);
-            if (!$product) {
-                throw new Exception('Product not found!');
-            }
+            $product = (new ProductService())->getProduct($id);
             $response = ['product' => $product, 'status' => 200];
             echo $twig->render('ProductPage/ProductPage.twig', ['product' => $product]);
             return $response;

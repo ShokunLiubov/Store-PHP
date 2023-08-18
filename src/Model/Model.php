@@ -26,7 +26,7 @@ class Model
         return $query->fetchAll();
     }
 
-    public function getById($id)
+    public function getById(int $id)
     {
         $db = new DataBase();
         $sql = 'SELECT * FROM ' . self::getTableName() . ' WHERE id=:id';

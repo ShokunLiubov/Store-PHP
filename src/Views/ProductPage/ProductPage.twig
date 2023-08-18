@@ -10,7 +10,7 @@
 					</div>
 					<div>
 						<span class='highlight'>Category:</span>
-						<span>{{product['category']}}</span>
+						<span>{{product['category_names']}}</span>
 					</div>
 					<div>
 						<span class='highlight'>Made in:</span>
@@ -32,19 +32,19 @@
 							{{product['quantity'] > 0 ? 'Availability!' : 'Not available!'}}
 						</span>
 					</div>
+
 					<div>
-						{# {product.count>0 ? ( #}
-						<div>
-							<button class='buttonProduct addToCart' product-id={{product['id']}}>
-								Buy
+						{% if product['quantity'] > 0 %}
+								<button class='buttonProduct addToCart' product-id={{product['id']}}>
+									Buy
+								</button>
+						{% else %}
+							<button class='buttonProduct'>
+								Notify about appearance
 							</button>
-						</div>
-						{# ) : ( #}
-						<button class='buttonProduct'>
-							Notify about appearance
-						</button>
-						{# )} #}
+						{% endif %}
 					</div>
+
 					<div class='iconBlock'>
 						<span class='material-symbols-outlined'>package</span>
 						<span>Free shipping from 300$</span>

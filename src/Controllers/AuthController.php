@@ -7,14 +7,14 @@ use App\Service\AuthService;
 use App\Dto\AuthDTO;
 use App\Dto\RegisterDTO;
 use App\Validator\RegistrationValidate;
-use App\Controllers\IndexController;
 use App\Validator\AuthValidate;
+use Twig\Environment;
 
 include_once('src/dto/AuthDTO.php');
 
 class AuthController
 {
-    public function registration($twig)
+    public function registration(Environment $twig): void
     {
         try {
             $dto = new RegisterDTO();
@@ -34,7 +34,7 @@ class AuthController
         }
     }
 
-    public function login($twig)
+    public function login(Environment $twig): void
     {
         try {
             $dto = new AuthDTO();
@@ -53,12 +53,12 @@ class AuthController
         }
     }
 
-    public function logout($twig)
+    public function logout(Environment $twig): void
     {
         unset($_SESSION['auth-user']);
     }
 
-    public function showAuthPage($twig, string $type)
+    public function showAuthPage(Environment $twig, string $type): void
     {
         if (isset($_SESSION['auth-user'])) {
             header('Location: http://localhost/make-up');

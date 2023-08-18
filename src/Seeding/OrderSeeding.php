@@ -32,7 +32,6 @@ class OrderSeeding extends AbstractSeed
                 $sql = "INSERT INTO " . $this->getTableName() . "(`delivery_id`, `user_id`, `total`)
                                 VALUES (?, ?, ?)";
                 $orderId = $db->insertAndGetId($sql, [$deliveryId, $userId, $total]);
-
                 //order item
                 for ($j = 1; $j <= rand(1, 5); $j++) {
                     $productIdQuery = "SELECT id FROM product ORDER BY RAND() LIMIT 1";
