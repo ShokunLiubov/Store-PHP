@@ -1,82 +1,54 @@
 const cartIcon = document.querySelector(".cart")
 const addToCart = document.querySelectorAll(".addToCart")
 
+cartIcon.addEventListener('click', async () => {
+    await CartService.showCart()
+})
+
 addToCart.forEach(button => {
-    button.addEventListener('click', function (event) {
+    button.addEventListener('click', async function (event) {
         event.preventDefault()
         const productId = event.target.getAttribute('product-id')
-        fetch(`http://localhost/make-up/cart/${productId}`, {
-            method: 'GET',
-        })
-            .then(response => response.text())
-            .then(data => {
-                document.querySelector('.cart-content').innerHTML = data
-
-                const hideCarts = document.querySelectorAll(".hideCart")
-                const cartModal = document.querySelector(".cartModal")
-
-                // stops hiding the cart when clicking on cartModal
-                cartModal.addEventListener('click', (e) => {
-                    e.stopPropagation()
-                })
-
-                hideCarts.forEach(hideCart => {
-                    hideCart.addEventListener('click', (e) => {
-                        fetch('http://localhost/make-up/cart/hide', {
-                            method: 'GET',
-                        })
-                            .then(response => response.text())
-                            .then(() => {
-                                document.querySelector('.cart-content').innerHTML = ''
-                            })
-                            .catch(error => {
-                                console.error('An error occurred:', error)
-                            })
-                    })
-                })
-
-            })
-            .catch(error => {
-                console.error('An error occurred:', error)
-            })
+        await CartService.addToCart(productId)
     })
 })
 
-cartIcon.addEventListener('click', () => {
-    fetch('http://localhost/make-up/cart/show', {
-        method: 'GET',
+function cartAttachEventHandlers() {
+
+    const decrement = document.querySelectorAll(".decrement")
+    const increment = document.querySelectorAll(".increment")
+    const remove = document.querySelectorAll(".remove")
+    const hideCarts = document.querySelectorAll(".hideCart");
+    const cartModal = document.querySelector(".cartModal");
+
+    cartModal.addEventListener('click', e => e.stopPropagation());
+
+    hideCarts.forEach(hideCart => {
+        hideCart.addEventListener('click', async () => {
+            await CartService.hideCart()
+        });
+    });
+
+    decrement.forEach(button => {
+        button.addEventListener('click', async function (event) {
+            const productId = event.target.getAttribute('product-id');
+            await CartService.decrement(productId)
+        });
+    });
+
+    increment.forEach(button => {
+        button.addEventListener('click', async function (event) {
+            const productId = event.target.getAttribute('product-id');
+            await CartService.increment(productId)
+        });
+    });
+
+
+    remove.forEach(button => {
+        button.addEventListener('click', async function (event) {
+            const productId = event.target.getAttribute('product-id');
+            await CartService.remove(productId)
+        });
     })
-        .then(response => response.text())
-        .then(data => {
-            document.querySelector('.cart-content').innerHTML = data
 
-            const hideCarts = document.querySelectorAll(".hideCart")
-            const cartModal = document.querySelector(".cartModal")
-
-            // stops hiding the cart when clicking on cartModal
-            cartModal.addEventListener('click', (e) => {
-                e.stopPropagation()
-            })
-
-            hideCarts.forEach(hideCart => {
-                hideCart.addEventListener('click', (e) => {
-                    fetch('http://localhost/make-up/cart/hide', {
-                        method: 'GET',
-                    })
-                        .then(response => response.text())
-                        .then(() => {
-                            document.querySelector('.cart-content').innerHTML = ''
-                        })
-                        .catch(error => {
-                            console.error('An error occurred:', error)
-                        })
-                })
-            })
-
-        })
-        .catch(error => {
-            console.error('An error occurred:', error)
-        })
-})
-
-
+}

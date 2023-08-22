@@ -17,7 +17,5 @@ class ProductService
     {
         $model = new ProductModel('product');
         return $model->getById($id);
-
-
     }
 }
