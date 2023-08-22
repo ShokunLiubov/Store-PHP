@@ -1,70 +1,90 @@
 {% block cart %}
-	<div class='modal'>
-		<div class='overlay hideCart'>
-			<div class='cartModal'>
-				<div class='title'>
-					<h3>Cart</h3>
-					<span class='material-symbols-outlined hideCart'>
+    <div class='modal'>
+        <div class='overlay hideCart'>
+            <div class='cartModal'>
+                <div class='title'>
+                    <h3>Cart</h3>
+                    <span class='material-symbols-outlined hideCart'>
 						close
 					</span>
-				</div>
-				<div class='line'></div>
+                </div>
+                <div class='line'></div>
 
-				<div class='productItems'>
-					{% if cartProducts %}
-						{% for product in cartProducts %}
-							<div>
-								<a href="product/{{ product['id'] }}" class='item'>
-									<div class='productImg'>
-										<img src={{product['image']}}/>
-									</div>
+                <div class='productItems'>
+                    {% if cartProducts %}
+                        {% for product in cartProducts %}
+                            <div>
+                                <div class='item'>
+                                    <a href="product/{{ product['id'] }}" class='productImg'>
+                                        <img src={{ product['image'] }}/>
+                                    </a>
 
-									<div class='product_info'>
-										<div class='info_option'>
-											<p class='title'>{{product['title']}}</p>
-											<p class='classification'>{{product['category']}}</p>
-											<div class='counter'>
-												<span class='material-symbols-outlined'>
+                                    <div class='product_info'>
+                                        <div class='info_option'>
+                                            <a href="product/{{ product['id'] }}">
+                                                <p class='title'>{{ product['title'] }}</p>
+                                            </a>
+
+                                            <p class='classification'>{{ product['category_names'] }}</p>
+                                            <div class='counter'>
+                                                <div class='decrement'>
+													<span class='material-symbols-outlined'
+                                                          product-id={{ product['id'] }}>
 													remove
-												</span>
-												<p class='count'>{{product.count}}</p>
-												<span class='material-symbols-outlined'>
+													</span>
+                                                </div>
+                                                <p class='count'
+                                                   data-product-id={{ product['id'] }}>{{ product['count'] }}</p>
+                                                <div class='increment'>
+													<span class='material-symbols-outlined'
+                                                          product-id={{ product['id'] }}>
 													add
-												</span>
-												<span class='material-symbols-outlined'>
+													</span>
+                                                </div>
+
+                                                <div class='remove'>
+													<span class='material-symbols-outlined'
+                                                          product-id={{ product['id'] }}>
 													close
 												</span>
-											</div>
-										</div>
-										<p class='productPrice'>{{product['price']}}
-											$</p>
-									</div>
-								</a>
-								<div class='line'></div>
-							</div>
-						{% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p class='productPrice'>{{ product['price'] }}
+                                            $</p>
+                                    </div>
+                                </div>
+                                <div class='line'></div>
+                            </div>
+                        {% endfor %}
 
-					{% else %}
-						<p>Cart is empty</p>
-					{% endif %}
-				</div>
-
-				<div class='totalPrice'>
-					<div>Total price:</div>
-					<div>{{cartSum ? cartSum : 0}}
-						$</div>;
-				</div>
-
-				<div class='line'></div>
-				<div class='bottom'>
-					<span class='hideCart'>Continue Shopping</span>
+                    {% else %}
+                        <p>Cart is empty</p>
+                    {% endif %}
+                </div>
+                <div>
 					{% if cartProducts %}
-						<a href="checkout">
-							<button>Checkout</button>
-						</a>
+					{% for error in errors %}
+						<div class="cartError">{{ error }}</div>
+					{% endfor %}
 					{% endif %}
-				</div>
-			</div>
-		</div>
-	</div>
+                </div>
+                <div class='totalPrice'>
+                    <div>Total price:</div>
+                    <div>{{ cartSum ? cartSum : 0 }} $</div>
+                    ;
+                </div>
+
+                <div class='line'></div>
+                <div class='bottom'>
+                    <span class='hideCart'>Continue Shopping</span>
+                    {% if cartProducts %}
+                        <a href="checkout">
+                            <button>Checkout</button>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

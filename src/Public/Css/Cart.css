@@ -132,3 +132,11 @@
 .productItems .item .product_info .counter .count {
     margin-right: 10px;
 }
+
+.cartError {
+    color: #c1271a !important;
+    font-size: 18px;
+    position: absolute;
+    left: 0;
+    right: 0;
+}

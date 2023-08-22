@@ -19,3 +19,6 @@ Route::get('product/([0-9]+)', [ProductController::class, 'getProductPage']);
 Route::get('cart/show', [CartController::class, 'showCart']);
 Route::get('cart/hide', [CartController::class, 'hideCart']);
 Route::get('cart/([0-9]+)', [CartController::class, 'addToCart']);
+Route::get('cart/increment/([0-9]+)', [CartController::class, 'incrementCount']);
+Route::get('cart/decrement/([0-9]+)', [CartController::class, 'decrementCount']);
+Route::get('cart/remove/([0-9]+)', [CartController::class, 'removeFromCart']);
