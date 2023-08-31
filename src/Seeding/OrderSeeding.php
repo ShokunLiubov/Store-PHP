@@ -2,10 +2,9 @@
 
 namespace App\Seeding;
 
-use App\Utils\DataBase;
-use App\Seeding\AbstractSeed;
-use Faker\Factory as FakerFactory;
+use App\Core\DataBase\DataBase;
 use Exception;
+use Faker\Factory as FakerFactory;
 
 class OrderSeeding extends AbstractSeed
 {

@@ -10,7 +10,15 @@
 	"autoload": {
 		"psr-4": {
 			"App\\": "src/"
-		}
+		},
+		"files": [
+			"src/Config/Bootstrap.php",
+			"src/Config/Routes.php",
+			"src/Utils/Db/DbHelper.php",
+			"src/Utils/Response/ResponseHelper.php",
+			"src/Utils/Helper.php",
+			"src/Seeding/Seed.php"
+		]
 	},
 	"authors": [
 		{

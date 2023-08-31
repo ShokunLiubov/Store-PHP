@@ -1,0 +1,30 @@
+{% block paginate %}
+    <nav class="pageNavbar">
+
+        {% if currentPage > 1 %}
+            <a href="{{ path_to_your_route }}?page={{ currentPage - 1 }}" class="navigationButton selectedPage">&laquo;</a>
+        {% endif %}
+
+        {% for page in 1..totalPages %}
+
+            {% if page == currentPage - 2 %}
+                <a href="{{ path }}?page={{ page}}" class="navigationButton selectedPage">{{ currentPage - 2 }}</a>
+            {% elseif page == currentPage - 1 %}
+                <a href="{{ path }}?page={{ page }}" class="navigationButton selectedPage">{{ currentPage - 1 }}</a>
+
+            {% elseif page == currentPage %}
+                <span class="pagination-active selectedPageActive selectedPage">{{ page }}</span>
+
+            {% elseif page == currentPage + 1 %}
+                <a href="{{ path }}?page={{ page }}" class="navigationButton selectedPage">{{ currentPage + 1 }}</a>
+            {% elseif page == currentPage + 2 %}
+                <a href="{{ path }}?page={{ page }}" class="navigationButton selectedPage">{{ currentPage + 2 }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if currentPage < totalPages %}
+            <a href="{{ 'main' }}?page={{ currentPage + 1 }}" class="navigationButton">&raquo;</a>
+        {% endif %}
+
+    </nav>
+{% endblock %}

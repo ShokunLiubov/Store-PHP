@@ -2,19 +2,24 @@
 
 namespace App\Controllers;
 
-use App\Controllers\ProductController;
-use Twig\Environment;
+use App\Service\ProductService;
+use App\Core\Response\Response;
+use Exception;
 
 class IndexController
 {
-    public function showMainPage(Environment $twig): void
+    public function showMainPage(): Response
     {
-        $productController = new ProductController();
-        $products = $productController->getProducts($twig);
+        try {
+            $page = $_GET["page"] ?? 1;
+            $productsData = (new ProductService())->getProducts($page);
 
-        echo $twig->render('Layout/PublicLayout.twig', [
-            'main_content' => $twig->render('MainPage/MainPage.twig', ['products' => $products]),
-            'cart_content' => $twig->render('Cart/Cart.twig')
-        ]);
+            return response()->view('MainPage/MainPage', $productsData);
+
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+            return response()->view('Errors/Error404', ['error' => $error]);
+        }
+
     }
 }

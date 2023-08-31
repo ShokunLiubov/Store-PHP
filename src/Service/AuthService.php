@@ -4,19 +4,17 @@ namespace App\Service;
 
 include_once('src/model/AuthModel.php');
 
-use Exception;
 use App\DTO\AuthDTO;
 use App\DTO\RegisterDTO;
 use App\Model\AuthModel;
-use App\Utils\DataBase;
+use Exception;
 
 class AuthService
 {
     public function registration(RegisterDTO $dto)
     {
-        $db = new DataBase();
         $email = $dto->getEmail();
-        $model = new AuthModel('user');
+        $model = new AuthModel();
         $exist = $model->getByEmail($email);
 
         if ($exist) {
@@ -28,8 +26,8 @@ class AuthService
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
         $sql = "INSERT INTO `user` (`email`, `name`, `password`)
-                        VALUES (?, ?, ?)";
-        $db->dbQuery($sql, [$email, $name, $hashedPassword]);
+                        VALUES (:email, :name, :password)";
+        db()->dbQuery($sql, ['email' => $email, 'name' => $name, 'password' => $hashedPassword]);
 
         $create = $model->getByEmail($email);
 
@@ -43,7 +41,6 @@ class AuthService
 
     public function login(AuthDTO $dto)
     {
-        $db = new DataBase();
         $email = $dto->getEmail();
         $model = new AuthModel('user');
         $user = $model->getByEmail($email);
