@@ -8,62 +8,63 @@ use App\Dto\AuthDTO;
 use App\Dto\RegisterDTO;
 use App\Validator\RegistrationValidate;
 use App\Validator\AuthValidate;
-use Twig\Environment;
+use App\Core\Response\Response;
 
 include_once('src/dto/AuthDTO.php');
 
 class AuthController
 {
-    public function registration(Environment $twig): void
+    public function __construct(protected AuthService $authService)
+    {
+    }
+
+    public function registration(): Response
     {
         try {
             $dto = new RegisterDTO();
             (new RegistrationValidate())->validate();
-            $auth = new AuthService();
 
-            $user = $auth->registration($dto);
-            $response = ['user' => $user, 'status' => 201];
+            $user = $this->authService->registration($dto);
 
-            header('Location: http://localhost/make-up');
+            response()->redirect('http://localhost/make-up/main?page=1');
         } catch (Exception $e) {
             $data['email'] = $dto->getEmail();
             $data['password'] = $dto->getPassword();
             $data['name'] = $dto->getName();
             $error[] = $e->getMessage();
-            echo $twig->render('Auth/Auth.twig', ['type' => 'register', 'error' => $error, 'data' => $data]);
+            return response()->view('Auth/Auth', ['type' => 'register', 'error' => $error, 'data' => $data]);
         }
     }
 
-    public function login(Environment $twig): void
+    public function login(): Response
     {
         try {
             $dto = new AuthDTO();
             (new AuthValidate())->validate();
             $auth = new AuthService();
 
-            $user = $auth->login($dto);
-            $response = ['user' => $user, 'status' => 200];
+            $user = $this->authService->login($dto);
 
-            header('Location: http://localhost/make-up');
+            response()->redirect('http://localhost/make-up/main?page=1');
         } catch (Exception $e) {
             $data['email'] = $dto->getEmail();
             $data['password'] = $dto->getPassword();
             $error[] = $e->getMessage();
-            echo $twig->render('Auth/Auth.twig', ['type' => 'login', 'error' => $error, 'data' => $data]);
+            return response()->view('Auth/Auth', ['type' => 'login', 'error' => $error, 'data' => $data]);
         }
     }
 
-    public function logout(Environment $twig): void
+    public function logout(): void
     {
         unset($_SESSION['auth-user']);
     }
 
-    public function showAuthPage(Environment $twig, string $type): void
+    public function showAuthPage(string $type): Response
     {
         if (isset($_SESSION['auth-user'])) {
-            header('Location: http://localhost/make-up');
+            return response()->redirect('http://localhost/make-up/main?page=1');
         }
 
-        echo $twig->render('Auth/Auth.twig', ['type' => $type]);
+        return response()->view('Auth/Auth', ['type' => $type]);
     }
 }

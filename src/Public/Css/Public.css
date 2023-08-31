@@ -566,4 +566,25 @@ h6 {
     font-size: 21px;
 }
 
+.pageNavbar {
+    margin: 40px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+.selectedPage, .navigationButton {
+    margin: 0 8px;
+    cursor: pointer;
+    padding: 7px 5px;
+    color: #333;
+    font-weight: 800;
+}
+.selectedPageActive, .navigationButton:hover, .selectedPage:hover {
+    color: #792c9b;
+    border-bottom: 1px solid #792c9b;
+}
+.navigationPreventNone, .prevNone, .currentNone {
+    display: none;
+}
 

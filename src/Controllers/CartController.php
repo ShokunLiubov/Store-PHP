@@ -2,86 +2,106 @@
 
 namespace App\Controllers;
 
-use App\Controllers\ProductController;
 use App\Service\ProductService;
 use App\Service\CartService;
 use Exception;
-use Twig\Environment;
+use App\Core\Response\Response;
 
 class CartController
 {
-    public function showCart(Environment $twig): void
+    public function __construct(protected CartService $cartService)
+    {
+    }
+
+    public function showCart(): Response
     {
         try {
-            $cartProducts = (new CartService())->getCart();
-            $cartSum = (new CartService())->calcCartSum();
+            $cartProducts = $this->cartService->getCart();
+            $cartSum = $this->cartService->calcCartSum();
 
-            echo $twig->render('Cart/Cart.twig', [
+            return response()->view('Cart/Cart', [
                 'cartModal' => true,
                 'cartProducts' => $cartProducts,
                 'cartSum' => $cartSum
             ]);
-
         } catch (Exception $e) {
             $error[] = $e->getMessage();
-            (new CartService())->handlerErrors($twig, $error);
+            return $this->cartService->handlerErrors($error);
         }
     }
 
-    public function hideCart(Environment $twig): void
+    public function hideCart(Environment $twig): Response
     {
-        echo $twig->render('Cart/Cart.twig', [
+        return response()->view('Cart/Cart', [
             'cartModal' => false
         ]);
     }
 
 
-    public function addToCart(Environment $twig, $id): void
+    public function addToCart($id): Response
     {
         try {
             $addProduct = (new ProductService())->getProduct($id);
-            $sessionCart = (new CartService())->addToCart($addProduct);
-            $cartSum = (new CartService())->calcCartSum();
+            $sessionCart = $this->cartService->addToCart($addProduct);
+            $cartSum = $this->cartService->calcCartSum();
 
-            echo $twig->render('Cart/Cart.twig', [
+            return response()->view('Cart/Cart', [
                 'cartModal' => true,
                 'cartProducts' => $sessionCart,
                 'cartSum' => $cartSum
             ]);
-
         } catch (Exception $e) {
             $error[] = $e->getMessage();
-            (new CartService())->handlerErrors($twig, $error);
+            return $this->cartService->handlerErrors($error);
         }
 
     }
 
-    public function removeFromCart(Environment $twig, $id): void
+    public function removeFromCart($id): Response
     {
         try {
-            (new CartService())->remove($id);
-            $cartProducts = (new CartService())->getCart();
-            $cartSum = (new CartService())->calcCartSum();
+            $this->cartService->remove($id);
+            $cartProducts = $this->cartService->getCart();
+            $cartSum = $this->cartService->calcCartSum();
 
-            echo $twig->render('Cart/Cart.twig', [
+            return response()->view('Cart/Cart', [
                 'cartModal' => true,
                 'cartProducts' => $cartProducts,
                 'cartSum' => $cartSum,
             ]);
         } catch (Exception $e) {
             $error[] = $e->getMessage();
-            (new CartService())->handlerErrors($twig, $error);
+            return $this->cartService->handlerErrors($error);
         }
     }
 
-    public function incrementCount(Environment $twig, $id): void
+    public function incrementCount($id): Response
     {
         try {
-            (new CartService())->increment($id);
-            $cartProducts = (new CartService())->getCart();
-            $cartSum = (new CartService())->calcCartSum();
+            $this->cartService->increment($id);
+            $cartProducts = $this->cartService->getCart();
+            $cartSum = $this->cartService->calcCartSum();
 
-            echo $twig->render('Cart/Cart.twig', [
+            return response()->view('Cart/Cart', [
+                'cartModal' => true,
+                'cartProducts' => $cartProducts,
+                'cartSum' => $cartSum,
+            ]);
+        } catch (Exception $e) {
+            $error[] = $e->getMessage();
+            return $this->cartService->handlerErrors($error);
+        }
+
+    }
+
+    public function decrementCount($id): Response
+    {
+        try {
+            $this->cartService->decrement($id);
+            $cartProducts = $this->cartService->getCart();
+            $cartSum = $this->cartService->calcCartSum();
+
+            return response()->view('Cart/Cart', [
                 'cartModal' => true,
                 'cartProducts' => $cartProducts,
                 'cartSum' => $cartSum,
@@ -89,27 +109,7 @@ class CartController
 
         } catch (Exception $e) {
             $error[] = $e->getMessage();
-            (new CartService())->handlerErrors($twig, $error);
-        }
-
-    }
-
-    public function decrementCount(Environment $twig, $id): void
-    {
-        try {
-            (new CartService())->decrement($id);
-            $cartProducts = (new CartService())->getCart();
-            $cartSum = (new CartService())->calcCartSum();
-
-            echo $twig->render('Cart/Cart.twig', [
-                'cartModal' => true,
-                'cartProducts' => $cartProducts,
-                'cartSum' => $cartSum,
-            ]);
-
-        } catch (Exception $e) {
-            $error[] = $e->getMessage();
-            (new CartService())->handlerErrors($twig, $error);
+            return $this->cartService->handlerErrors($error);
         }
     }
 }

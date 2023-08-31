@@ -2,39 +2,25 @@
 
 namespace App\Controllers;
 
+use App\Core\Response\Response;
 use Exception;
-use App\Model\ProductModel;
-use Twig\Environment;
 use App\Service\ProductService;
 
 class ProductController
 {
-    public function getProducts(Environment $twig)
+    public function __construct(protected ProductService $productService)
     {
-        try {
-            $model = new ProductModel('product');
-            $products = $model->getAll();
-            if (!$products) {
-                throw new Exception('Products not found!');
-            }
-            $response = ['products' => $products, 'status' => 200];
-            return $response['products'];
-        } catch (Exception $e) {
-            $error = $e->getMessage();
-            echo $twig->render('Errors/Error404.twig', ['error' => $error]);
-        }
     }
 
-    public function getProductPage(Environment $twig, $id)
+    public function getProductPage($id): Response
     {
         try {
-            $product = (new ProductService())->getProduct($id);
-            $response = ['product' => $product, 'status' => 200];
-            echo $twig->render('ProductPage/ProductPage.twig', ['product' => $product]);
-            return $response;
+            $product = $this->productService->getProduct($id);
+            return response()->view('ProductPage/ProductPage', ['product' => $product]);
+
         } catch (Exception $e) {
             $error = $e->getMessage();
-            echo $twig->render('Errors/Error404.twig', ['error' => $error]);
+            return response()->view('Errors/Error404', ['error' => $error]);
         }
     }
 }

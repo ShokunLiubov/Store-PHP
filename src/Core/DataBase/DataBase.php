@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utils;
+namespace App\Core\DataBase;
 
 use PDO;
 use PDOStatement;
@@ -22,11 +22,19 @@ class DataBase
         return self::$db;
     }
 
-    public function dbQuery(string $sql, array $params = []): PDOStatement
-    {
+    public function dbQuery(string $sql, array $params = [], array $types = []): PDOStatement {
         self::dbConnect();
         $query = self::$db->prepare($sql);
-        $query->execute($params);
+
+        foreach ($params as $key => $value) {
+            if (isset($types[$key])) {
+                $query->bindValue($key, $value, $types[$key]);
+            } else {
+                $query->bindValue($key, $value);
+            }
+        }
+
+        $query->execute();
 
         $errorInfo = $query->errorInfo();
 

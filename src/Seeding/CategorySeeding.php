@@ -2,8 +2,7 @@
 
 namespace App\Seeding;
 
-use App\Utils\DataBase;
-use App\Seeding\AbstractSeed;
+use App\Core\DataBase\DataBase;
 use Exception;
 
 class CategorySeeding extends AbstractSeed

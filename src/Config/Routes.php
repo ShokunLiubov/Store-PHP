@@ -1,12 +1,12 @@
 <?php
 
-use App\Config\Route;
 use App\Controllers\AuthController;
+use App\Controllers\CartController;
 use App\Controllers\IndexController;
 use App\Controllers\ProductController;
-use App\Controllers\CartController;
+use App\Core\Route;
 
-Route::get('', [IndexController::class, 'showMainPage']);
+Route::get('main', [IndexController::class, 'showMainPage']);
 
 Route::get('auth/logout', [AuthController::class, 'logout']);
 Route::post('auth/login', [AuthController::class, 'login']);

@@ -1,4 +1,4 @@
-{# {% extends "Layout/PublicLayout.twig" %} #}
+ {% extends "Layout/PublicLayout.twig" %}
 {% block content %}
 	<div class='carousel'>
 		<img src='/make-up/src/Public/Img/bcgimg.jpeg'/>
@@ -7,7 +7,6 @@
 	<main class='containerMainPage'>
 		<div class='filtersProducts'>
 			FiltersCategoryPage
-			{# <FiltersCategoryPage/> #}
 		</div>
 		<div class='catalogProducts'>
 			<div
@@ -30,7 +29,15 @@
 					</a>
 				{% endfor %}
 			</div>
-			{# <Paginator currentpage={page} totalpages={totalPages} onpagechange={onPageChange}/> #}
 		</div>
 	</main>
+	{% block paginate %}
+		{% if totalPages > 1 %}
+			{% include 'Paginate/Paginate.twig' with {
+				'currentPage': currentPage,
+				'totalPages': totalPages,
+				'path': 'main'
+			} %}
+		{% endif %}
+	{% endblock %}
 {% endblock %}

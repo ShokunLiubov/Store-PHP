@@ -2,7 +2,7 @@
 
 namespace App\Seeding;
 
-use App\Utils\DataBase;
+use App\Core\DataBase\DataBase;
 
 // (new Seeding([new UserSeed($count), new ProductSeed()]))->refresh(10);
 

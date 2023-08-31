@@ -1,37 +1,46 @@
 <?php
 
-namespace App\Config;
+namespace App\Core;
+
+use App\Core\DIContainer;
 
 class Route
 {
-    private static $routes = [];
+    private static array $routes = [];
+    private static ?DIContainer $container = null;
 
-    public static function get($path, $controllerAction, $middleware = [])
+    public static function setContainer(DIContainer $container): void
+    {
+        self::$container = $container;
+    }
+
+
+    public static function get($path, $controllerAction, $middleware = []): void
     {
         self::add('GET', $path, $controllerAction, $middleware);
     }
 
-    public static function post($path, $controllerAction, $middleware = [])
+    public static function post($path, $controllerAction, $middleware = []): void
     {
         self::add('POST', $path, $controllerAction, $middleware);
     }
 
-    public static function put($path, $controllerAction, $middleware = [])
+    public static function put($path, $controllerAction, $middleware = []): void
     {
         self::add('PUT', $path, $controllerAction, $middleware);
     }
 
-    public static function patch($path, $controllerAction, $middleware = [])
+    public static function patch($path, $controllerAction, $middleware = []): void
     {
         self::add('PATCH', $path, $controllerAction, $middleware);
     }
 
-    public static function delete($path, $controllerAction, $middleware = [])
+    public static function delete($path, $controllerAction, $middleware = []): void
     {
         self::add('DELETE', $path, $controllerAction, $middleware);
     }
 
-    private static function add($method, $path, $controllerAction, $middleware)
+    private static function add($method, $path, $controllerAction, $middleware): void
     {
         self::$routes[] = [
             'method' => $method,
@@ -41,13 +50,15 @@ class Route
         ];
     }
 
-    public static function dispatch($method, $path, $twig)
+    public static function dispatch($method, $path): void
     {
 
         foreach (self::$routes as $route) {
             // Use regular expressions to support variables like {id}
+            $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
             $pattern = preg_replace('/\{[a-zA-Z0-9]+\}/', '([a-zA-Z0-9]+)', $route['path']);
             $pattern =  "@^" . BASE_URL . $pattern . "\/?$@D";
+
             if ($method === $route['method'] && preg_match($pattern, $path, $matches)) {
 
                 array_shift($matches);  // Removing an exact match
@@ -55,22 +66,21 @@ class Route
                     call_user_func_array($route['middleware'], []);
                 }
 
-                // We call the appropriate controller and action
                 if (is_callable($route['controllerAction'])) {
-                    call_user_func_array($route['controllerAction'], array_merge([$twig], $matches));
+                    call_user_func_array($route['controllerAction'], array_merge($matches));
                 } elseif (is_array($route['controllerAction'])) {
-                    $controller = new $route['controllerAction'][0]();
-
-                    call_user_func_array([$controller, $route['controllerAction'][1]], array_merge([$twig], $matches));
+                    $controller = self::$container->get($route['controllerAction'][0]);
+                    call_user_func_array([$controller, $route['controllerAction'][1]], array_merge($matches));
                 }
+
                 return;
             }
         }
-        self::send404($twig);
+        self::send404();
     }
 
-    private static function send404($twig)
+    private static function send404(): void
     {
-        echo $twig->render('Errors/Error404.twig');
+        response()->view('Errors/Error404');
     }
 }

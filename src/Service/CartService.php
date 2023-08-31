@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use Exception;
+use App\Core\Response\Response;
 
 class CartService
 {
@@ -114,19 +115,30 @@ class CartService
 
     }
 
-    public function handlerErrors($twig, array $errors): void
+    public function handlerErrors(array $errors): Response
     {
         $cartProducts = $this->getCart();
         $cartSum = $this->calcCartSum();
 
-        echo $twig->render('Cart/Cart.twig', [
+        return response()->view('Cart/Cart', [
             'cartModal' => true,
             'cartProducts' => $cartProducts,
             'cartSum' => $cartSum,
             'errors' => $errors
         ]);
+    }
 
+    public function updateCart(array $errors): Response
+    {
+        $cartProducts = $this->getCart();
+        $cartSum = $this->calcCartSum();
 
+        return response()->view('Cart/Cart', [
+            'cartModal' => true,
+            'cartProducts' => $cartProducts,
+            'cartSum' => $cartSum,
+            'errors' => $errors
+        ]);
     }
 
 }
