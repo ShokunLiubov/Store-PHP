@@ -357,7 +357,6 @@ h6 {
 }
 .containerMainPage .catalogProducts {
     width: 74vw;
-    display: flex;
     object-fit: cover;
 }
 .pageHeader {

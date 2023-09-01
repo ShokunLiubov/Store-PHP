@@ -6,7 +6,7 @@ class OrderItemSeeding extends AbstractSeed
 {
     public string $table = 'order_item';
 
-    public function seed()
+    public function seed(): void
     {
     }
 }

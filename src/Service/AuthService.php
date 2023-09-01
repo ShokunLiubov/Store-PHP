@@ -11,11 +11,17 @@ use Exception;
 
 class AuthService
 {
+    public function __construct(protected AuthModel $authModel)
+    {
+    }
+
+    /**
+     * @throws Exception
+     */
     public function registration(RegisterDTO $dto)
     {
         $email = $dto->getEmail();
-        $model = new AuthModel();
-        $exist = $model->getByEmail($email);
+        $exist = $this->authModel->getByEmail($email);
 
         if ($exist) {
             throw new Exception('User is already exist!');
@@ -29,7 +35,7 @@ class AuthService
                         VALUES (:email, :name, :password)";
         db()->dbQuery($sql, ['email' => $email, 'name' => $name, 'password' => $hashedPassword]);
 
-        $create = $model->getByEmail($email);
+        $create = $this->authModel->getByEmail($email);
 
         if ($create) {
             $_SESSION['auth-user'] = $create[0]['id'];
@@ -39,11 +45,13 @@ class AuthService
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function login(AuthDTO $dto)
     {
         $email = $dto->getEmail();
-        $model = new AuthModel('user');
-        $user = $model->getByEmail($email);
+        $user = $this->authModel->getByEmail($email);
         $password = $dto->getPassword();
 
         if (!$user) {
