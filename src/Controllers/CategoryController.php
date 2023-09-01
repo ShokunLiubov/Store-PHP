@@ -18,8 +18,11 @@ class CategoryController
     {
         try {
             $page = $_GET["page"] ?? 1;
+            $field = $_GET["field"] ?? 'id';
+            $order = $_GET["order"] ?? 'asc';
+            $filters = $_GET["filters"] ?? [];
             $category = $this->categoryService->getCategoryBySlug($slugCategory);
-            $productsData = $this->categoryService->getProductsByCategory($page, $category);
+            $productsData = $this->categoryService->getProductsByCategory($page,$field, $order, $category);
 
             return response()->view('MainPage/MainPage', $productsData);
 

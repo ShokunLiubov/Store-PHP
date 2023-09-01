@@ -32,10 +32,10 @@ class Model
         return $query->fetch();
     }
 
-    public function getAllWithPaginate(int $page = 1, int $limit = 10, array $filters = []): array
+    public function getAllWithPaginate(int $page = 1, int $limit = 10, string $field, string $order, array $filters = []): array
     {
         $offset = ($page - 1) * $limit;
-
+        $order = strtoupper($order);
         $whereClause = '';
         $bindValues = ['offset' => $offset, 'limit' => $limit];
         $bindTypes = ['offset' => PDO::PARAM_INT, 'limit' => PDO::PARAM_INT];
@@ -50,7 +50,9 @@ class Model
             $whereClause = ' WHERE ' . implode(' AND ', $whereParts);
         }
 
-        $sql = 'SELECT * FROM ' . $this->getTableName() . $whereClause . ' LIMIT :limit OFFSET :offset';
+        $sql = 'SELECT * FROM ' . $this->getTableName() . '
+                ORDER BY '. $field .' ' . $order . '
+                LIMIT :limit OFFSET :offset';
         $query = db()->dbQuery($sql, $bindValues, $bindTypes);
 
         return $query->fetchAll();

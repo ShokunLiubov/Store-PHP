@@ -14,18 +14,20 @@ class ProductService
     /**
      * @throws Exception
      */
-    public function getProducts(int $page, array $filters = []): array
+    public function getProducts(int $page, string $field, string $order, array $filters = []): array
     {
         $limit = 10;
         $path = 'main';
-        $products = $this->productModel->getAllWithPaginate($page, $limit, $filters);
+        $products = $this->productModel->getAllWithPaginate($page, $limit, $field, $order, $filters);
         $totalPages = $this->productModel->countAll($filters);
         $totalPages = $totalPages/$limit;
         if (!$products) {
             throw new Exception('Products not found!');
         }
 
-        return ['products' => $products, 'totalPages' => $totalPages, 'currentPage' => (int)$page, 'path' => $path];
+        return ['products' => $products, 'totalPages' => $totalPages,
+                'currentPage' => (int)$page, 'path' => $path,
+                'field' => $field, 'order' => $order ];
     }
 
     public function getProduct(int $id)

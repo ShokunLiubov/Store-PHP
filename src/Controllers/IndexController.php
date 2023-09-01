@@ -16,7 +16,10 @@ class IndexController
     {
         try {
             $page = $_GET["page"] ?? 1;
-            $productsData = $this->productService->getProducts($page);
+            $field = $_GET["field"] ?? 'id';
+            $order = $_GET["order"] ?? 'asc';
+            $filters = $_GET["filters"] ?? [];
+            $productsData = $this->productService->getProducts($page, $field, $order, $filters);
 
             return response()->view('MainPage/MainPage', $productsData);
 

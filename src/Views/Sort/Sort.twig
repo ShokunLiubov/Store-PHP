@@ -1,0 +1,30 @@
+{% block sort %}
+    <div class='sortProduct'>
+        <div class='sort'>
+            <label>Sort by:</label>
+
+            <a href="{{ path }}?page=1&field=title&order={{ order }}" class={{ field == 'title' ? 'active' : '' }}>
+                Title
+            </a>
+
+            <a href="{{ path }}?page=1&field=id&order={{ order }}" class={{ field == 'id' ? 'active' : '' }}>
+                Date
+            </a>
+
+            <a href="{{ path }}?page=1&field=price&order={{ order }}" class={{ field == 'price' ? 'active' : '' }}>
+                Price
+            </a>
+
+            <a href="{{ path }}?page=1&field={{ field }}&order=asc"
+               class='material-symbols-outlined {{ order == 'asc' ? 'active' : '' }}'>
+                arrow_upward
+            </a>
+
+            <a href="{{ path }}?page=1&field={{ field }}&order=desc"
+               class='material-symbols-outlined {{ order == 'desc' ? 'active' : '' }}'>
+                arrow_downward
+            </a>
+
+        </div>
+    </div>
+{% endblock %}

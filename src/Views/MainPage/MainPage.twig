@@ -10,8 +10,12 @@
 			FiltersCategoryPage
 		</div>
 		<div class='catalogProducts'>
-			<div
-				class='blockSort'>{# <Sort setsortcatalog={setSortCatalog}/> #}
+			<div class='blockSort'>
+				{% include 'Sort/Sort.twig' with {
+					'field': field,
+					'order': order,
+					'path': path
+				} %}
 			</div>
 			<div class='products'>
 				{% for product in products %}
@@ -37,6 +41,8 @@
 			{% include 'Paginate/Paginate.twig' with {
 				'currentPage': currentPage,
 				'totalPages': totalPages,
+				'field': field,
+				'order': order,
 				'path': path
 			} %}
 		{% endif %}

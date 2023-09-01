@@ -353,7 +353,7 @@ h6 {
 .containerMainPage {
     margin-top: 50px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
 }
 .containerMainPage .catalogProducts {
     width: 74vw;
@@ -585,5 +585,28 @@ h6 {
 }
 .navigationPreventNone, .prevNone, .currentNone {
     display: none;
+}
+
+.sortProduct {
+    width: 100%;
+}
+.sortProduct a {
+    text-decoration: none;
+    color: #333;
+    margin: 0px 10px;
+    font-weight: 400;
+    cursor: pointer;
+}
+.sortProduct .sort {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.sortProduct .sort label {
+    color: #333;
+    margin: 0px 10px;
+}
+.sortProduct .sort .active {
+    color: #792c9b;
 }
 
