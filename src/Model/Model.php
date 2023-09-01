@@ -56,7 +56,7 @@ class Model
         return $query->fetchAll();
     }
 
-    public function countAll($limit = 10, array $filters = []): int
+    public function countAll(array $filters = []): int
     {
         $whereClause = '';
         $bindValues = [];
@@ -76,6 +76,6 @@ class Model
         $query = db()->dbQuery($sql, $bindValues, $bindTypes);
         $result = $query->fetch(PDO::FETCH_ASSOC);
 
-        return (int)$result['total_count']/$limit;
+        return (int)$result['total_count'];
     }
 }

@@ -8,25 +8,28 @@ use Exception;
 
 class ProductService
 {
+    public function __construct(protected ProductModel $productModel)
+    {
+    }
     /**
      * @throws Exception
      */
     public function getProducts(int $page, array $filters = []): array
     {
-        $model = new ProductModel();
-
-        $products = $model->getAllWithPaginate($page, 10, $filters);
-        $totalPages = $model->countAll(10, $filters);
+        $limit = 10;
+        $path = 'main';
+        $products = $this->productModel->getAllWithPaginate($page, $limit, $filters);
+        $totalPages = $this->productModel->countAll($filters);
+        $totalPages = $totalPages/$limit;
         if (!$products) {
             throw new Exception('Products not found!');
         }
 
-        return ['products' => $products, 'totalPages' => $totalPages, 'currentPage' => (int)$page];
+        return ['products' => $products, 'totalPages' => $totalPages, 'currentPage' => (int)$page, 'path' => $path];
     }
 
     public function getProduct(int $id)
     {
-        $model = new ProductModel();
-        return $model->getById($id);
+        return $this->productModel->getById($id);
     }
 }

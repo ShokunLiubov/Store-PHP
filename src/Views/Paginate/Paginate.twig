@@ -6,7 +6,6 @@
         {% endif %}
 
         {% for page in 1..totalPages %}
-
             {% if page == currentPage - 2 %}
                 <a href="{{ path }}?page={{ page}}" class="navigationButton selectedPage">{{ currentPage - 2 }}</a>
             {% elseif page == currentPage - 1 %}

@@ -3,8 +3,9 @@
 	<div class='carousel'>
 		<img src='/make-up/src/Public/Img/bcgimg.jpeg'/>
 	</div>
-
+	<div class='pageHeader'>{{ category ? category : '' }}</div>
 	<main class='containerMainPage'>
+
 		<div class='filtersProducts'>
 			FiltersCategoryPage
 		</div>
@@ -14,7 +15,7 @@
 			</div>
 			<div class='products'>
 				{% for product in products %}
-					<a href="product/{{ product['id'] }}" class='product'>
+					<a href="/make-up/product/{{ product['id'] }}" class='product'>
 						<img src={{product['image']}}/>
 
 						<div class='info'>
@@ -36,7 +37,7 @@
 			{% include 'Paginate/Paginate.twig' with {
 				'currentPage': currentPage,
 				'totalPages': totalPages,
-				'path': 'main'
+				'path': path
 			} %}
 		{% endif %}
 	{% endblock %}

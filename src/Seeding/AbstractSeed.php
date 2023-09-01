@@ -15,5 +15,5 @@ abstract class AbstractSeed
         return $this->table;
     }
 
-    abstract public function seed();
+    abstract public function seed(): void;
 }
