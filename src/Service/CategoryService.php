@@ -25,19 +25,19 @@ class CategoryService
         return $category;
     }
 
-    public function getProductsByCategory($page, $category): array
+    public function getProductsByCategory(int $page, string $field, string $order, $category): array
     {
         $limit = 10;
         $filters['category'] = $category['id'];
-        $products = $this->categoryModel->getAllWithPaginate($page, $limit, $filters);
+        $products = $this->categoryModel->getAllWithPaginate($page, $limit, $field, $order, $filters);
         $totalPages = $this->categoryModel->countAll($filters);
         $totalPages = $totalPages / $limit;
         $path = $category['slug'];
 
         return ['products' => $products, 'totalPages' => $totalPages,
                 'currentPage' => (int)$page, 'path' => $path,
-                'category' => $category['name']
-                ];
+                'category' => $category['name'], 'field' => $field,
+                'order' => $order ];
     }
 
 }
