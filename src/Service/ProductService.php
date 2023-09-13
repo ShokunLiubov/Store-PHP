@@ -4,9 +4,10 @@ namespace App\Service;
 include_once('src/model/AuthModel.php');
 
 use App\Model\ProductModel;
+use App\Utils\UrlUtils;
 use Exception;
 
-class ProductService
+class ProductService extends Service
 {
     public function __construct(protected ProductModel $productModel)
     {
@@ -16,18 +17,13 @@ class ProductService
      */
     public function getProducts(int $page, string $field, string $order, array $filters = []): array
     {
-        $limit = 10;
-        $path = 'main';
-        $products = $this->productModel->getAllWithPaginate($page, $limit, $field, $order, $filters);
-        $totalPages = $this->productModel->countAll($filters);
-        $totalPages = $totalPages/$limit;
-        if (!$products) {
-            throw new Exception('Products not found!');
-        }
+        $data = $this->productModel->getAllWithPaginate($page, $field, $order, $filters);
+        $data['path'] = 'main';
 
-        return ['products' => $products, 'totalPages' => $totalPages,
-                'currentPage' => (int)$page, 'path' => $path,
-                'field' => $field, 'order' => $order ];
+        $urlParams = (new UrlUtils())->generateFilterUrlParams($filters);
+        $data['filters'] = $urlParams;
+
+        return $data;
     }
 
     public function getProduct(int $id)

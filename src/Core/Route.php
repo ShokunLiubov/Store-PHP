@@ -2,8 +2,6 @@
 
 namespace App\Core;
 
-use App\Core\DIContainer;
-
 class Route
 {
     private static array $routes = [];
@@ -13,7 +11,6 @@ class Route
     {
         self::$container = $container;
     }
-
 
     public static function get($path, $controllerAction, $middleware = []): void
     {
@@ -52,26 +49,22 @@ class Route
 
     public static function dispatch($method, $path): void
     {
-
         foreach (self::$routes as $route) {
             // Use regular expressions to support variables like {id}
             $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
             $pattern = preg_replace('/\{[a-zA-Z0-9]+\}/', '([a-zA-Z0-9]+)', $route['path']);
-            $pattern =  "@^" . BASE_URL . $pattern . "\/?$@D";
+            $pattern = "@^" . BASE_URL . $pattern . "\/?$@D";
 
-            if ($method === $route['method'] && preg_match($pattern, $path, $matches)) {
+            if ($method === $route['method'] && preg_match($pattern, $path, $getParams)) {
 
-                array_shift($matches);  // Removing an exact match
+                array_shift($getParams);  // Removing an exact match
                 if (count($route['middleware']) > 0) {
                     call_user_func_array($route['middleware'], []);
                 }
 
-                if (is_callable($route['controllerAction'])) {
-                    call_user_func_array($route['controllerAction'], array_merge($matches));
-                } elseif (is_array($route['controllerAction'])) {
-                    $controller = self::$container->get($route['controllerAction'][0]);
-                    call_user_func_array([$controller, $route['controllerAction'][1]], array_merge($matches));
-                }
+                $controller = self::$container->get($route['controllerAction'][0]);
+                $dependencies = self::$container->resolveMethodDependencies($controller, $route['controllerAction'][1], $getParams);
+                call_user_func_array([$controller, $route['controllerAction'][1]], $dependencies);
 
                 return;
             }

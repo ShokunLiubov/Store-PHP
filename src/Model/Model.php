@@ -3,15 +3,22 @@
 namespace App\Model;
 
 use PDO;
+use \App\Contracts\Model as IModel;
 
 
-class Model
+class Model implements IModel
 {
     protected string $table;
 
     public function __construct()
     {
     }
+
+    protected function calculateTotalPages(int $count, int $limit): int
+    {
+        return ceil($count / $limit);
+    }
+
 
     public function getTableName(): string
     {
@@ -20,64 +27,51 @@ class Model
 
     public function getAll(): bool|array
     {
-        $sql = 'SELECT * FROM  ' . $this->getTableName() . ' ORDER BY id DESC';
-        $query = db()->dbQuery($sql);
+        $query = qb()::table($this->getTableName())
+            ->orderBy('id', 'DESC')
+            ->get();
         return $query->fetchAll();
     }
 
     public function getById(int $id): mixed
     {
-        $sql = 'SELECT * FROM ' . self::getTableName() . ' WHERE id=:id';
-        $query = db()->dbQuery($sql, ['id' => $id]);
+        $query = qb()::table(self::getTableName())
+            ->where('id', '=', 'id', $id)
+            ->groupBy('product.id')
+            ->get();
+
         return $query->fetch();
     }
 
-    public function getAllWithPaginate(int $page = 1, int $limit = 10, string $field, string $order, array $filters = []): array
+    public function getAllWithPaginate(int $page = 1, string $field, string $order, array $filters = [], int $limit = 10): array
     {
-        $offset = ($page - 1) * $limit;
-        $order = strtoupper($order);
-        $whereClause = '';
-        $bindValues = ['offset' => $offset, 'limit' => $limit];
-        $bindTypes = ['offset' => PDO::PARAM_INT, 'limit' => PDO::PARAM_INT];
+        $query = qb()::table(self::getTableName())
+            ->selectWithConcatenation('product.*', 'category.name', 'category_names', ', ')
+            ->orderBy($field, $order)
+            ->limit($limit)
+            ->offset($page);
 
-        if (!empty($filters)) {
-            $whereParts = [];
-            foreach ($filters as $column => $value) {
-                $whereParts[] = "$column = :$column";
-                $bindValues[$column] = $value;
-                $bindTypes[$column] = PDO::PARAM_STR;
-            }
-            $whereClause = ' WHERE ' . implode(' AND ', $whereParts);
-        }
+        $data = $query->get()->fetchAll();
+        $count = $this->count();
+        $totalPages = $this->calculateTotalPages($count, $limit);
+        $order = strtolower($order);
 
-        $sql = 'SELECT * FROM ' . $this->getTableName() . '
-                ORDER BY '. $field .' ' . $order . '
-                LIMIT :limit OFFSET :offset';
-        $query = db()->dbQuery($sql, $bindValues, $bindTypes);
-
-        return $query->fetchAll();
+        return [
+            'data' => $data,
+            'totalPages' => $totalPages,
+            'currentPage' => $page,
+            'field' => $field,
+            'order' => $order
+        ];
     }
 
-    public function countAll(array $filters = []): int
+    public function count(array $filters = []): int
     {
-        $whereClause = '';
-        $bindValues = [];
-        $bindTypes = [];
+        $query = qb()::table($this->getTableName())
+            ->selectCount()->get();
 
-        if (count($filters) > 0) {
-            $whereParts = [];
-            foreach ($filters as $column => $value) {
-                $whereParts[] = "$column = :$column";
-                $bindValues[$column] = $value;
-                $bindTypes[$column] = PDO::PARAM_STR;
-            }
-            $whereClause = ' WHERE ' . implode(' AND ', $whereParts);
-        }
+        $result = $query->fetch();
 
-        $sql = 'SELECT COUNT(*) AS total_count FROM ' . $this->getTableName() . $whereClause;
-        $query = db()->dbQuery($sql, $bindValues, $bindTypes);
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-
-        return (int)$result['total_count'];
+        return $result['total_count'] ?? 0;
     }
 }

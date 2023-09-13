@@ -1,0 +1,43 @@
+{% block filters %}
+    <form class='filtersStore' method="get">
+        <div class='selectCategory'>
+            <label>
+                Category
+            </label>
+            {% for category in categories %}
+                <div class="checkbox">
+                    <input type="checkbox" name="category[]" value="{{ category.id }}"
+                           {% if category.name in selected_options %}checked{% endif %}>
+                    <label for="{{ category.name }}">{{ category.name }}</label>
+                </div>
+            {% endfor %}
+        </div>
+        <div class='selectCategory'>
+            <label>
+                Made In
+            </label>
+            {% for country in countries %}
+                <div class="checkbox">
+                    <input type="checkbox" name="made[]" value="{{ country.name }}"
+                           {% if country.name in selected_options %}checked{% endif %}>
+                    <label for="{{ country.name }}">{{ country.name }}</label>
+                </div>
+            {% endfor %}
+        </div>
+        <div class='filterFromTo'>
+            <span>Price</span>
+            <div class='inputFromTo'>
+                <div class='fieldInput'>
+                    <label>from</label>
+                    <input class="inputFromTo" autocomplete='off' name='price-from' type='number' value="{{ price.from }}"/>
+                </div>
+
+                <div class='fieldInput'>
+                    <label>to</label>
+                    <input autocomplete='off' name='price-to' type='number' value="{{ price.to }}"/>
+                </div>
+            </div>
+        </div>
+        <button>Apply</button>
+    </form>
+{% endblock %}

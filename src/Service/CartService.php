@@ -5,7 +5,7 @@ namespace App\Service;
 use Exception;
 use App\Core\Response\Response;
 
-class CartService
+class CartService  extends Service
 {
     public function getCart()
     {

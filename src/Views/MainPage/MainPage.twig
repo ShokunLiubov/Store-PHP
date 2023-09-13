@@ -7,7 +7,12 @@
 	<main class='containerMainPage'>
 
 		<div class='filtersProducts'>
-			FiltersCategoryPage
+			{% include 'Filters/FiltersStore.twig' with {
+				'field': field,
+				'order': order,
+				'path': path,
+				'filters': filters
+			} %}
 		</div>
 		<div class='catalogProducts'>
 			<div class='blockSort'>
@@ -43,7 +48,8 @@
 				'totalPages': totalPages,
 				'field': field,
 				'order': order,
-				'path': path
+				'path': path,
+				'filters': filters
 			} %}
 		{% endif %}
 	{% endblock %}

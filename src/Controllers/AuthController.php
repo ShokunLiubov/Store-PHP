@@ -12,7 +12,7 @@ use App\Core\Response\Response;
 
 include_once('src/dto/AuthDTO.php');
 
-class AuthController
+class AuthController extends Controller
 {
     public function __construct(protected AuthService $authService)
     {
@@ -59,12 +59,22 @@ class AuthController
         unset($_SESSION['auth-user']);
     }
 
-    public function showAuthPage(string $type): Response
+    public function loginPage(): Response
+    {
+        //refactor middlivare
+        if (isset($_SESSION['auth-user'])) {
+            return response()->redirect('http://localhost/make-up/main?page=1');
+        }
+
+        return response()->view('Auth/Auth', ['type' => 'login']);
+    }
+
+    public function registerPage(): Response
     {
         if (isset($_SESSION['auth-user'])) {
             return response()->redirect('http://localhost/make-up/main?page=1');
         }
 
-        return response()->view('Auth/Auth', ['type' => $type]);
+        return response()->view('Auth/Auth', ['type' => 'register']);
     }
 }

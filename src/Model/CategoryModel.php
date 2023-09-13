@@ -2,7 +2,6 @@
 
 namespace App\Model;
 
-use App\Model\Model;
 use PDO;
 
 class CategoryModel extends Model
