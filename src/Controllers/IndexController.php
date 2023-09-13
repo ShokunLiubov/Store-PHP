@@ -2,25 +2,26 @@
 
 namespace App\Controllers;
 
-use App\Model\ProductModel;
+use App\Service\CategoryService;
 use App\Service\ProductService;
 use App\Core\Response\Response;
 use Exception;
 
-class IndexController
+class IndexController extends Controller
 {
-    public function __construct(protected ProductService $productService)
+    public function __construct(protected ProductService $productService, protected CategoryService $categoryService)
     {
     }
     public function showMainPage(): Response
     {
         try {
-            $page = $_GET["page"] ?? 1;
-            $field = $_GET["field"] ?? 'id';
-            $order = $_GET["order"] ?? 'asc';
-            $filters = $_GET["filters"] ?? [];
-            $productsData = $this->productService->getProducts($page, $field, $order, $filters);
+            $page = request()->getParameter("page", 1);
+            $field = request()->getParameter("field", 'id');
+            $order = request()->getParameter("order", 'asc');
+            $filters = request()->getFilters([ 'category', 'made', 'price-from', 'price-to' ]);
 
+            $productsData = $this->productService->getProducts($page, $field, $order, $filters);
+            $productsData['categories'] = $this->categoryService->getAllCategories();
             return response()->view('MainPage/MainPage', $productsData);
 
         } catch (Exception $e) {

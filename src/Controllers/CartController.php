@@ -7,7 +7,7 @@ use App\Service\CartService;
 use Exception;
 use App\Core\Response\Response;
 
-class CartController
+class CartController extends Controller
 {
     public function __construct(protected CartService $cartService)
     {

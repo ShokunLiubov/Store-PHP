@@ -6,10 +6,10 @@ use \App\Service\CategoryService;
 use App\Service\ProductService;
 use App\Core\Response\Response;
 use Exception;
+use App\Contracts\Controller;
 
-class CategoryController
+class CategoryController implements Controller
 {
-
     public function __construct(protected CategoryService $categoryService)
     {
     }

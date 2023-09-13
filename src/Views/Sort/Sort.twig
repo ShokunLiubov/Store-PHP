@@ -3,24 +3,24 @@
         <div class='sort'>
             <label>Sort by:</label>
 
-            <a href="{{ path }}?page=1&field=title&order={{ order }}" class={{ field == 'title' ? 'active' : '' }}>
+            <a href="{{ path }}?page=1&field=title&order={{ order }}{{ filters }}" class={{ field == 'title' ? 'active' : '' }}>
                 Title
             </a>
 
-            <a href="{{ path }}?page=1&field=id&order={{ order }}" class={{ field == 'id' ? 'active' : '' }}>
+            <a href="{{ path }}?page=1&field=id&order={{ order }}{{ filters }}" class={{ field == 'id' ? 'active' : '' }}>
                 Date
             </a>
 
-            <a href="{{ path }}?page=1&field=price&order={{ order }}" class={{ field == 'price' ? 'active' : '' }}>
+            <a href="{{ path }}?page=1&field=price&order={{ order }}{{ filters }}" class={{ field == 'price' ? 'active' : '' }}>
                 Price
             </a>
 
-            <a href="{{ path }}?page=1&field={{ field }}&order=asc"
+            <a href="{{ path }}?page=1&field={{ field }}&order=asc{{ filters }}"
                class='material-symbols-outlined {{ order == 'asc' ? 'active' : '' }}'>
                 arrow_upward
             </a>
 
-            <a href="{{ path }}?page=1&field={{ field }}&order=desc"
+            <a href="{{ path }}?page=1&field={{ field }}&order=desc{{ filters }}"
                class='material-symbols-outlined {{ order == 'desc' ? 'active' : '' }}'>
                 arrow_downward
             </a>

@@ -16,6 +16,7 @@
 			"src/Config/Routes.php",
 			"src/Utils/Db/DbHelper.php",
 			"src/Utils/Response/ResponseHelper.php",
+			"src/Utils/Request/RequestHelper.php",
 			"src/Utils/Helper.php",
 			"src/Seeding/Seed.php"
 		]

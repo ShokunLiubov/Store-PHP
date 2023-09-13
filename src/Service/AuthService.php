@@ -9,7 +9,7 @@ use App\DTO\RegisterDTO;
 use App\Model\AuthModel;
 use Exception;
 
-class AuthService
+class AuthService  extends Service
 {
     public function __construct(protected AuthModel $authModel)
     {

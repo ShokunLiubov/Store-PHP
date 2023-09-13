@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Model\CategoryModel;
 use Exception;
 
-class CategoryService
+class CategoryService  extends Service
 {
     public function __construct(protected CategoryModel $categoryModel)
     {
@@ -23,6 +23,16 @@ class CategoryService
         }
 
         return $category;
+    }
+
+    public function getAllCategories(): array
+    {
+        $categories = $this->categoryModel->getAll();
+        if (!$categories) {
+            throw new Exception('Category not found!');
+        }
+
+        return $categories;
     }
 
     public function getProductsByCategory(int $page, string $field, string $order, $category): array

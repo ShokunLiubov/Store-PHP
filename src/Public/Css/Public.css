@@ -610,3 +610,150 @@ h6 {
     color: #792c9b;
 }
 
+
+.filtersStore {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+    position: relative;
+    width: 100%;
+}
+.filtersStore label, .filtersStore span {
+    color: #333;
+}
+.filtersStore span {
+    font-weight: 400;
+    margin-bottom: 12px;
+}
+.filtersStore .filterCheckbox {
+    display: flex;
+    flex-direction: column;
+}
+.filtersStore .filterCheckbox::after {
+    content: " ";
+    margin: 20px 0px;
+    width: 17vw;
+    height: 1px;
+    background-color: #ebebeb;
+}
+.filtersStore .filterCheckbox label {
+    margin: 5px 0px;
+}
+.filtersStore .filterCheckbox label input {
+    color: #792c9b;
+}
+.filtersStore .selectCategory {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+}
+.filtersStore .selectCategory::after {
+    content: " ";
+    margin-top: 20px;
+    width: 17vw;
+    height: 1px;
+    background-color: #ebebeb;
+}
+.filtersStore .selectCategory .css-13cymwt-control {
+    cursor: pointer;
+    margin-top: 12px;
+    border-radius: 0px;
+    background-color: #f4f3f5;
+    border: 1px solid #ccc;
+    width: 17vw;
+}
+.filtersStore .selectCategory .select__control--is-focused {
+    margin-top: 12px;
+    border-radius: 0px;
+    background-color: #f4f3f5;
+    border: 1px solid #ccc;
+    width: 17vw;
+}
+.filtersStore .selectCategory .select__menu {
+    background-color: #f4f3f5;
+}
+.filtersStore .selectCategory .select__menu .select__option {
+    cursor: pointer;
+    color: #333;
+}
+.filtersStore .selectCategory label {
+    margin: 3px 0px;
+}
+.filtersStore .selectCategory input {
+    padding: 2px 5px;
+    font-size: 15px;
+}
+.filtersStore .filterFromTo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+.filtersStore .filterFromTo::after {
+    content: " ";
+    margin-top: 20px;
+    width: 17vw;
+    height: 1px;
+    background-color: #ebebeb;
+}
+.filtersStore .filterFromTo .inputFromTo {
+    display: flex;
+    text-align: center;
+}
+.filtersStore .filterFromTo label {
+    margin: 9px 0px 0px;
+}
+.filtersStore .filterFromTo input {
+    background-color: #f4f3f5;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    height: 22px;
+    width: 46px;
+    line-height: 26px;
+    padding: 2px 5px;
+    margin: 5px 6px 0px;
+    font-size: 15px;
+}
+.filtersStore .buttonFilter {
+    height: 45px;
+    width: 150px;
+    padding: 10px;
+    font-size: 13px;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+
+.error {
+    color: #f4a3b5;
+    width: 88%;
+    text-align: end;
+    font-weight: 300;
+    font-size: 13px;
+}
+.fieldError {
+    margin: 12px 0px 3px !important;
+}
+.fieldError input {
+    border: 1px solid #ec240d !important;
+}
+.fieldError textarea {
+    border: 1px solid #ec240d !important;
+}
+.fieldInput {
+    display: flex;
+}
+.fieldInput input {
+    display: block;
+    height: 20px;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    background-color: transparent;
+    border-radius: 0.25rem;
+    box-shadow: none;
+}
+.fieldInput input:focus {
+    outline: 1px solid #2684FF;
+}
+

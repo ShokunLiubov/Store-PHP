@@ -22,7 +22,8 @@ class DataBase
         return self::$db;
     }
 
-    public function dbQuery(string $sql, array $params = [], array $types = []): PDOStatement {
+    public function dbQuery(string $sql, array $params = [], array $types = []): PDOStatement
+    {
         self::dbConnect();
         $query = self::$db->prepare($sql);
 

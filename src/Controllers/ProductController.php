@@ -6,16 +6,16 @@ use App\Core\Response\Response;
 use Exception;
 use App\Service\ProductService;
 
-class ProductController
+class ProductController extends Controller
 {
     public function __construct(protected ProductService $productService)
     {
     }
 
-    public function getProductPage($id): Response
+    public function getProductPage(int $id, ProductService $productService): Response
     {
         try {
-            $product = $this->productService->getProduct($id);
+            $product = $productService->getProduct($id);
             return response()->view('ProductPage/ProductPage', ['product' => $product]);
 
         } catch (Exception $e) {
