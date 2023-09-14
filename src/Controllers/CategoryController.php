@@ -10,21 +10,24 @@ use App\Contracts\Controller;
 
 class CategoryController implements Controller
 {
-    public function __construct(protected CategoryService $categoryService)
+    public function __construct(protected CategoryService $categoryService, protected ProductService $productService)
     {
     }
 
-    public function getCategoryPage($slugCategory): Response
+    public function getCategoryPage(string $slugCategory): Response
     {
         try {
-            $page = $_GET["page"] ?? 1;
-            $field = $_GET["field"] ?? 'id';
-            $order = $_GET["order"] ?? 'asc';
-            $filters = $_GET["filters"] ?? [];
-            $category = $this->categoryService->getCategoryBySlug($slugCategory);
-            $productsData = $this->categoryService->getProductsByCategory($page,$field, $order, $category);
+            $page = request()->getParameter("page", 1);
+            $field = request()->getParameter("field", 'id');
+            $order = request()->getParameter("order", 'asc');
+            $filters = request()->getFilters(['made', 'price-from', 'price-to' ]);
 
-            return response()->view('MainPage/MainPage', $productsData);
+            $category = $this->categoryService->getCategoryBySlug($slugCategory);
+            $data = $this->categoryService->getProductsByCategory($page, $field, $order, $category, $filters);
+            $data['countries'] = $this->productService->getMadeInCountries();
+            $data['applied'] = $filters;
+
+            return response()->view('MainPage/MainPage', $data);
 
         } catch (Exception $e) {
             $error = $e->getMessage();

@@ -21,7 +21,7 @@
 
                                     <div class='product_info'>
                                         <div class='info_option'>
-                                            <a href="product/{{ product['id'] }}">
+                                            <a href="/make-up/product/{{ product['id'] }}">
                                                 <p class='title'>{{ product['title'] }}</p>
                                             </a>
 
@@ -79,7 +79,7 @@
                 <div class='bottom'>
                     <span class='hideCart'>Continue Shopping</span>
                     {% if cartProducts %}
-                        <a href="checkout">
+                        <a href="/make-up/checkout">
                             <button>Checkout</button>
                         </a>
                     {% endif %}

@@ -228,7 +228,7 @@ class QueryBuilder
         ];
 
         $sql = implode(' ', array_filter($sqlParts));
-
+//        d($sql);
         $query = $this->db->dbQuery($sql, $this->bindValues, $this->bindTypes);
 
         $this->clear();

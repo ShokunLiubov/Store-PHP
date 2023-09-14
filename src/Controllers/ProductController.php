@@ -12,10 +12,10 @@ class ProductController extends Controller
     {
     }
 
-    public function getProductPage(int $id, ProductService $productService): Response
+    public function getProductPage(int $id): Response
     {
         try {
-            $product = $productService->getProduct($id);
+            $product = $this->productService->getProduct($id);
             return response()->view('ProductPage/ProductPage', ['product' => $product]);
 
         } catch (Exception $e) {

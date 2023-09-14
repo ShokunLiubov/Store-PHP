@@ -3,11 +3,12 @@
 namespace App\Service;
 
 use App\Model\CategoryModel;
+use App\Model\ProductModel;
 use Exception;
 
 class CategoryService  extends Service
 {
-    public function __construct(protected CategoryModel $categoryModel)
+    public function __construct(protected CategoryModel $categoryModel, protected ProductModel $productModel)
     {
     }
 
@@ -35,19 +36,14 @@ class CategoryService  extends Service
         return $categories;
     }
 
-    public function getProductsByCategory(int $page, string $field, string $order, $category): array
+    public function getProductsByCategory(int $page, string $field, string $order, array $category, array $filters = []): array
     {
-        $limit = 10;
-        $filters['category'] = $category['id'];
-        $products = $this->categoryModel->getAllWithPaginate($page, $limit, $field, $order, $filters);
-        $totalPages = $this->categoryModel->countAll($filters);
-        $totalPages = $totalPages / $limit;
-        $path = $category['slug'];
+        $filters['category'][] = $category['id'];
+        $data =  $this->productModel->getAllWithPaginate($page, $field, $order, $filters);
+        $data['path'] = $category['slug'];
+        $data['category'] = $category['name'];
 
-        return ['products' => $products, 'totalPages' => $totalPages,
-                'currentPage' => (int)$page, 'path' => $path,
-                'category' => $category['name'], 'field' => $field,
-                'order' => $order ];
+        return $data;
     }
 
 }

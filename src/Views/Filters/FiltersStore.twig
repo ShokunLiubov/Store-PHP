@@ -1,43 +1,53 @@
 {% block filters %}
     <form class='filtersStore' method="get">
-        <div class='selectCategory'>
-            <label>
-                Category
-            </label>
-            {% for category in categories %}
-                <div class="checkbox">
-                    <input type="checkbox" name="category[]" value="{{ category.id }}"
-                           {% if category.name in selected_options %}checked{% endif %}>
-                    <label for="{{ category.name }}">{{ category.name }}</label>
+        {% if not category %}
+            <div class='filterCheckbox'>
+                <label>
+                    Category
+                </label>
+                <div class="checkboxBlock">
+                    {% for category in categories %}
+                        <div class="checkbox">
+                            <input type="checkbox" name="category[]" value="{{ category.id }}" id="{{category.name}}"
+                                   {% if category.id in applied.category %}checked{% endif %}>
+                            <label for="{{category.name}}">{{ category.name }}</label>
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        </div>
-        <div class='selectCategory'>
+            </div>
+        {% endif %}
+
+        <div class='filterCheckbox'>
             <label>
                 Made In
             </label>
-            {% for country in countries %}
-                <div class="checkbox">
-                    <input type="checkbox" name="made[]" value="{{ country.name }}"
-                           {% if country.name in selected_options %}checked{% endif %}>
-                    <label for="{{ country.name }}">{{ country.name }}</label>
-                </div>
-            {% endfor %}
+            <div class="checkboxBlock">
+                {% for country in countries %}
+                    <div class="checkbox">
+                        <input type="checkbox" name="made[]" value="{{ country }}" id="{{country}}"
+                               {% if country in applied.made %}checked{% endif %}>
+                        <label for="{{country}}">{{ country }}</label>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
         <div class='filterFromTo'>
             <span>Price</span>
             <div class='inputFromTo'>
                 <div class='fieldInput'>
                     <label>from</label>
-                    <input class="inputFromTo" autocomplete='off' name='price-from' type='number' value="{{ price.from }}"/>
+                    <input class="inputFromTo" autocomplete='off' name='price-from' type='number' value="{{ applied['price-from'] }}"/>
                 </div>
 
                 <div class='fieldInput'>
                     <label>to</label>
-                    <input autocomplete='off' name='price-to' type='number' value="{{ price.to }}"/>
+                    <input autocomplete='off' name='price-to' type='number' value="{{ applied['price-to'] }}"/>
                 </div>
             </div>
         </div>
-        <button>Apply</button>
+        <div class="actionFilters">
+            <button>Apply</button>
+            <a href="{{ path }}" class="reset">Reset filters</a>
+        </div>
     </form>
 {% endblock %}
