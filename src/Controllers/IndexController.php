@@ -20,9 +20,11 @@ class IndexController extends Controller
             $order = request()->getParameter("order", 'asc');
             $filters = request()->getFilters([ 'category', 'made', 'price-from', 'price-to' ]);
 
-            $productsData = $this->productService->getProducts($page, $field, $order, $filters);
-            $productsData['categories'] = $this->categoryService->getAllCategories();
-            return response()->view('MainPage/MainPage', $productsData);
+            $data = $this->productService->getProducts($page, $field, $order, $filters);
+            $data['categories'] = $this->categoryService->getAllCategories();
+            $data['countries'] = $this->productService->getMadeInCountries();
+
+            return response()->view('MainPage/MainPage', $data);
 
         } catch (Exception $e) {
             $error = $e->getMessage();

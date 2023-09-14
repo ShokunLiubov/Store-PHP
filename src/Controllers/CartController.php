@@ -9,7 +9,7 @@ use App\Core\Response\Response;
 
 class CartController extends Controller
 {
-    public function __construct(protected CartService $cartService)
+    public function __construct(protected CartService $cartService, protected ProductService $productService)
     {
     }
 
@@ -30,7 +30,7 @@ class CartController extends Controller
         }
     }
 
-    public function hideCart(Environment $twig): Response
+    public function hideCart(): Response
     {
         return response()->view('Cart/Cart', [
             'cartModal' => false
@@ -38,10 +38,10 @@ class CartController extends Controller
     }
 
 
-    public function addToCart($id): Response
+    public function addToCart(int $id): Response
     {
         try {
-            $addProduct = (new ProductService())->getProduct($id);
+            $addProduct = $this->productService->getProduct($id);
             $sessionCart = $this->cartService->addToCart($addProduct);
             $cartSum = $this->cartService->calcCartSum();
 
@@ -57,7 +57,7 @@ class CartController extends Controller
 
     }
 
-    public function removeFromCart($id): Response
+    public function removeFromCart(int $id): Response
     {
         try {
             $this->cartService->remove($id);
@@ -75,7 +75,7 @@ class CartController extends Controller
         }
     }
 
-    public function incrementCount($id): Response
+    public function incrementCount(int $id): Response
     {
         try {
             $this->cartService->increment($id);
@@ -94,7 +94,7 @@ class CartController extends Controller
 
     }
 
-    public function decrementCount($id): Response
+    public function decrementCount(int $id): Response
     {
         try {
             $this->cartService->decrement($id);

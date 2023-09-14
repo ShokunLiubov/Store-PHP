@@ -20,14 +20,16 @@ class ProductService extends Service
         $data = $this->productModel->getAllWithPaginate($page, $field, $order, $filters);
         $data['path'] = 'main';
 
-        $urlParams = (new UrlUtils())->generateFilterUrlParams($filters);
-        $data['filters'] = $urlParams;
-
         return $data;
     }
 
     public function getProduct(int $id)
     {
         return $this->productModel->getById($id);
+    }
+
+    public function getMadeInCountries(): array
+    {
+        return $this->productModel->getMadeInCountries();
     }
 }

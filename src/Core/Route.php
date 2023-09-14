@@ -50,7 +50,6 @@ class Route
     public static function dispatch($method, $path): void
     {
         foreach (self::$routes as $route) {
-            // Use regular expressions to support variables like {id}
             $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
             $pattern = preg_replace('/\{[a-zA-Z0-9]+\}/', '([a-zA-Z0-9]+)', $route['path']);
             $pattern = "@^" . BASE_URL . $pattern . "\/?$@D";

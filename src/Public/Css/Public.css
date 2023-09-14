@@ -643,19 +643,19 @@ h6 {
 .filtersStore .filterCheckbox label input {
     color: #792c9b;
 }
-.filtersStore .selectCategory {
+.filtersStore .filterCheckbox {
     display: flex;
     flex-direction: column;
     padding-bottom: 20px;
 }
-.filtersStore .selectCategory::after {
+.filtersStore .filterCheckbox::after {
     content: " ";
     margin-top: 20px;
     width: 17vw;
     height: 1px;
     background-color: #ebebeb;
 }
-.filtersStore .selectCategory .css-13cymwt-control {
+.filtersStore .filterCheckbox .css-13cymwt-control {
     cursor: pointer;
     margin-top: 12px;
     border-radius: 0px;
@@ -663,24 +663,24 @@ h6 {
     border: 1px solid #ccc;
     width: 17vw;
 }
-.filtersStore .selectCategory .select__control--is-focused {
+.filtersStore .filterCheckbox .select__control--is-focused {
     margin-top: 12px;
     border-radius: 0px;
     background-color: #f4f3f5;
     border: 1px solid #ccc;
     width: 17vw;
 }
-.filtersStore .selectCategory .select__menu {
+.filtersStore .filterCheckbox .select__menu {
     background-color: #f4f3f5;
 }
-.filtersStore .selectCategory .select__menu .select__option {
+.filtersStore .filterCheckbox .select__menu .select__option {
     cursor: pointer;
     color: #333;
 }
-.filtersStore .selectCategory label {
+.filtersStore .filterCheckbox label {
     margin: 3px 0px;
 }
-.filtersStore .selectCategory input {
+.filtersStore .filterCheckbox input {
     padding: 2px 5px;
     font-size: 15px;
 }
@@ -708,7 +708,7 @@ h6 {
     border: 1px solid #ccc;
     border-radius: 0px;
     height: 22px;
-    width: 46px;
+    width: 65px;
     line-height: 26px;
     padding: 2px 5px;
     margin: 5px 6px 0px;
@@ -757,3 +757,19 @@ h6 {
     outline: 1px solid #2684FF;
 }
 
+.checkboxBlock {
+    display: block;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.reset {
+    text-decoration: none;
+    margin-left: 8px;
+    font-size: 14px;
+}
+
+.actionFilters {
+    display: flex;
+    align-items: center;
+}

@@ -3,13 +3,12 @@
 namespace App\Model;
 
 use App\Service\FilterService;
+use App\Utils\UrlUtils;
 use PDO;
 
 class ProductModel extends Model
 {
     protected string $table = 'product';
-
-    const DEFAULT_LIMIT = 10;
 
     public function __construct(protected FilterService $filterService)
     {
@@ -45,13 +44,16 @@ class ProductModel extends Model
         $count = $this->count($filters);
         $totalPages = $this->calculateTotalPages($count, $limit);
         $order = strtolower($order);
+        $urlParams = (new UrlUtils())->generateFilterUrlParams($filters);
 
         return [
             'products' => $products,
             'totalPages' => $totalPages,
             'currentPage' => $page,
             'field' => $field,
-            'order' => $order
+            'order' => $order,
+            'filters' => $urlParams,
+            'applied' => $filters
         ];
     }
 
@@ -69,6 +71,14 @@ class ProductModel extends Model
         return $result['total_count'] ?? 0;
     }
 
+    public function  getMadeInCountries(): array
+    {
+        $query = qb()::table($this->getTableName())
+            ->select('DISTINCT made')
+            ->get();
+
+        return $query->fetchAll(PDO::FETCH_COLUMN, 0);
+    }
 
 }
 

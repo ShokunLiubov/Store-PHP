@@ -9,6 +9,7 @@ use \App\Contracts\Model as IModel;
 class Model implements IModel
 {
     protected string $table;
+    const DEFAULT_LIMIT = 10;
 
     public function __construct()
     {
@@ -28,6 +29,7 @@ class Model implements IModel
     public function getAll(): bool|array
     {
         $query = qb()::table($this->getTableName())
+            ->select()
             ->orderBy('id', 'DESC')
             ->get();
         return $query->fetchAll();
@@ -35,7 +37,8 @@ class Model implements IModel
 
     public function getById(int $id): mixed
     {
-        $query = qb()::table(self::getTableName())
+        $query = qb()::table($this->getTableName())
+            ->select()
             ->where('id', '=', 'id', $id)
             ->groupBy('product.id')
             ->get();
@@ -45,7 +48,7 @@ class Model implements IModel
 
     public function getAllWithPaginate(int $page = 1, string $field, string $order, array $filters = [], int $limit = 10): array
     {
-        $query = qb()::table(self::getTableName())
+        $query = qb()::table($this->getTableName())
             ->selectWithConcatenation('product.*', 'category.name', 'category_names', ', ')
             ->orderBy($field, $order)
             ->limit($limit)
