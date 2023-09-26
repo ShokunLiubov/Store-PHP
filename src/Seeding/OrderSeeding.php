@@ -14,7 +14,6 @@ class OrderSeeding extends AbstractSeed
         try {
             $faker = FakerFactory::create();
 
-            // Create a link many to many with table 'category'
             for ($i = 1; $i <= $this->count; $i++) {
 
                 $cart = [];

@@ -1,0 +1,42 @@
+{% block cart %}
+    <div class='modal'>
+        <div class='overlay hideCart'>
+            <div class='cartModal'>
+                <div class='title'>
+                    <h3>Cart</h3>
+                    <span class='material-symbols-outlined hideCart'>
+						close
+					</span>
+                </div>
+                <div class='line'></div>
+
+                {% include 'Components/Cart/CartItems.twig' with {
+                    'cartProducts': cartProducts,
+                    'cartModal': cartModal
+                } %}
+                <div>
+                    {% if cartProducts %}
+                        {% for error in errors %}
+                            <div class="cartError">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class='totalPrice'>
+                    <div>Total price:</div>
+                    <div>{{ cartSum ? cartSum : 0 }} $</div>
+                    ;
+                </div>
+
+                <div class='line'></div>
+                <div class='bottom'>
+                    <span class='hideCart'>Continue Shopping</span>
+                    {% if cartProducts %}
+                        <a href="/make-up/checkout">
+                            <button>Checkout</button>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

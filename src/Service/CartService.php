@@ -7,15 +7,20 @@ use App\Core\Response\Response;
 
 class CartService  extends Service
 {
-    public function getCart()
+    public function getCart(): array
     {
         return $_SESSION['cart'] ?? ($_SESSION['cart'] = []);
+    }
+
+    public function clearCart(): array
+    {
+        return $_SESSION['cart'] = [];
     }
 
     /**
      * @throws Exception
      */
-    public function addToCart($addProduct)
+    public function addToCart($addProduct): array
     {
         $cart = $this->getCart();
 
@@ -24,11 +29,14 @@ class CartService  extends Service
         }
 
         $exist = $this->existProductInCart($cart, $addProduct);
+
         if ($exist) {
             return $_SESSION['cart'];
         }
+
         $cart[] = $addProduct;
         $_SESSION['cart'] = $cart;
+
         return $_SESSION['cart'];
     }
 
@@ -38,15 +46,19 @@ class CartService  extends Service
     public function existProductInCart($cart, $addProduct): bool
     {
         foreach ($cart as &$product) {
+
             if ($product['id'] === $addProduct['id']) {
+
                 if ($product['quantity'] > $product['count']) {
                     $product['count'] += 1;
                     $_SESSION['cart'] = $cart;
                     return true;
                 }
+
                 throw new Exception(message: 'All in stock ' . $product['count']);
             }
         }
+
         return false;
     }
 
@@ -70,7 +82,9 @@ class CartService  extends Service
         $cart = $this->getCart();
 
         foreach ($cart as &$product) {
+
             if ($product['id'] == $id) {
+
                 if ($product['quantity'] > $product['count']) {
                     $product['count'] += 1;
                     $_SESSION['cart'] = $cart;
@@ -90,12 +104,16 @@ class CartService  extends Service
         $cart = $this->getCart();
 
         foreach ($cart as &$product) {
+
             if ($product['id'] == $id) {
+
                 if ($product['count'] != 1) {
                     $product['count'] -= 1;
                     $_SESSION['cart'] = $cart;
+
                     return;
                 }
+
                 $this->remove($id);
             }
         }
@@ -107,6 +125,7 @@ class CartService  extends Service
         $cart = $this->getCart();
 
         foreach ($cart as $key => $value) {
+
             if ($value['id'] == $id) {
                 array_splice($cart, $key, 1);
                 $_SESSION['cart'] = $cart;

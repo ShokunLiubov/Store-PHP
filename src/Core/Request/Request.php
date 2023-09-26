@@ -4,7 +4,7 @@ namespace App\Core\Request;
 
 class Request
 {
-    public static function getParameter(string $key, $default = null)
+    public static function get(string $key, $default = null)
     {
         return $_GET[$key] ?? $default;
     }

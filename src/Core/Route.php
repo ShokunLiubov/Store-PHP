@@ -2,6 +2,8 @@
 
 namespace App\Core;
 
+use App\Core\Response\Response;
+
 class Route
 {
     private static array $routes = [];
@@ -42,8 +44,8 @@ class Route
         self::$routes[] = [
             'method' => $method,
             'path' => $path,
+            'controllerAction' => $controllerAction,
             'middleware' => $middleware,
-            'controllerAction' => $controllerAction
         ];
     }
 
@@ -55,10 +57,28 @@ class Route
             $pattern = "@^" . BASE_URL . $pattern . "\/?$@D";
 
             if ($method === $route['method'] && preg_match($pattern, $path, $getParams)) {
+                array_shift($getParams);
 
-                array_shift($getParams);  // Removing an exact match
-                if (count($route['middleware']) > 0) {
-                    call_user_func_array($route['middleware'], []);
+                if (!empty($route['middleware'])) {
+                    if (is_array($route['middleware'][0])) {
+                        foreach ($route['middleware'] as $middleware) {
+                            $middlewareObject = self::$container->get($middleware[0]);
+                            $middlewareResponse = call_user_func_array([$middlewareObject, $middleware[1]], []);
+
+                            if ($middlewareResponse instanceof Response) {
+
+                                return;
+                            }
+                        }
+                    } else {
+                        $middlewareObject = self::$container->get($route['middleware'][0]);
+                        $middlewareResponse = call_user_func_array([$middlewareObject, $route['middleware'][1]], []);
+                    }
+
+                    if ($middlewareResponse instanceof Response) {
+
+                        return;
+                    }
                 }
 
                 $controller = self::$container->get($route['controllerAction'][0]);

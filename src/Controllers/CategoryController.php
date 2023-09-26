@@ -17,17 +17,13 @@ class CategoryController implements Controller
     public function getCategoryPage(string $slugCategory): Response
     {
         try {
-            $page = request()->getParameter("page", 1);
-            $field = request()->getParameter("field", 'id');
-            $order = request()->getParameter("order", 'asc');
             $filters = request()->getFilters(['made', 'price-from', 'price-to' ]);
 
             $category = $this->categoryService->getCategoryBySlug($slugCategory);
-            $data = $this->categoryService->getProductsByCategory($page, $field, $order, $category, $filters);
+            $data = $this->categoryService->getProductsByCategory($category, $filters);
             $data['countries'] = $this->productService->getMadeInCountries();
-            $data['applied'] = $filters;
 
-            return response()->view('MainPage/MainPage', $data);
+            return response()->view('Pages/MainPage/MainPage', $data);
 
         } catch (Exception $e) {
             $error = $e->getMessage();

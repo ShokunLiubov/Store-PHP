@@ -19,7 +19,7 @@ class CartController extends Controller
             $cartProducts = $this->cartService->getCart();
             $cartSum = $this->cartService->calcCartSum();
 
-            return response()->view('Cart/Cart', [
+            return response()->view('Components/Cart/Cart', [
                 'cartModal' => true,
                 'cartProducts' => $cartProducts,
                 'cartSum' => $cartSum
@@ -32,7 +32,7 @@ class CartController extends Controller
 
     public function hideCart(): Response
     {
-        return response()->view('Cart/Cart', [
+        return response()->view('Components/Cart/Cart', [
             'cartModal' => false
         ]);
     }
@@ -45,7 +45,7 @@ class CartController extends Controller
             $sessionCart = $this->cartService->addToCart($addProduct);
             $cartSum = $this->cartService->calcCartSum();
 
-            return response()->view('Cart/Cart', [
+            return response()->view('Components/Cart/Cart', [
                 'cartModal' => true,
                 'cartProducts' => $sessionCart,
                 'cartSum' => $cartSum
@@ -64,7 +64,7 @@ class CartController extends Controller
             $cartProducts = $this->cartService->getCart();
             $cartSum = $this->cartService->calcCartSum();
 
-            return response()->view('Cart/Cart', [
+            return response()->view('Components/Cart/Cart', [
                 'cartModal' => true,
                 'cartProducts' => $cartProducts,
                 'cartSum' => $cartSum,
@@ -82,7 +82,7 @@ class CartController extends Controller
             $cartProducts = $this->cartService->getCart();
             $cartSum = $this->cartService->calcCartSum();
 
-            return response()->view('Cart/Cart', [
+            return response()->view('Components/Cart/Cart', [
                 'cartModal' => true,
                 'cartProducts' => $cartProducts,
                 'cartSum' => $cartSum,
@@ -101,7 +101,7 @@ class CartController extends Controller
             $cartProducts = $this->cartService->getCart();
             $cartSum = $this->cartService->calcCartSum();
 
-            return response()->view('Cart/Cart', [
+            return response()->view('Components/Cart/Cart', [
                 'cartModal' => true,
                 'cartProducts' => $cartProducts,
                 'cartSum' => $cartSum,
