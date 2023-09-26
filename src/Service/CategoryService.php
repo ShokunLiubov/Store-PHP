@@ -3,21 +3,24 @@
 namespace App\Service;
 
 use App\Model\CategoryModel;
-use App\Model\ProductModel;
 use Exception;
 
 class CategoryService  extends Service
 {
-    public function __construct(protected CategoryModel $categoryModel, protected ProductModel $productModel)
+    public function __construct(protected CategoryModel $categoryModel, protected ProductService $productService)
     {
     }
 
     /**
      * @throws Exception
      */
-    public function getCategoryBySlug(string $slugCategory): array
+    public function getCategoryBySlug(string $slug): array
     {
-        $category = $this->categoryModel->getBySlug($slugCategory);
+
+        $category = $this->categoryModel->query()
+            ->select()
+            ->where('slug', '=', 'slug', $slug)
+            ->getOne();
 
         if (!$category) {
             throw new Exception('Category not found!');
@@ -36,10 +39,10 @@ class CategoryService  extends Service
         return $categories;
     }
 
-    public function getProductsByCategory(int $page, string $field, string $order, array $category, array $filters = []): array
+    public function getProductsByCategory(array $category, array $filters): array
     {
         $filters['category'][] = $category['id'];
-        $data =  $this->productModel->getAllWithPaginate($page, $field, $order, $filters);
+        $data =  $this->productService->getProducts($filters);
         $data['path'] = $category['slug'];
         $data['category'] = $category['name'];
 

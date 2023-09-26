@@ -4,7 +4,7 @@ namespace App\Service;
 
 class FilterService  extends Service
 {
-    public function productFilters(&$query, &$filters): void
+    public function productFilters(&$query, &$filters)
     {
         if (!empty($filters['category'])) {
             $query->whereIn('category.id', 'category', $filters['category']);
@@ -36,6 +36,7 @@ class FilterService  extends Service
                 $query->where('product.price', '>=', 'price_from', $filters['price-from']);
             }
         }
+        return $query;
 
     }
 }

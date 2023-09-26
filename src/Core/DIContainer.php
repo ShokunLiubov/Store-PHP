@@ -21,10 +21,11 @@ class DIContainer implements ContainerInterface
      */
     public function get($id)
     {
-        if (!isset($this->instances[$id])) {
-            $this->instances[$id] = $this->createInstance($id);
-        }
-        return $this->instances[$id];
+        //use Singleton and break query builder
+        //if (!isset($this->instances[$id])) {
+            //$this->instances[$id] = $this->createInstance($id);
+        //}
+        return $this->createInstance($id);
     }
 
     public function has($id): bool
@@ -84,13 +85,13 @@ class DIContainer implements ContainerInterface
         $reflectionMethod = new ReflectionMethod($controller, $method);
         $params = $reflectionMethod->getParameters();
 
-        foreach($getParams as $key => $param) {
+        foreach ($getParams as $key => $param) {
             $params[$key] = $param;
         }
 
         return array_map(function ($param) {
             $type = null;
-            if(is_object($param)) {
+            if (is_object($param)) {
                 $type = $param->getType();
             }
             if ($type && !$type->isBuiltin()) {

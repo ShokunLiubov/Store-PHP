@@ -11,13 +11,14 @@ use PDOStatement;
 class QueryBuilder
 {
 
-    protected static $table;
+    protected ?string $table = null;
 
     protected string $action;
     protected array $condition = [];
     protected array $bindValues = [];
     protected array $bindTypes = [];
     protected ?string $where = null;
+    protected ?string $distinct = null;
     protected ?string $limit = null;
     protected ?string $offset = null;
     protected ?string $order = null;
@@ -25,47 +26,63 @@ class QueryBuilder
     protected ?string $join = null;
     protected ?string $having = null;
 
+    const DEFAULT_LIMIT = 10;
+
     public function __construct(protected DataBase $db)
     {
-        $this->action = "SELECT * FROM " . static::$table;
     }
 
-    public static function table($table): static
+    public function clone(): self
     {
-        $instance = new static(new DataBase());
-        static::$table = $table;
-        return $instance;
+        return clone $this;
     }
 
-    public function select($select = '*'): static
+    public function table($table): static
     {
-        $this->action = "SELECT ";
-        $this->action .= is_array($select) ? implode(',', $select) : $select;
-        $this->action .= " FROM " . static::$table;
+        $this->table = $table;
+
         return $this;
     }
 
-    public function selectWithConcatenation($select = '*', $concat, $fieldMask, $separator = ' '): static
+    public function select(string $select = '*'): static
     {
-        $this->action = "SELECT ";
-        $this->action .= is_array($select) ? implode(',', $select) : $select;
-        $this->action .= ', GROUP_CONCAT(' . $concat . ' SEPARATOR "' . $separator . '") AS ' . $fieldMask;
-        $this->action .= " FROM " . static::$table;
+        $field = $this->distinct ?? $select;
+        $this->action = "SELECT " . $field;
+        $this->action .= " FROM " . $this->table;
+
         return $this;
     }
 
-    public function selectCount($field): static
+    public function selectCount($select = '*'): static
     {
-        $countBy = $field ?? static::$table;
+        $countBy = $this->distinct ?? $select;
         $this->action = "SELECT ";
-        $this->action .= 'COUNT(DISTINCT ' . $countBy . ') AS total_count';
-        $this->action .= " FROM " . static::$table;
+        $this->action .= 'COUNT(' . $countBy . ') AS total_count';
+        $this->action .= " FROM " . $this->table;
+
+        $this->distinct ? $this->group = null : '';
+        $this->order = null;
+        $this->limit = null;
+        $this->offset = null;
+        unset($this->bindValues['limit']);
+        unset($this->bindValues['offset']);
+        unset($this->bindTypes['limit']);
+        unset($this->bindTypes['offset']);
+
+        return $this;
+    }
+
+    public function distinct($field): static
+    {
+        $this->distinct = 'DISTINCT ' . $field;
+
         return $this;
     }
 
     public function delete(): static
     {
         $this->action = "DELETE ";
+
         return $this;
     }
 
@@ -78,8 +95,8 @@ class QueryBuilder
             $this->bindTypes[$column] = is_string($value) ? PDO::PARAM_STR : PDO::PARAM_INT;
         }
 
+        $this->action = "UPDATE " . $this->table . "SET " . $set;
 
-        $this->action = "UPDATE " . static::$table . "SET " . $set;
         return $this;
     }
 
@@ -89,21 +106,26 @@ class QueryBuilder
         $values = "";
         foreach ($insert as $column => $value) {
             $columns .= "$column, ";
-            $values .= ":$value, ";
+            $values .= ":$column, ";
             $this->bindValues[$column] = $value;
             $this->bindTypes[$column] = is_string($value) ? PDO::PARAM_STR : PDO::PARAM_INT;
         }
-        $this->action = "INSERT INTO " . static::$table . "($columns) VALUES ($values)";
+
+        $columns = rtrim($columns, ', ');
+        $values = rtrim($values, ', ');
+        $this->action = "INSERT INTO " . $this->table . "($columns) VALUES ($values)";
+
         return $this;
     }
 
     public function where(string $field, string $sign, $paramName, $value): static
     {
-        if(!$this->where) {
+        if (!$this->where) {
             $this->where = "WHERE $field$sign:$paramName";
         } else {
             $this->where .= " AND $field$sign:$paramName";
         }
+
         $this->bindValues[$paramName] = $value;
 
         return $this;
@@ -118,6 +140,7 @@ class QueryBuilder
             $this->bindValues[$paramName] = $value;
             $this->bindTypes[$paramName] = is_string($value) ? PDO::PARAM_STR : PDO::PARAM_INT;
         }
+
         $placeholdersStr = implode(", ", $placeholders);
 
         $condition = "$field IN ($placeholdersStr)";
@@ -132,6 +155,7 @@ class QueryBuilder
         $param = ":" . preg_replace("/[^a-zA-Z0-9_]/", "", $field);
         $this->where .= $this->where ? " AND $field $sign $param" : "WHERE $field $sign $param";
         $this->bindValues[$param] = $value;
+
         return $this;
     }
 
@@ -140,12 +164,14 @@ class QueryBuilder
         $param = ":" . preg_replace("/[^a-zA-Z0-9_]/", "", $field);
         $this->where .= $this->where ? " OR $field $sign $param" : "WHERE $field $sign $param";
         $this->bindValues[$param] = $value;
+
         return $this;
     }
 
     public function join(string $type, string $table, string $onCondition): static
     {
         $this->join .= " $type JOIN $table ON $onCondition";
+
         return $this;
     }
 
@@ -162,6 +188,7 @@ class QueryBuilder
     public function groupBy($groupBy): static
     {
         $this->group = 'GROUP BY ' . $groupBy;
+
         return $this;
     }
 
@@ -170,6 +197,7 @@ class QueryBuilder
         $param = ":" . preg_replace("/[^a-zA-Z0-9_]/", "", $field) . "_having";
         $this->having = "HAVING $field $sign $param";
         $this->bindValues[$param] = $value;
+
         return $this;
     }
 
@@ -178,6 +206,7 @@ class QueryBuilder
         $param = ":" . preg_replace("/[^a-zA-Z0-9_]/", "", $field) . "_having";
         $this->having .= $this->having ? " AND $field $sign $param" : "HAVING $field $sign $param";
         $this->bindValues[$param] = $value;
+
         return $this;
     }
 
@@ -186,6 +215,7 @@ class QueryBuilder
         $param = ":" . preg_replace("/[^a-zA-Z0-9_]/", "", $field) . "_having";
         $this->having .= $this->having ? " OR $field $sign $param" : "HAVING $field $sign $param";
         $this->bindValues[$param] = $value;
+
         return $this;
     }
 
@@ -193,16 +223,17 @@ class QueryBuilder
     {
         $order = strtoupper($order);
         $this->order = 'ORDER BY ' . $field . ' ' . $order;
+
         return $this;
     }
 
-    public function offset(int $page): static
+    public function offset(int $page, int $limit): static
     {
-        $limit = (int)$this->limit;
         $offset = ($page - 1) * $limit;
         $this->offset = 'OFFSET :offset';
         $this->bindValues['offset'] = $offset;
         $this->bindTypes['offset'] = PDO::PARAM_INT;
+
         return $this;
     }
 
@@ -211,10 +242,34 @@ class QueryBuilder
         $this->limit = 'LIMIT :limit';
         $this->bindValues['limit'] = $limit;
         $this->bindTypes['limit'] = PDO::PARAM_INT;
+
         return $this;
     }
 
-    public function get(): PDOStatement
+    public function paginate(int $limit = self::DEFAULT_LIMIT, int $page = null): array
+    {
+        (int)$page = $page ?? request()->get("page", 1);
+        $this->limit($limit);
+        $this->offset($page, $limit);
+        $count = $this->clone()->selectCount()->getOne()['total_count'];
+
+        $totalPages = $this->calculateTotalPages($count, $limit);
+        $data = $this->get();
+
+        return [
+            'data' => $data,
+            'totalPages' => $totalPages,
+            'currentPage' => $page,
+        ];
+    }
+
+    protected function calculateTotalPages(int $count, int $limit): int
+    {
+
+        return ceil($count / $limit);
+    }
+
+    public function getSQL(): string
     {
         $sqlParts = [
             $this->action,
@@ -227,17 +282,54 @@ class QueryBuilder
             $this->offset,
         ];
 
-        $sql = implode(' ', array_filter($sqlParts));
-//        d($sql);
-        $query = $this->db->dbQuery($sql, $this->bindValues, $this->bindTypes);
+        return implode(' ', array_filter($sqlParts));
+    }
+
+    private function prepareQuery(): PDOStatement
+    {
+        return $this
+            ->db
+            ->dbQuery($this->getSQL(), $this->bindValues, $this->bindTypes);
+
+    }
+
+    public function get($PDO = null, ?int $args = null): array
+    {
+        if ($PDO) {
+            $data = $this->prepareQuery()->fetchAll($PDO, $args);
+
+        } else {
+            $data = $this->prepareQuery()->fetchAll();
+        }
 
         $this->clear();
-        return $query;
+
+        return $data;
+    }
+
+    public function getOne()
+    {
+        $data = $this->prepareQuery()->fetch();
+
+        $this->clear();
+
+        return $data;
+    }
+
+    public function insertGetId(): ?int
+    {
+        $id = $this
+            ->db
+            ->insertAndGetId($this->getSQL(), $this->bindValues, $this->bindTypes);
+
+        $this->clear();
+
+        return $id;
     }
 
     public function clear(): static
     {
-        $this->action = "SELECT * FROM " . static::$table;
+        $this->action = "SELECT * FROM " . $this->table;
         $this->condition = [];
         $this->bindValues = [];
         $this->bindTypes = [];
@@ -248,6 +340,7 @@ class QueryBuilder
         $this->group = null;
         $this->join = null;
         $this->having = null;
+        $this->distinct = null;
 
         return $this;
     }

@@ -47,9 +47,9 @@ class DataBase
         return $query;
     }
 
-    public function insertAndGetId(string $sql, array $params = []): int
+    public function insertAndGetId(string $sql, array $params = [], array $types = []): int
     {
-        $this->dbQuery($sql, $params);
+        $this->dbQuery($sql, $params, $types);
         return (int)self::$db->lastInsertId();
     }
 }

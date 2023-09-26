@@ -2,9 +2,11 @@
 
 namespace App\Twig;
 
+use App\Core\DataBase\DataBase;
+use App\Core\DataBase\QueryBuilder;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
-use App\Model\AuthModel;
+use App\Model\UserModel;
 
 class TwigAuth extends AbstractExtension
 {
@@ -31,7 +33,7 @@ class TwigAuth extends AbstractExtension
         $authUser = null;
 
         if (isset($_SESSION['auth-user'])) {
-            $model = new AuthModel('user');
+            $model = new UserModel(new QueryBuilder(new DataBase()));
             $id = $_SESSION['auth-user'];
             $authUser = $model->getById($id);
         }

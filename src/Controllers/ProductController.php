@@ -16,7 +16,7 @@ class ProductController extends Controller
     {
         try {
             $product = $this->productService->getProduct($id);
-            return response()->view('ProductPage/ProductPage', ['product' => $product]);
+            return response()->view('Pages/ProductPage/ProductPage', ['product' => $product]);
 
         } catch (Exception $e) {
             $error = $e->getMessage();

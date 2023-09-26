@@ -5,11 +5,10 @@ namespace App\Validator;
 use Exception;
 use App\Dto\RegisterDTO;
 use Respect\Validation\Validator as v;
-use App\Validator\Validate;
 
 class AuthValidate extends Validate
 {
-    public function validate()
+    public function validate(): void
     {
         $dto = new RegisterDTO();
         if (!v::email()->validate($dto->getEmail())) {

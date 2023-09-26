@@ -7,7 +7,7 @@
 	<main class='containerMainPage'>
 
 		<div class='filtersProducts'>
-			{% include 'Filters/FiltersStore.twig' with {
+			{% include 'Components/Filters/FiltersStore.twig' with {
 				'field': field,
 				'order': order,
 				'path': path,
@@ -16,14 +16,14 @@
 		</div>
 		<div class='catalogProducts'>
 			<div class='blockSort'>
-				{% include 'Sort/Sort.twig' with {
+				{% include 'Components/Sort/Sort.twig' with {
 					'field': field,
 					'order': order,
 					'path': path
 				} %}
 			</div>
 			<div class='products'>
-				{% for product in products %}
+				{% for product in data %}
 					<a href="/make-up/product/{{ product['id'] }}" class='product'>
 						<img src={{product['image']}}/>
 
@@ -43,7 +43,7 @@
 	</main>
 	{% block paginate %}
 		{% if totalPages > 1 %}
-			{% include 'Paginate/Paginate.twig' with {
+			{% include 'Components/Paginate/Paginate.twig' with {
 				'currentPage': currentPage,
 				'totalPages': totalPages,
 				'field': field,
