@@ -18,7 +18,7 @@ class AuthService  extends Service
     /**
      * @throws Exception
      */
-    public function registration(RegisterDTO $dto)
+    public function registration(RegisterDTO $dto): void
     {
         $email = $dto->getEmail();
         $exist = $this->authModel->getByEmail($email);
@@ -28,16 +28,13 @@ class AuthService  extends Service
         }
 
         $password = $dto->getPassword();
-
-        $name = $dto->getName();
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+        $name = $dto->getName();
 
-        $query = $this->authModel->registration($email, $name, $hashedPassword);
-        $create = $this->authModel->getByEmail($email);
+        $createdId = $this->authModel->registration($email, $name, $hashedPassword);
 
-        if ($create) {
-            $_SESSION['auth-user'] = $create['id'];
-            return $create[0];
+        if ($createdId) {
+            $_SESSION['auth-user'] = $createdId;
         } else {
             throw new Exception('Something error...');
         }
@@ -46,23 +43,23 @@ class AuthService  extends Service
     /**
      * @throws Exception
      */
-    public function login(AuthDTO $dto)
+    public function login(AuthDTO $dto): void
     {
         $email = $dto->getEmail();
-        $user = $this->authModel->getByEmail($email);
         $password = $dto->getPassword();
+        $user = $this->authModel->getByEmail($email);
 
         if (!$user) {
-            throw new Exception('User not found!');
+            throw new Exception('Wrong email or password!');
         }
 
         $hashedPasswordFromDatabase = $user['password'];
         $validPassword = password_verify($password, $hashedPasswordFromDatabase);
 
         if (!$validPassword) {
-            throw new Exception('Wrong email or password');
+            throw new Exception('Wrong email or password!');
         }
+
         $_SESSION['auth-user'] = $user['id'];
-        return $user[0];
     }
 }

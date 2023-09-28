@@ -3,10 +3,10 @@
 	<div class='carousel'>
 		<img src='/make-up/src/Public/Img/bcgimg.jpeg'/>
 	</div>
-	<div class='pageHeader'>{{ category ? category : '' }}</div>
-	<main class='containerMainPage'>
+	<div class='page_title'>{{ category ? category : '' }}</div>
 
-		<div class='filtersProducts'>
+	<main class='main_page'>
+		<div>
 			{% include 'Components/Filters/FiltersStore.twig' with {
 				'field': field,
 				'order': order,
@@ -14,8 +14,8 @@
 				'filters': filters
 			} %}
 		</div>
-		<div class='catalogProducts'>
-			<div class='blockSort'>
+		<div class='catalog'>
+			<div class='block_sort'>
 				{% include 'Components/Sort/Sort.twig' with {
 					'field': field,
 					'order': order,
@@ -31,7 +31,7 @@
 							<h1>{{ product['title'] | ucwords }}</h1>
 							<p>{{product['price']}}$</p>
 							<div>
-								<button class='addToCart' type="button" product-id={{product['id']}}>
+								<button class='add_product' type="button" product-id={{product['id']}}>
 									Buy
 								</button>
 							</div>

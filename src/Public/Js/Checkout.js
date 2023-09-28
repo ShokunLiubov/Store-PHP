@@ -1,6 +1,6 @@
-const deliverySelect = document.querySelector(".deliverySelect")
-const deliveryPrice = document.querySelector(".deliveryPrice")
-const togetherPrice = document.querySelector(".togetherPrice")
+const deliverySelect = document.querySelector(".select_delivery")
+const deliveryPrice = document.querySelector(".delivery_price")
+const togetherPrice = document.querySelector(".together_price")
 const cartSum = document.querySelector(".cartSum")
 
 

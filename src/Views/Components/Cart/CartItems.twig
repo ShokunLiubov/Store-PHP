@@ -1,5 +1,5 @@
 {% block cart %}
-    <div class='productItems'>
+    <div class='product_items'>
         {% if cartProducts %}
             {% for product in cartProducts %}
                 <div>
@@ -48,7 +48,7 @@
                                 {% endif %}
 
                             </div>
-                            <p class='productPrice'>{{ product['price'] }}
+                            <p class='product_price'>{{ product['price'] }}
                                 $</p>
                         </div>
                     </div>

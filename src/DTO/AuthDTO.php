@@ -11,6 +11,6 @@ class AuthDTO
 
     public function getPassword(): string
     {
-        return $_REQUEST['email'];
+        return $_REQUEST['password'];
     }
 }

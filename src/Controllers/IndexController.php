@@ -16,7 +16,7 @@ class IndexController extends Controller
     public function showMainPage(): Response
     {
         try {
-            $filters = request()->getFilters(['category', 'made', 'price-from', 'price-to']);
+            $filters = request()->getFilters(['category', 'made', 'price-from', 'price-to', 'search']);
 
             $data = $this->productService->getProducts($filters);
             $data['categories'] = $this->categoryService->getAllCategories();

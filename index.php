@@ -2,7 +2,7 @@
 
 require_once('init.php');
 
-use App\Core\Route;
+use App\Core\Route\Route;
 
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 $requestPath = $_SERVER['REQUEST_URI'];

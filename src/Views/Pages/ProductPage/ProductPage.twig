@@ -2,9 +2,9 @@
 {% block content %}
 	<main>
 		<MenuStore/>
-		<div class='productPage'>
-			<div class='productPageTop'>
-				<div class='productText'>
+		<div class='product_page'>
+			<div class='product_page__top'>
+				<div class='product_text'>
 					<div>
 						<span class='title'>{{product['title']  | ucwords }}</span>
 					</div>
@@ -17,10 +17,10 @@
 						<span>{{product['made']}}</span>
 					</div>
 				</div>
-				<div class='productImg'>
+				<div class='product_img'>
 					<img src={{product['image']}}/>
 				</div>
-				<div class='productBuy'>
+				<div class='product_buy'>
 					<div>
 						<span class='price'>
 							{{product['price']}}
@@ -35,21 +35,21 @@
 
 					<div>
 						{% if product['quantity'] > 0 %}
-								<button class='buttonProduct addToCart' product-id={{product['id']}}>
+								<button class='buttonProduct add_product' product-id={{product['id']}}>
 									Buy
 								</button>
 						{% else %}
-							<button class='buttonProduct'>
+							<button class='button_notify'>
 								Notify about appearance
 							</button>
 						{% endif %}
 					</div>
 
-					<div class='iconBlock'>
+					<div class='icon_block'>
 						<span class='material-symbols-outlined'>package</span>
 						<span>Free shipping from 300$</span>
 					</div>
-					<div class='iconBlock'>
+					<div class='icon_block'>
 						<span class='material-symbols-outlined'>
 							workspace_premium
 						</span>
@@ -57,8 +57,8 @@
 					</div>
 				</div>
 			</div>
-			<div class='productPageBottom'>
-				<div class='productDescription'>
+			<div class='product_page__bottom'>
+				<div class='product_description'>
 					<span class='title'>Description
 						{{product['title'] | ucwords }}</span>
 					<span>{{product['description']}}</span>

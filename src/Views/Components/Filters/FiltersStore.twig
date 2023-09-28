@@ -1,11 +1,11 @@
 {% block filters %}
-    <form class='filtersStore' method="get">
+    <form class='filters' method="get">
         {% if not category %}
-            <div class='filterCheckbox'>
+            <div class='filter_checkbox'>
                 <label>
                     Category
                 </label>
-                <div class="checkboxBlock">
+                <div class="block_checkbox">
                     {% for category in categories %}
                         <div class="checkbox">
                             <input type="checkbox" name="category[]" value="{{ category.id }}" id="{{category.name}}"
@@ -17,11 +17,11 @@
             </div>
         {% endif %}
 
-        <div class='filterCheckbox'>
+        <div class='filter_checkbox'>
             <label>
                 Made In
             </label>
-            <div class="checkboxBlock">
+            <div class="block_checkbox">
                 {% for country in countries %}
                     <div class="checkbox">
                         <input type="checkbox" name="made[]" value="{{ country }}" id="{{country}}"
@@ -31,21 +31,21 @@
                 {% endfor %}
             </div>
         </div>
-        <div class='filterFromTo'>
+        <div class='filter_range'>
             <span>Price</span>
-            <div class='inputFromTo'>
-                <div class='fieldInput'>
+            <div class='block_range'>
+                <div class='field_input'>
                     <label>from</label>
-                    <input class="inputFromTo" autocomplete='off' name='price-from' type='number' value="{{ applied['price-from'] }}"/>
+                    <input class="input_range" autocomplete='off' name='price-from' type='number' value="{{ applied['price-from'] }}"/>
                 </div>
 
-                <div class='fieldInput'>
+                <div class='field_input'>
                     <label>to</label>
                     <input autocomplete='off' name='price-to' type='number' value="{{ applied['price-to'] }}"/>
                 </div>
             </div>
         </div>
-        <div class="actionFilters">
+        <div class="filters_apply">
             <button>Apply</button>
             <a href="{{ path }}" class="reset">Reset filters</a>
         </div>

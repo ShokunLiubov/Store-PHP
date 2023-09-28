@@ -1,10 +1,10 @@
 {% block cart %}
     <div class='modal'>
-        <div class='overlay hideCart'>
-            <div class='cartModal'>
+        <div class='overlay hide_cart'>
+            <div class='modal_cart'>
                 <div class='title'>
                     <h3>Cart</h3>
-                    <span class='material-symbols-outlined hideCart'>
+                    <span class='material-symbols-outlined hide_cart'>
 						close
 					</span>
                 </div>
@@ -17,19 +17,18 @@
                 <div>
                     {% if cartProducts %}
                         {% for error in errors %}
-                            <div class="cartError">{{ error }}</div>
+                            <div class="cart_error">{{ error }}</div>
                         {% endfor %}
                     {% endif %}
                 </div>
-                <div class='totalPrice'>
+                <div class='total_price'>
                     <div>Total price:</div>
                     <div>{{ cartSum ? cartSum : 0 }} $</div>
-                    ;
                 </div>
 
                 <div class='line'></div>
                 <div class='bottom'>
-                    <span class='hideCart'>Continue Shopping</span>
+                    <div class='hide_cart continue'>Continue Shopping</div>
                     {% if cartProducts %}
                         <a href="/make-up/checkout">
                             <button>Checkout</button>

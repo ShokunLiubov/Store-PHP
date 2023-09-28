@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Core\Response\Response;
-use Exception;
 use App\Service\ProductService;
 
 class ProductController extends Controller
@@ -12,15 +11,13 @@ class ProductController extends Controller
     {
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getProductPage(int $id): Response
     {
-        try {
-            $product = $this->productService->getProduct($id);
-            return response()->view('Pages/ProductPage/ProductPage', ['product' => $product]);
+            $data['product'] = $this->productService->getProduct($id);
 
-        } catch (Exception $e) {
-            $error = $e->getMessage();
-            return response()->view('Errors/Error404', ['error' => $error]);
-        }
+            return response()->view('Pages/ProductPage/ProductPage', $data);
     }
 }

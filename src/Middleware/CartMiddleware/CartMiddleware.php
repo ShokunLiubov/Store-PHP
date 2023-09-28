@@ -8,9 +8,8 @@ class CartMiddleware
 {
     public function emptyCart() : Response | null
     {
-        if (isset($_SESSION['cart']) && empty($_SESSION['cart']))
-        {
-            return response()->redirect('http://localhost/make-up/main');
+        if (isset($_SESSION['cart']) && empty($_SESSION['cart'])) {
+            return response()->redirect('main');
         }
 
         return null;

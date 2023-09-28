@@ -13,9 +13,8 @@ class OrderValidate extends Validate
     /**
      * @throws Exception
      */
-    public function validate(): void
+    public function validate(OrderDTO $dto): void
     {
-        $dto = new OrderDTO();
 
         if (!v::number()->notEmpty()->validate($dto->getDelivery())) {
             throw new Exception('Delivery not choose!');

@@ -1,7 +1,7 @@
 <?php
 
-use App\Core\Route;
-use App\Core\DIContainer;
+use App\Core\DIContainer\DIContainer;
+use App\Core\Route\Route;
 
 $container = new DIContainer();
 

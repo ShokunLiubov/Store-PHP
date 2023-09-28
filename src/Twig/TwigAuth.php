@@ -11,7 +11,7 @@ use App\Model\UserModel;
 class TwigAuth extends AbstractExtension
 {
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('isAuth', [$this, 'isAuth']),
@@ -19,16 +19,18 @@ class TwigAuth extends AbstractExtension
         ];
     }
 
-    public function isAuth()
+    public function isAuth(): bool
     {
         $isAuth = false;
+
         if (isset($_SESSION['auth-user'])) {
             $isAuth = true;
         }
+
         return $isAuth;
     }
 
-    public function getAuthUser()
+    public function getAuthUser(): array | null
     {
         $authUser = null;
 
@@ -37,6 +39,7 @@ class TwigAuth extends AbstractExtension
             $id = $_SESSION['auth-user'];
             $authUser = $model->getById($id);
         }
+
         return $authUser;
     }
 }

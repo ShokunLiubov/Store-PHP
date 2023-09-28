@@ -8,9 +8,8 @@ class AuthMiddleware
 {
  public function isAuth() : Response | null
  {
-     if (isset($_SESSION['auth-user']))
-     {
-         return response()->redirect('http://localhost/make-up/main');
+     if (isset($_SESSION['auth-user'])) {
+         return response()->redirect('main');
      }
 
      return null;
@@ -20,10 +19,9 @@ class AuthMiddleware
     {
 
         if (!isset($_SESSION['auth-user'])) {
-            return response()->redirect('http://localhost/make-up/auth/login');
+            return response()->redirect('auth/login');
         }
 
         return null;
     }
-
 }

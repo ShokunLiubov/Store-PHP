@@ -21,6 +21,6 @@ class OrderDTO
 
     public function getDelivery(): string
     {
-        return $_REQUEST['deliverySelect'];
+        return $_REQUEST['select_delivery'];
     }
 }

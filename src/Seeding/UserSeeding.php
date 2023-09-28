@@ -11,18 +11,15 @@ class UserSeeding extends AbstractSeed
 
     public function seed(): void
     {
-        try {
-            $faker = FakerFactory::create();
-            for ($i = 1; $i <= $this->count; $i++) {
-                $email = $faker->email();
-                $name = $faker->name();
-                $password = $faker->password;
-                $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-                $sql = "INSERT INTO " . $this->getTableName() . " (`email`, `name`, `password`)
-                        VALUES (:email, :name, :password)";
-                db()->dbQuery($sql, ['email' => $email, 'name' => $name, 'password' => $hashedPassword]);
-            }
-        } catch (Exception $e) {
+        $faker = FakerFactory::create();
+        for ($i = 1; $i <= $this->count; $i++) {
+            $email = $faker->email();
+            $name = $faker->name();
+            $password = $faker->password;
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+            $sql = "INSERT INTO " . $this->getTableName() . " (`email`, `name`, `password`)
+                    VALUES (:email, :name, :password)";
+            db()->dbQuery($sql, ['email' => $email, 'name' => $name, 'password' => $hashedPassword]);
         }
     }
 }

@@ -3,8 +3,7 @@
 namespace App\Seeding;
 
 use App\Core\DataBase\DataBase;
-
-// (new Seeding([new UserSeed($count), new ProductSeed()]))->refresh(10);
+use Exception;
 
 class Seeding
 {
@@ -15,29 +14,39 @@ class Seeding
         $this->seedClasses = $seedClasses;
     }
 
-    public function refresh()
+    public function refresh(): void
+    {
+        try {
+            foreach ($this->seedClasses as $cl) {
+                $this->clearTable($cl->getTableName());
+                $cl->seed();
+            }
+        } catch(Exception $e) {
+            $error = $e->getMessage();
+            response()->view('Errors/Error', ['error' => $error]);
+        }
+    }
+
+    public function seed(): void
+    {
+        try {
+            foreach ($this->seedClasses as $cl) {
+                $cl->seed();
+            }
+        } catch(Exception $e) {
+            $error = $e->getMessage();
+            response()->view('Errors/Error', ['error' => $error]);
+        }
+    }
+
+    public function remote(): void
     {
         foreach ($this->seedClasses as $cl) {
             $this->clearTable($cl->getTableName());
-            $cl->seed();
         }
     }
 
-    public function seed()
-    {
-        foreach ($this->seedClasses as $cl) {
-            $cl->seed();
-        }
-    }
-
-    public function remote()
-    {
-        foreach ($this->seedClasses as $cl) {
-            $this->clearTable($cl->getTableName());
-        }
-    }
-
-    public function clearTable(string $table)
+    public function clearTable(string $table): void
     {
         $db = new DataBase();
         $sql = "DELETE FROM $table";

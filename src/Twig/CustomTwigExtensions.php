@@ -2,16 +2,19 @@
 
 namespace App\Twig;
 
-class CustomTwigExtensions extends \Twig\Extension\AbstractExtension
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+
+class CustomTwigExtensions extends AbstractExtension
 {
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
-            new \Twig\TwigFilter('ucwords', [$this, 'ucwordsFilter']),
+            new TwigFilter('ucwords', [$this, 'ucwordsFilter']),
         ];
     }
 
-    public function ucwordsFilter($value)
+    public function ucwordsFilter($value): string
     {
         return ucwords($value);
     }

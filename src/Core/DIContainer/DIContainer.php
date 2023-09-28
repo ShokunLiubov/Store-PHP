@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Core;
+namespace App\Core\DIContainer;
 
 use App\Contracts\Controller;
 use Exception;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
@@ -14,6 +12,7 @@ use ReflectionMethod;
 class DIContainer implements ContainerInterface
 {
     private array $binds = [];
+
     private array $instances = [];
 
     /**
@@ -25,6 +24,7 @@ class DIContainer implements ContainerInterface
         //if (!isset($this->instances[$id])) {
             //$this->instances[$id] = $this->createInstance($id);
         //}
+
         return $this->createInstance($id);
     }
 
@@ -38,6 +38,9 @@ class DIContainer implements ContainerInterface
         $this->binds[$type] = $subtype;
     }
 
+    /**
+     * @throws Exception
+     */
     private function createInstance(string $classname)
     {
         if (isset($this->binds[$classname])) {
@@ -47,9 +50,14 @@ class DIContainer implements ContainerInterface
         }
 
         $constructorParameters = $this->getConstructorParameters($classname);
+
         return new $classname(...$constructorParameters);
     }
 
+    /**
+     * @throws ReflectionException
+     * @throws Exception
+     */
     private function getConstructorParameters(string $classname): array
     {
         $reflection = new ReflectionClass($classname);
@@ -61,12 +69,15 @@ class DIContainer implements ContainerInterface
 
         return array_map(function ($param) {
             $type = $param->getType();
+
             if ($type && !$type->isBuiltin()) {
                 $dependencyName = $type->getName();
+
                 return $this->get($dependencyName);
             }
 
             if ($param->isDefaultValueAvailable()) {
+
                 return $param->getDefaultValue();
             }
 
@@ -76,8 +87,6 @@ class DIContainer implements ContainerInterface
 
     /**
      * @throws ReflectionException
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      * @throws Exception
      */
     public function resolveMethodDependencies(Controller $controller, $method, array $getParams): array
@@ -91,9 +100,11 @@ class DIContainer implements ContainerInterface
 
         return array_map(function ($param) {
             $type = null;
+
             if (is_object($param)) {
                 $type = $param->getType();
             }
+
             if ($type && !$type->isBuiltin()) {
                 $dependencyName = $type->getName();
                 return $this->get($dependencyName);
@@ -102,6 +113,7 @@ class DIContainer implements ContainerInterface
             if (is_object($param) && $param->isDefaultValueAvailable()) {
                 return $param->getDefaultValue();
             }
+
             return $param;
         }, $params);
     }
