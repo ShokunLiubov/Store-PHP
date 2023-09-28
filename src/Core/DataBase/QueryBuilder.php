@@ -104,6 +104,7 @@ class QueryBuilder
     {
         $columns = "";
         $values = "";
+
         foreach ($insert as $column => $value) {
             $columns .= "$column, ";
             $values .= ":$column, ";
@@ -118,15 +119,35 @@ class QueryBuilder
         return $this;
     }
 
-    public function where(string $field, string $sign, $paramName, $value): static
+    public function whereGroup(callable $groupFunction): static
     {
-        if (!$this->where) {
-            $this->where = "WHERE $field$sign:$paramName";
-        } else {
-            $this->where .= " AND $field$sign:$paramName";
+        $groupFunction($this);
+
+        if ($this->where) {
+            $withoutWhere = str_replace('WHERE', '', $this->where);
+            $this->where = 'WHERE (' . $withoutWhere . ')';
         }
 
+        return $this;
+    }
+
+
+    public function where(string $field, string $sign, $paramName, $value): static
+    {
+        $this->where .= $this->where ? " AND $field $sign :$paramName" : "WHERE $field $sign :$paramName";
+
         $this->bindValues[$paramName] = $value;
+        $this->bindTypes[$paramName] = is_string($value) ? PDO::PARAM_STR : PDO::PARAM_INT;
+
+        return $this;
+    }
+
+    public function whereOr(string $field, string $sign, $paramName, $value): static
+    {
+        $this->where .= $this->where ? " OR $field $sign :$paramName" : "WHERE $field $sign :$paramName";
+
+        $this->bindValues[$paramName] = $value;
+        $this->bindTypes[$paramName] = is_string($value) ? PDO::PARAM_STR : PDO::PARAM_INT;
 
         return $this;
     }
@@ -134,6 +155,7 @@ class QueryBuilder
     public function whereIn(string $field, $mask, array $values): static
     {
         $placeholders = [];
+
         foreach ($values as $index => $value) {
             $paramName = $mask . $index;
             $placeholders[] = ':' . $paramName;
@@ -145,25 +167,6 @@ class QueryBuilder
 
         $condition = "$field IN ($placeholdersStr)";
         $this->where = $this->where ? $this->where . " AND " . $condition : "WHERE " . $condition;
-
-        return $this;
-    }
-
-
-    public function andWhere(string $field, string $sign, $value): static
-    {
-        $param = ":" . preg_replace("/[^a-zA-Z0-9_]/", "", $field);
-        $this->where .= $this->where ? " AND $field $sign $param" : "WHERE $field $sign $param";
-        $this->bindValues[$param] = $value;
-
-        return $this;
-    }
-
-    public function orWhere(string $field, string $sign, $value): static
-    {
-        $param = ":" . preg_replace("/[^a-zA-Z0-9_]/", "", $field);
-        $this->where .= $this->where ? " OR $field $sign $param" : "WHERE $field $sign $param";
-        $this->bindValues[$param] = $value;
 
         return $this;
     }
@@ -297,7 +300,6 @@ class QueryBuilder
     {
         if ($PDO) {
             $data = $this->prepareQuery()->fetchAll($PDO, $args);
-
         } else {
             $data = $this->prepareQuery()->fetchAll();
         }

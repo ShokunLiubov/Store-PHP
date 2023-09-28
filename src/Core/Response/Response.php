@@ -6,7 +6,7 @@ class Response
 {
     protected int $statusCode = 200;
     protected array $headers = [];
-    protected $content;
+    protected mixed $content;
 
     public function __construct(protected $templateInterface)
     {
@@ -15,12 +15,14 @@ class Response
     public function setStatusCode(int $statusCode): self
     {
         $this->statusCode = $statusCode;
+
         return $this;
     }
 
     public function setHeader(string $key, string $value): self
     {
         $this->headers[$key] = $value;
+
         return $this;
     }
 
@@ -31,10 +33,12 @@ class Response
 
     public function redirect(string $url): self
     {
-        $this->setHeader('Location', $url);
+        $baseUrl = 'http://localhost/make-up/';
+        $this->setHeader('Location', $baseUrl . $url);
         $this->setStatusCode(302);
 
         $this->send();
+
         return $this;
     }
 
@@ -44,6 +48,7 @@ class Response
 
         $this->send();
         echo $this->content;
+
         return $this;
     }
 
@@ -56,13 +61,14 @@ class Response
         return $this;
     }
 
-    public function send()
+    public function send(): mixed
     {
         http_response_code($this->statusCode);
 
         foreach ($this->headers as $key => $value) {
             header("$key: $value");
         }
+
         return $this->content;
     }
 }

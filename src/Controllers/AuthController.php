@@ -14,36 +14,34 @@ include_once('src/dto/AuthDTO.php');
 
 class AuthController extends Controller
 {
-    public function __construct(protected AuthService $authService, protected AuthValidate $authValidate)
+    public function __construct(protected AuthService $authService)
     {
     }
 
-    public function registration(): Response
+    public function registration(RegisterDTO $dto, RegistrationValidate $validator): Response
     {
         try {
-            $dto = new RegisterDTO();
-            (new RegistrationValidate())->validate();
-            $user = $this->authService->registration($dto);
+            $validator->validate($dto);
+            $this->authService->registration($dto);
 
-            return response()->redirect('http://localhost/make-up/main?page=1');
+            return response()->redirect('main');
         } catch (Exception $e) {
             $data['email'] = $dto->getEmail();
             $data['password'] = $dto->getPassword();
             $data['name'] = $dto->getName();
             $error[] = $e->getMessage();
+
             return response()->view('Pages/Auth/Auth', ['type' => 'register', 'error' => $error, 'data' => $data]);
         }
     }
 
-    public function login(): Response
+    public function login(AuthDTO $dto, AuthValidate $validator): Response
     {
         try {
-            $dto = new AuthDTO();
-            $this->authValidate->validate();
+            $validator->validate($dto);
+            $this->authService->login($dto);
 
-            $user = $this->authService->login($dto);
-
-            response()->redirect('http://localhost/make-up/main?page=1');
+            return response()->redirect('main');
         } catch (Exception $e) {
             $data['email'] = $dto->getEmail();
             $data['password'] = $dto->getPassword();
@@ -59,20 +57,11 @@ class AuthController extends Controller
 
     public function loginPage(): Response
     {
-        //refactor middlivare
-//        if (isset($_SESSION['auth-user'])) {
-//            return response()->redirect('http://localhost/make-up/main?page=1');
-//        }
-
         return response()->view('Pages/Auth/Auth', ['type' => 'login']);
     }
 
     public function registerPage(): Response
     {
-//        if (isset($_SESSION['auth-user'])) {
-//            return response()->redirect('http://localhost/make-up/main');
-//        }
-
         return response()->view('Pages/Auth/Auth', ['type' => 'register']);
     }
 }

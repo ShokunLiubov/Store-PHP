@@ -1,6 +1,6 @@
 {% set BASE_URL = '/make-up/' %}
 
-{% set menuStoreData = [
+{% set menuData = [
     {'title': 'Perfumery', 'path': BASE_URL ~ 'category/perfumery'},
     {'title': 'Hair', 'path': BASE_URL ~ 'category/hair'},
     {'title': 'Face', 'path': BASE_URL ~ 'category/face'},
@@ -22,8 +22,8 @@
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
 
 </head>
-<body class="PublicLayout">
-<div class='HeaderShop'>
+<body>
+<div class='header'>
     <div class='top'>
         <span>100% original products!</span>
         <ul>
@@ -46,28 +46,37 @@
         <span>Office</span>
     </div>
     <div class='bottom'>
-        <div class='connection'>
+        <div class='bottom_left'>
             <a href=''>0(800) 50 77 40</a>
             <p>Every day from 7:55 to 20:05</p>
             <button>Call back</button>
         </div>
-        <a href={{ BASE_URL ~ 'main' }}>
+
+        <a class='bottom_middle' href={{ BASE_URL ~ 'main' }}>
             <img src='/make-up/src/Public/Img/logo.svg'/>
         </a>
-        <div class='user'>
-            <div class='userAuth'>
+        <div class='bottom_right'>
+            <div class='user_auth'>
                 {% if not isAuth() %}
-                    <a href={{ BASE_URL ~ 'auth/login' }}>
+                    <a class="login" href={{ BASE_URL ~ 'auth/login' }}>
                         <span class='material-symbols-outlined'>person</span>
                     </a>
                 {% endif %}
 
                 {% if isAuth() %}
-                    <div class='authBlock'>
-                        <span>{{ isAuth() ? getAuthUser().name : 'Guest' }}</span>
+                    <div class='auth_block'>
+
+                        <div>{{ isAuth() ? getAuthUser().name : 'Guest' }}</div>
+                        <a class='orders'>
+						<span href={{ BASE_URL ~ 'my-orders'  }} class="material-symbols-outlined">
+							list_alt
+						</span>
+                        </a>
+
                         <span class='logout'>
 									<span class='material-symbols-outlined'>logout</span>
-								</span>
+                        </span>
+
                     </div>
                 {% endif %}
             </div>
@@ -83,20 +92,22 @@
 							shopping_bag
 						</span>
             </div>
-            <form class='search'>
-                <input name='search' value='' autocomplete='off' type='search' placeholder='Search...'/>
+
+            <form class='search' method="get" action={{ BASE_URL ~ 'main' }}>
+                <input name='search' value="{{ applied['search'] }}" autocomplete='off' type='search' placeholder='Search...'/>
                 <button type='submit'>
                     <span class='material-symbols-outlined'>search</span>
                 </button>
             </form>
+
         </div>
     </div>
 </div>
-<div class='mainPage'>
-    <nav class='menuStore'>
-        <ul class='mainMenu'>
-            {% for li in menuStoreData %}
-                <li class='menuLi'>
+<div class='container'>
+    <nav class='menu'>
+        <ul>
+            {% for li in menuData %}
+                <li>
                     <a href={{ li.path }}>
                         {{ li.title }}
                     </a>
@@ -104,7 +115,6 @@
             {% endfor %}
         </ul>
     </nav>
-    {# {{ dump(content) }} #}
 
     {% block content %}
         {{ main_content | raw }}

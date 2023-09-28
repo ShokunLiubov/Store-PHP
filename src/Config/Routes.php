@@ -2,11 +2,11 @@
 
 use App\Controllers\AuthController;
 use App\Controllers\CartController;
+use App\Controllers\CategoryController;
 use App\Controllers\IndexController;
 use App\Controllers\OrderController;
 use App\Controllers\ProductController;
-use \App\Controllers\CategoryController;
-use App\Core\Route;
+use App\Core\Route\Route;
 use App\Middleware\AuthMiddleware\AuthMiddleware;
 use App\Middleware\CartMiddleware\CartMiddleware;
 

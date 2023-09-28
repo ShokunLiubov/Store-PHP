@@ -39,6 +39,9 @@ class CategoryService  extends Service
         return $categories;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getProductsByCategory(array $category, array $filters): array
     {
         $filters['category'][] = $category['id'];

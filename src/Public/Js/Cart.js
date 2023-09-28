@@ -1,5 +1,5 @@
 const cartIcon = document.querySelector(".cart")
-const addToCart = document.querySelectorAll(".addToCart")
+const addToCart = document.querySelectorAll(".add_product")
 
 cartIcon.addEventListener('click', async () => {
     await CartService.showCart()
@@ -18,8 +18,8 @@ function cartAttachEventHandlers() {
     const decrement = document.querySelectorAll(".decrement")
     const increment = document.querySelectorAll(".increment")
     const remove = document.querySelectorAll(".remove")
-    const hideCarts = document.querySelectorAll(".hideCart");
-    const cartModal = document.querySelector(".cartModal");
+    const hideCarts = document.querySelectorAll(".hide_cart");
+    const cartModal = document.querySelector(".modal_cart");
 
     cartModal.addEventListener('click', e => e.stopPropagation());
 

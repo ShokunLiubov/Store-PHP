@@ -1,25 +1,25 @@
 {% extends "Layout/PublicLayout.twig" %}
 {% block content %}
-    <div class='blockCreateOrder'>
-        <form class='infoForm' method="post">
-            <div class='formDeliveryInfo'>
+    <main class='create_order'>
+        <form class='info_form' method="post">
+            <div>
                 <h5>Personal data for delivery :</h5>
-                <div class='fieldInput'>
-                    <div class='blockInput'>
+                <div class='field_input'>
+                    <div class='block_input'>
                         <label>First Name</label>
                         <input autocomplete='off' id='first_name' type='text' name="first_name"
                                placeholder='First Name' value="{{ deliveryInfo.first_name }}"/>
                     </div>
                 </div>
-                <div class='fieldInput'>
-                    <div class='blockInput'>
+                <div class='field_input'>
+                    <div class='block_input'>
                         <label>Last Name</label>
                         <input autocomplete='off' id='last_name' type='text' name="last_name"
                                placeholder='Last Name' value="{{ deliveryInfo.last_name }}"/>
                     </div>
                 </div>
-                <div class='fieldInput'>
-                    <div class='blockInput'>
+                <div class='field_input'>
+                    <div class='block_input'>
                         <label>Address</label>
                         <input autocomplete='off' id='address' type='text' name="address"
                                placeholder='Address' value="{{ deliveryInfo.address }}"/>
@@ -33,42 +33,41 @@
 
             <main class='order'>
                 <h5>Your order :</h5>
-                <div class='productItems'>
+                <div class='product_items'>
                     {% include 'Components/Cart/CartItems.twig' with {
                         'cartProducts': cartProducts,
                     } %}
                 </div>
-                <div class='line'></div>
-                <div class='totalBlocks'>
-                        <div class='totalBlock'>
+                <div class='blocks_total'>
+                        <div class='block_total'>
                             <div>Total price:</div>
                             <div class="cartSum">{{ cartSum }} $</div>
                         </div>
 
-                        <div class='totalBlock'>
-                            <div class="selectDelivery">
-                                <select class="deliverySelect" name="deliverySelect">
+                        <div class='block_total'>
+                            <div class="block_select__delivery">
+                                <select class="select_delivery" name="select_delivery">
                                     <option value="">Choose delivery</option>
                                     {% for delivery in deliveries %}
                                         <option data-price="{{ delivery.price }}" value="{{ delivery.id }}">{{ delivery.delivery_type }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
-                            <div class="deliveryPrice"></div>
+                            <div class="delivery_price"></div>
                         </div>
 
-                        <div class='totalBlock'>
+                        <div class='block_total'>
                             <div>Together:</div>
-                                <div class='togetherPrice'></div>
+                                <div class='together_price'></div>
                         </div>
                 </div>
                 <div class='checkout'>
-                    <button  class='checkoutButton' type="submit">
+                    <button  type="submit">
                         Checkout
                     </button>
                 </div>
             </main>
         </form>
-    </div>
+    </main>
     <script src="/make-up/src/Public/Js/Checkout.js?v={{ current_time() }}"></script>
 {% endblock %}

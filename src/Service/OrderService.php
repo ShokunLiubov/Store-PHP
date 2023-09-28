@@ -8,14 +8,12 @@ use App\Model\DeliveryModel;
 use App\Model\OrderItemsModel;
 use App\Model\OrderModel;
 use App\Model\ProductModel;
-use App\Validator\OrderValidate;
 use Exception;
 
 class OrderService extends Service
 {
     public function __construct(
         protected OrderModel      $orderModel,
-        protected OrderDTO        $orderDTO,
         protected CartService     $cartService,
         protected DeliveryModel   $deliveryModel,
         protected OrderItemsModel $orderItemsModel,
@@ -35,22 +33,35 @@ class OrderService extends Service
             ->getOne();
     }
 
+    public function getDeliveryInfo(OrderDTO $dto): array
+    {
+        return [
+            'first_name' => $dto->getFirstName(),
+            'last_name' => $dto->getLastName(),
+            'address' => $dto->getAddress()
+        ];
+    }
+
+    public function getCheckoutInfo(): array
+    {
+        return [
+            'cartProducts' => $this->cartService->getCart(),
+            'cartSum' => $this->cartService->calcCartSum(),
+            'deliveries' => $this->getTypesOfDeliveries()
+        ];
+    }
+
     /**
      * @throws Exception
      */
-    public function createOrder(): void
+    public function createOrder(OrderDTO $dto): void
     {
-        $userId = $_SESSION['auth-user'];
-
-        (new OrderValidate())->validate();
-
         $cartSum = $this->cartService->calcCartSum();
-        $deliveryId = $this->orderDTO->getDelivery();
-        $firstName = $this->orderDTO->getFirstName();
-        $lastName = $this->orderDTO->getLastName();
-        $address = $this->orderDTO->getAddress();
+        $data = $this->getDeliveryInfo($dto);
+        $data['user_id'] = $_SESSION['auth-user'];
+        $data['delivery_id'] = $dto->getDelivery();
 
-        $delivery = $this->deliveryModel->getById($deliveryId);
+        $delivery = $this->deliveryModel->getById($data['delivery_id']);
 
         if (!$delivery) {
             throw new Exception('Delivery not choose!');
@@ -58,17 +69,10 @@ class OrderService extends Service
 
         $this->checkQuantityOrderItems();
 
-        $total = $cartSum + $delivery['price'];
+        $data['total'] = $cartSum + $delivery['price'];
 
         $orderId = $this->orderModel->query()
-            ->insert([
-                'first_name' => $firstName,
-                'last_name' => $lastName,
-                'address' => $address,
-                'delivery_id' => $deliveryId,
-                'user_id' => $userId,
-                'total' => $total
-            ])
+            ->insert($data)
             ->insertGetId();
 
         if (!$orderId) {
@@ -109,7 +113,6 @@ class OrderService extends Service
                 'product_id' => $product['id'],
             ])->get();
         }
-
     }
 
     public function getTypesOfDeliveries(): array
@@ -117,7 +120,5 @@ class OrderService extends Service
         return $this->deliveryModel->query()
             ->select()
             ->get();
-
     }
-
 }

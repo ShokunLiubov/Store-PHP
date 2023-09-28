@@ -15,7 +15,6 @@ class CartController extends Controller
 
     public function showCart(): Response
     {
-        try {
             $cartProducts = $this->cartService->getCart();
             $cartSum = $this->cartService->calcCartSum();
 
@@ -24,17 +23,11 @@ class CartController extends Controller
                 'cartProducts' => $cartProducts,
                 'cartSum' => $cartSum
             ]);
-        } catch (Exception $e) {
-            $error[] = $e->getMessage();
-            return $this->cartService->handlerErrors($error);
-        }
     }
 
     public function hideCart(): Response
     {
-        return response()->view('Components/Cart/Cart', [
-            'cartModal' => false
-        ]);
+        return response()->view('Components/Cart/Cart', ['cartModal' => false]);
     }
 
 
@@ -42,12 +35,12 @@ class CartController extends Controller
     {
         try {
             $addProduct = $this->productService->getProduct($id);
-            $sessionCart = $this->cartService->addToCart($addProduct);
+            $cart = $this->cartService->addToCart($addProduct);
             $cartSum = $this->cartService->calcCartSum();
 
             return response()->view('Components/Cart/Cart', [
                 'cartModal' => true,
-                'cartProducts' => $sessionCart,
+                'cartProducts' => $cart,
                 'cartSum' => $cartSum
             ]);
         } catch (Exception $e) {

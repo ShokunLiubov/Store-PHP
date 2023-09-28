@@ -20,18 +20,17 @@ class CartService  extends Service
     /**
      * @throws Exception
      */
-    public function addToCart($addProduct): array
+    public function addToCart(array $addProduct): array
     {
         $cart = $this->getCart();
-
-        if ($addProduct['quantity'] > 0) {
-            $addProduct['count'] = 1;
-        }
-
-        $exist = $this->existProductInCart($cart, $addProduct);
+        $exist = $this->existProductInCart($cart, $addProduct['id']);
 
         if ($exist) {
+            $this->increment($addProduct['id']);
+
             return $_SESSION['cart'];
+        } elseif ($addProduct['quantity'] > 0) {
+            $addProduct['count'] = 1;
         }
 
         $cart[] = $addProduct;
@@ -43,19 +42,13 @@ class CartService  extends Service
     /**
      * @throws Exception
      */
-    public function existProductInCart($cart, $addProduct): bool
+    public function existProductInCart(array $cart, int $id): bool
     {
         foreach ($cart as &$product) {
 
-            if ($product['id'] === $addProduct['id']) {
+            if ($product['id'] === $id) {
 
-                if ($product['quantity'] > $product['count']) {
-                    $product['count'] += 1;
-                    $_SESSION['cart'] = $cart;
-                    return true;
-                }
-
-                throw new Exception(message: 'All in stock ' . $product['count']);
+                return true;
             }
         }
 
@@ -77,13 +70,13 @@ class CartService  extends Service
     /**
      * @throws Exception
      */
-    public function increment($id): void
+    public function increment(int $id): void
     {
         $cart = $this->getCart();
 
         foreach ($cart as &$product) {
 
-            if ($product['id'] == $id) {
+            if ($product['id'] === $id) {
 
                 if ($product['quantity'] > $product['count']) {
                     $product['count'] += 1;
@@ -99,7 +92,7 @@ class CartService  extends Service
     /**
      * @throws Exception
      */
-    public function decrement($id): void
+    public function decrement(int $id): void
     {
         $cart = $this->getCart();
 
@@ -120,7 +113,7 @@ class CartService  extends Service
 
     }
 
-    public function remove($id): void
+    public function remove(int $id): void
     {
         $cart = $this->getCart();
 
@@ -135,19 +128,6 @@ class CartService  extends Service
     }
 
     public function handlerErrors(array $errors): Response
-    {
-        $cartProducts = $this->getCart();
-        $cartSum = $this->calcCartSum();
-
-        return response()->view('Cart/Cart', [
-            'cartModal' => true,
-            'cartProducts' => $cartProducts,
-            'cartSum' => $cartSum,
-            'errors' => $errors
-        ]);
-    }
-
-    public function updateCart(array $errors): Response
     {
         $cartProducts = $this->getCart();
         $cartSum = $this->calcCartSum();

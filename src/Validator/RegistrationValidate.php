@@ -9,9 +9,9 @@ use App\Validator\AuthValidate;
 
 class RegistrationValidate extends AuthValidate
 {
-    public function validate()
+    public function validate(RegisterDTO $dto): void
     {
-        $dto = new RegisterDTO();
+        parent::validate($dto);
 
         if (!v::stringType()->length(5, 20)->validate($dto->getName())) {
             throw new Exception('String must contain between 5 and 20 characters!');

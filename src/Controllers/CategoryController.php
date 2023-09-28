@@ -14,21 +14,18 @@ class CategoryController implements Controller
     {
     }
 
+    /**
+     * @throws Exception
+     */
     public function getCategoryPage(string $slugCategory): Response
     {
-        try {
-            $filters = request()->getFilters(['made', 'price-from', 'price-to' ]);
+            $filters = request()->getFilters(['made', 'price-from', 'price-to', 'search']);
 
             $category = $this->categoryService->getCategoryBySlug($slugCategory);
             $data = $this->categoryService->getProductsByCategory($category, $filters);
             $data['countries'] = $this->productService->getMadeInCountries();
 
             return response()->view('Pages/MainPage/MainPage', $data);
-
-        } catch (Exception $e) {
-            $error = $e->getMessage();
-            return response()->view('Errors/Error404', ['error' => $error]);
-        }
 
     }
 }

@@ -42,5 +42,4 @@ class Model implements IModel
             ->where('id', '=', 'id', $id)
             ->getOne();
     }
-
 }

@@ -40,7 +40,7 @@ class DataBase
         $errorInfo = $query->errorInfo();
 
         if ($errorInfo[0] != PDO::ERR_NONE) {
-            echo $errorInfo[2];
+            response()->view('Errors/Error404', ['error' => $errorInfo[2]]);
             exit();
         }
 
@@ -50,6 +50,7 @@ class DataBase
     public function insertAndGetId(string $sql, array $params = [], array $types = []): int
     {
         $this->dbQuery($sql, $params, $types);
+
         return (int)self::$db->lastInsertId();
     }
 }

@@ -1,9 +1,7 @@
 <?php
 
 namespace App\Service;
-include_once('src/model/UserModel.php');
 
-use App\Model\CategoryModel;
 use App\Model\ProductModel;
 use App\Utils\UrlUtils;
 use Exception;
@@ -45,15 +43,24 @@ class ProductService extends Service
         return $data;
     }
 
-    public function getProduct(int $id)
+    /**
+     * @throws Exception
+     */
+    public function getProduct(int $id): array | null
     {
-        return $this->productModel->query()
+        $product = $this->productModel->query()
             ->select("product.*, GROUP_CONCAT(category.name SEPARATOR ' ') AS category_names")
             ->innerJoin('product_category', 'product.id = product_category.product_id')
             ->innerJoin('category', 'product_category.category_id = category.id')
             ->where('product.id', '=', 'id', $id)
             ->groupBy('product.id')
             ->getOne();
+
+        if(!$product) {
+            throw new Exception('Product not found!');
+        }
+
+        return $product;
     }
 
     public function getMadeInCountries(): array
@@ -62,6 +69,5 @@ class ProductService extends Service
             ->distinct('made')
             ->select()
             ->get(PDO::FETCH_COLUMN, 0);
-
     }
 }
