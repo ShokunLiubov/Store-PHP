@@ -5,7 +5,7 @@ namespace App\Seeding;
 use Exception;
 use Faker\Factory as FakerFactory;
 
-class ProductSeeding extends AbstractSeed
+class ProductSeeding extends AbstractSeeding
 {
     public string $table = 'product';
 
@@ -14,6 +14,7 @@ class ProductSeeding extends AbstractSeed
         $faker = FakerFactory::create();
 
         for ($i = 1; $i <= $this->count; $i++) {
+
             $title = $faker->words(3, true);
             $slug = str_replace(' ', '-', strtolower($title));
             $image = $faker->imageUrl(300, 400, 'cosmetics');
@@ -22,29 +23,49 @@ class ProductSeeding extends AbstractSeed
             $quantity = $faker->numberBetween(5, 50);
             $made = $faker->country();
 
-            $sql = "INSERT INTO " . $this->getTableName() . " (`title`, `slug`, `image`, `description`, `price`, `quantity`, `made`)
-                    VALUES (:title, :slug, :image, :description, :price, :quantity, :made)";
-            db()->dbQuery($sql, ['title' => $title, 'slug' => $slug, 'image' => $image,
-                'description' => $description, 'price' => $price,
-                'quantity' => $quantity, 'made' => $made]);
+            $this->query()
+                ->table($this->table)
+                ->insert([
+                    'title' => $title, 'slug' => $slug,
+                    'image' => $image, 'description' => $description,
+                    'price' => $price, 'quantity' => $quantity,
+                    'made' => $made])
+                ->get();
+
         }
 
             // Create a link many to many with table 'category'
-        $productIdQuery = "SELECT id FROM product";$products = db()->dbQuery($productIdQuery)->fetchAll();
+        $products = $this->query()
+            ->table($this->table)
+            ->select()
+            ->get();
 
         foreach ($products as $product) {
-            $categoryIdQuery = "SELECT id FROM category ORDER BY RAND() LIMIT 1";
-            $categoryId = db()->dbQuery($categoryIdQuery)->fetchColumn();
+            for ($i = 1; $i <= $faker->numberBetween(1, 3); $i++) {
 
-            $sqlСoncurrency = "SELECT * FROM product_category WHERE product_id = :product_id AND category_id = :category_id";
-            $exists = db()->dbQuery($sqlСoncurrency, ['product_id' => $product['id'], 'category_id' => $categoryId]);
-            if ($exists->rowCount() > 0) {
-                continue;
+                $categoryId = $this->query()
+                    ->table('category')
+                    ->select('id')
+                    ->orderBy('random')
+                    ->limit(1)
+                    ->getOne();
+
+                $exists = $this->query()
+                    ->table('product_category')
+                    ->select()
+                    ->where('product_id', '=', 'product', $product['id'])
+                    ->where('category_id', '=', 'category', $categoryId['id'])
+                    -> get();
+
+                if (!empty($exists)) {
+                    continue;
+                }
+
+                $this->query()
+                    ->table('product_category')
+                    ->insert(['product_id' => $product['id'], 'category_id' => $categoryId['id']])
+                    -> get();
             }
-
-            $insertRelation = "INSERT INTO product_category (product_id, category_id) VALUES (:product_id, :category_id)";
-            db()->dbQuery($insertRelation, ['product_id' => $product['id'], 'category_id' => $categoryId]);
-
         }
     }
 }

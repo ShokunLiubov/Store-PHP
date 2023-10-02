@@ -32,6 +32,7 @@ class ProductService extends Service
         $query = (new FilterService())->productFilters($query, $filters);
 
         $data = $query->paginate();
+
         $urlParams = (new UrlUtils())->generateFilterUrlParams($filters);
 
         $data['field'] = $field;

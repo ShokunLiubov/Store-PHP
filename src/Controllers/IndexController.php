@@ -15,7 +15,6 @@ class IndexController extends Controller
 
     public function showMainPage(): Response
     {
-        try {
             $filters = request()->getFilters(['category', 'made', 'price-from', 'price-to', 'search']);
 
             $data = $this->productService->getProducts($filters);
@@ -23,10 +22,5 @@ class IndexController extends Controller
             $data['countries'] = $this->productService->getMadeInCountries();
 
             return response()->view('Pages/MainPage/MainPage', $data);
-
-        } catch (Exception $e) {
-            $error = $e->getMessage();
-            return response()->view('Errors/Error404', ['error' => $error]);
-        }
     }
 }

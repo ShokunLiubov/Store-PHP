@@ -4,7 +4,7 @@ namespace App\Seeding;
 
 use Exception;
 
-class CategorySeeding extends AbstractSeed
+class CategorySeeding extends AbstractSeeding
 {
     public string $table = 'category';
 
@@ -13,10 +13,13 @@ class CategorySeeding extends AbstractSeed
     public function seed(): void
     {
         foreach ($this->categories as $category) {
+
             $slug = str_replace(' ', '-', strtolower($category));
-            $sql = "INSERT INTO " . $this->getTableName() . " (`name`, `slug`)
-                    VALUES (:name, :slug)";
-            db()->dbQuery($sql, ['name' => $category, 'slug' => $slug]);
+
+            $this->query()
+                ->table($this->table)
+                ->insert(['name' => $category, 'slug' => $slug])
+                -> get();
         }
     }
 }
