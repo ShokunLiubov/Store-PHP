@@ -1,5 +1,7 @@
 <?php
 
+use App\Core\DataBase\DataBase;
+use App\Core\DataBase\QueryBuilder;
 use App\Seeding\Seeding;
 use App\Seeding\UserSeeding;
 use App\Seeding\CategorySeeding;
@@ -8,6 +10,21 @@ use App\Seeding\OrderSeeding;
 use App\Seeding\OrderItemSeeding;
 use App\Seeding\ProductCategorySeeding;
 
-// (new Seeding([new OrderItemSeeding(1), new OrderSeeding(30), new ProductCategorySeeding(23),  new UserSeeding(10), new CategorySeeding(10), new ProductSeeding(30)]))->remote();
-//(new Seeding([new UserSeeding(10), new CategorySeeding(10), new ProductSeeding(30), new OrderSeeding(30),]))->seed();
-//(new Seeding([new OrderSeeding(30),]))->seed();
+//$builder = new QueryBuilder(new DataBase());
+
+// (new Seeding([
+//     new OrderItemSeeding(1, $builder),
+//     new OrderSeeding(30, $builder),
+//     new ProductCategorySeeding(23, $builder),
+//     new UserSeeding(10, $builder),
+//     new CategorySeeding(10, $builder),
+//     new ProductSeeding(30, $builder)],
+//     $builder ))->remote();
+//
+//(new Seeding([
+//    new UserSeeding(10, $builder),
+//    new CategorySeeding(10, $builder),
+//    new ProductSeeding(30, $builder),
+//    new OrderSeeding(30, $builder)],
+//    $builder))->seed();
+

@@ -81,7 +81,7 @@ class QueryBuilder
 
     public function delete(): static
     {
-        $this->action = "DELETE ";
+        $this->action = "DELETE FROM " . $this->table;;
 
         return $this;
     }
@@ -90,12 +90,13 @@ class QueryBuilder
     {
         $set = "";
         foreach ($update as $column => $value) {
-            $set .= "$column = $value, ";
+            $set .= "$column = :$column, ";
             $this->bindValues[$column] = $value;
             $this->bindTypes[$column] = is_string($value) ? PDO::PARAM_STR : PDO::PARAM_INT;
         }
 
-        $this->action = "UPDATE " . $this->table . "SET " . $set;
+        $set = rtrim($set, ', ');
+        $this->action = "UPDATE " . $this->table . " SET " . $set;
 
         return $this;
     }
@@ -222,10 +223,14 @@ class QueryBuilder
         return $this;
     }
 
-    public function orderBy(string $field, string $order = 'asc'): static
+    public function orderBy(string $field = 'id', string $order = 'asc'): static
     {
-        $order = strtoupper($order);
-        $this->order = 'ORDER BY ' . $field . ' ' . $order;
+        if($field === 'random') {
+            $this->order = 'ORDER BY RAND()';
+        } else {
+            $order = strtoupper($order);
+            $this->order = 'ORDER BY ' . $field . ' ' . $order;
+        }
 
         return $this;
     }

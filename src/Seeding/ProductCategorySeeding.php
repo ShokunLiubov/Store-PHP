@@ -2,7 +2,7 @@
 
 namespace App\Seeding;
 
-class ProductCategorySeeding extends AbstractSeed
+class ProductCategorySeeding extends AbstractSeeding
 {
     public string $table = 'product_category';
 

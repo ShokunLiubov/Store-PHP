@@ -2,16 +2,24 @@
 
 namespace App\Seeding;
 
-use App\Core\DataBase\DataBase;
+use App\Core\DataBase\QueryBuilder;
 use Exception;
 
 class Seeding
 {
-    private array $seedClasses = [];
+    protected QueryBuilder $builder;
+    private array $seedClasses;
 
-    public function __construct($seedClasses)
+
+    public function __construct(array $seedClasses, QueryBuilder $builder)
     {
+        $this->builder = $builder;
         $this->seedClasses = $seedClasses;
+    }
+
+    public function query(): QueryBuilder
+    {
+        return $this->builder;
     }
 
     public function refresh(): void
@@ -48,8 +56,9 @@ class Seeding
 
     public function clearTable(string $table): void
     {
-        $db = new DataBase();
-        $sql = "DELETE FROM $table";
-        $db->dbQuery($sql);
+        $this->query()
+            ->table($table)
+            ->delete()
+            ->get();
     }
 }

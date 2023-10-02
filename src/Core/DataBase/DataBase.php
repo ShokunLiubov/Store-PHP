@@ -40,7 +40,7 @@ class DataBase
         $errorInfo = $query->errorInfo();
 
         if ($errorInfo[0] != PDO::ERR_NONE) {
-            response()->view('Errors/Error404', ['error' => $errorInfo[2]]);
+            response()->view('Errors/Error', ['error' => $errorInfo[2]]);
             exit();
         }
 

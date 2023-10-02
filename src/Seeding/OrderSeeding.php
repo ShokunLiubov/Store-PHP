@@ -5,7 +5,7 @@ namespace App\Seeding;
 use Exception;
 use Faker\Factory as FakerFactory;
 
-class OrderSeeding extends AbstractSeed
+class OrderSeeding extends AbstractSeeding
 {
     public string $table = 'orders';
 
@@ -14,34 +14,79 @@ class OrderSeeding extends AbstractSeed
         $faker = FakerFactory::create();
 
         for ($i = 1; $i <= $this->count; $i++) {
-
             $cart = [];
             $total = 0;
-            //order
-            $userIdQuery = "SELECT id FROM user ORDER BY RAND() LIMIT 1";
-            $userId = db()->dbQuery($userIdQuery)->fetchColumn();
 
-            $deliveryIdQuery = "SELECT id FROM delivery ORDER BY RAND() LIMIT 1";
-            $deliveryId = db()->dbQuery($deliveryIdQuery)->fetchColumn();
-            $sql = "INSERT INTO " . $this->getTableName() . "(`delivery_id`, `user_id`, `total`)
-                                VALUES (:delivery_id, :user_id, :total)";
-            $orderId = db()->insertAndGetId($sql, ['delivery_id' => $deliveryId, 'user_id' => $userId, 'total' => $total]);
+            //order
+            $userId = $this->query()
+                ->table('user')
+                ->select('id')
+                ->orderBy('random')
+                ->limit(1)
+                ->getOne();
+
+            $data = $this->query()
+                ->table($this->table)
+                ->select('first_name, last_name, address')
+                ->where('user_id', '=', 'id', $userId['id'])
+                ->orderBy('id', 'desc')
+                ->getOne();
+
+            if (empty($data)) {
+                $data = [
+                    'first_name' => $faker->firstName(),
+                    'last_name' => $faker->lastName(),
+                    'address' => $faker->address()
+                ];
+            }
+
+            $deliveryId = $this->query()
+                ->table('delivery')
+                ->select('id')
+                ->orderBy('random')
+                ->limit(1)
+                ->getOne();
+
+            $data['delivery_id'] = $deliveryId['id'];
+            $data['user_id'] = $userId['id'];
+            $data['total'] = $total;
+
+            $orderId = $this->query()
+                ->table($this->table)
+                ->insert($data)
+                ->insertGetId();
 
             //order item
             for ($j = 1; $j <= rand(1, 5); $j++) {
-                $productIdQuery = "SELECT id FROM product ORDER BY RAND() LIMIT 1";
-                $productId = db()->dbQuery($productIdQuery)->fetchColumn();
 
-                $sql = 'SELECT * FROM product WHERE id=:id';
-                $query = db()->dbQuery($sql, ['id' => $productId]);
-                $product = $query->fetch();
+                $product = $this->query()
+                    ->table('product')
+                    ->select()
+                    ->orderBy('random')
+                    ->limit(1)
+                    ->getOne();
+
                 $price = $product['price'];
                 $quantity = $faker->numberBetween(1, 3);
-                $sql = "INSERT INTO  `order_item` (`quantity`, `price`, `product_id`, `order_id`)
-                    VALUES (:quantity, :price, :product_id, :order_id)";
-                db()->dbQuery($sql, ['quantity' => $quantity, 'price' => $price, 'product_id' => $productId, 'order_id' => $orderId]);
+                $exist = false;
+
+                foreach ($cart as $item) {
+                    if ($item['id'] === $product['id']) {
+                        $exist = true;
+                    }
+                }
+
+                if ($exist) {
+                    continue;
+                }
+
+                $this->query()
+                    ->table('order_item')
+                    ->insert(['quantity' => $quantity, 'price' => $price, 'product_id' => $product['id'], 'order_id' => $orderId])
+                    ->insertGetId();
 
                 $cart[] = [
+                    'id' => $product['id'],
                     'price' => $price,
                     'quantity' => $quantity
                 ];
@@ -51,8 +96,11 @@ class OrderSeeding extends AbstractSeed
                 $total += $item['price'] * $item['quantity'];
             }
 
-            $sql = "UPDATE " . $this->getTableName() . " SET `total` = :total WHERE `id` = :id";
-            $query = db()->dbQuery($sql, ['total' => $total, 'id' => $orderId]);
+            $this->query()
+                ->table($this->table)
+                ->update(['total' => $total])
+                ->where('id', '=', 'id', $orderId)
+                ->get();
         }
     }
 }

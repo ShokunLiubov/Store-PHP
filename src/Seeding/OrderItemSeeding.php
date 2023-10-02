@@ -2,7 +2,7 @@
 
 namespace App\Seeding;
 
-class OrderItemSeeding extends AbstractSeed
+class OrderItemSeeding extends AbstractSeeding
 {
     public string $table = 'order_item';
 
