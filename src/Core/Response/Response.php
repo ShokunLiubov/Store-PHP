@@ -33,7 +33,10 @@ class Response
 
     public function redirect(string $url): self
     {
-        $baseUrl = 'http://localhost/make-up/';
+        $scheme = $_SERVER['REQUEST_SCHEME'] ?? 'http';
+        $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+        $baseUrl = $scheme . '://' . $host . '/make-up/';
+
         $this->setHeader('Location', $baseUrl . $url);
         $this->setStatusCode(302);
 
