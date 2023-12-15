@@ -1,2 +1,8 @@
 # dependencies
 /vendor
+/.idea
+/.DS_Store
+/src/.DS_Store
+/src/Utils/.DS_Store
+/src/Public/.DS_Store
+/src/Public/Img/.DS_Store
